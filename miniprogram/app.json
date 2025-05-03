@@ -1,0 +1,35 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/serve/serve"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "快组",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "tabBar": {
+    "color": "#515151",       
+    "selectedColor": "#000", 
+    "backgroundColor": "#fff", 
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "服务",
+        "iconPath": "/images/serve-up.png",
+        "selectedIconPath": "/images/serve.png"
+      },
+      {
+        "pagePath": "pages/serve/serve",
+        "text": "我的",
+        "iconPath": "/images/my-up.png",
+        "selectedIconPath": "/images/my.png"
+      }
+    ]
+  }
+}
