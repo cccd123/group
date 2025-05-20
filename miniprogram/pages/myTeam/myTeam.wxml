@@ -1,0 +1,95 @@
+<view class="content">
+	<view class="body underway">
+		<view class="body-header">推送中</view>
+		<view class="body-main">
+			<view>
+				<text>项目简要信息</text>
+				<text>泉州信息工程学院</text>
+			</view>
+
+			<view>
+				<text>这是一个关于咖啡制作的项目，将会参加今年的挑战杯比赛。</text>
+			</view>
+
+			<view>
+				<view>
+					<text>学校要求</text>
+					<text>本科</text>
+				</view>
+				<view>
+					<text>技能要求</text>
+					<text>会分析财务数据</text>
+				</view>
+			</view>
+
+			<view>
+				<view>
+					<image class="body-image1" src="/images/read.png"></image>
+					<text>阅读量</text>
+					<text>298</text>
+				</view>
+				<view>
+					<image class="body-image2" src="/images/file.png"></image>
+					<text>投递量</text>
+					<text>120</text>
+				</view>
+			</view>
+
+			<view>
+				<view>您已选择邮件推广，部分简历可能已发送至预留邮箱，请注意查收。</view>
+			</view>
+
+			<view>
+				<button>下架</button>
+				<button>筛选</button>
+			</view>
+		</view>
+	</view>
+
+	<view class="body finish">
+		<view class="body-header">已下架</view>
+		<view class="body-main">
+			<view>
+				<text>项目简要信息</text>
+				<text>泉州信息工程学院</text>
+			</view>
+
+			<view>
+				<text>这是一个关于咖啡制作的项目，将会参加今年的挑战杯比赛。</text>
+			</view>
+
+			<view>
+				<view>
+					<text>学校要求</text>
+					<text>本科</text>
+				</view>
+				<view>
+					<text>技能要求</text>
+					<text>会分析财务数据</text>
+				</view>
+			</view>
+
+			<view>
+				<view>
+					<image class="body-image1" src="/images/read.png"></image>
+					<text>阅读量</text>
+					<text>298</text>
+				</view>
+				<view>
+					<image class="body-image2" src="/images/file.png"></image>
+					<text>投递量</text>
+					<text>120</text>
+				</view>
+			</view>
+
+			<view>
+				<view>您已选择邮件推广，部分简历可能已发送至预留邮箱，请注意查收。</view>
+			</view>
+
+			<view>
+				<button>下架</button>
+				<button>筛选</button>
+			</view>
+		</view>
+	</view>
+</view>

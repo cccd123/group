@@ -7,6 +7,17 @@ Page({
     
   },
 
+  infoLookfor(e){
+    wx.navigateTo({
+      url: '../lookFor/lookFor'
+    })
+  },
+
+  infoIdea(e){
+    wx.navigateTo({
+      url: '../idea/idea',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

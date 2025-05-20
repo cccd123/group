@@ -1,0 +1,184 @@
+<view class="content">
+  <view class="header">
+    <view class="header-title">
+      <view class="header-title-name {{ currentTab === 'all' ? 'active' : '' }}" data-tab="all" bindtap="switchTab">所有学校</view>
+      <view class="header-title-name {{ currentTab === 'mySchool' ? 'active' : '' }}" data-tab="mySchool" bindtap="switchTab">仅看我校</view>
+    </view>
+  </view>
+
+ <view class="main" wx:if="{{currentTab == 'all'}}">
+  <view class="main-item">
+    <view>
+      <text>项目简要信息1</text>
+      <text>泉州信息工程学院</text>
+    </view>
+    <view>这是一个关于咖啡制作的项目，将会参加今年的挑战杯比赛。</view>
+    <view>
+      <view class="main-school">
+        <text>学校要求</text>
+        <text>本科</text>
+      </view>
+      <view class="main-skill">
+        <text>技能要求</text>
+        <text>会分析财务数据</text>
+      </view>
+    </view>
+  </view>
+  <view class="main-item">
+    <view>
+      <text>项目简要信息2</text>
+      <text>泉州信息工程学院</text>
+    </view>
+    <view>这是一个关于无障碍的项目，我们已经申请了多项专利，参加今年的创赛。</view>
+    <view>
+      <view  class="main-school">
+        <text>学校要求</text>
+        <text>本科及研究生</text>
+      </view>
+      <view class="main-skill">
+        <text>技能要求</text>
+        <text>无</text>
+      </view>
+    </view>
+  </view>
+  <view class="main-item">
+    <view>
+      <text>项目简要信息5</text>
+      <text>厦门大学</text>
+    </view>
+    <view>这是一个关于人工智能的项目，专注于自然语言处理技术。</view>
+    <view>
+      <view  class="main-school">
+        <text>学校要求</text>
+        <text>研究生</text>
+      </view>
+      <view class="main-skill">
+        <text>技能要求</text>
+        <text>熟悉Python和机器学习</text>
+      </view>
+    </view>
+  </view>
+  <view class="main-item">
+    <view>
+      <text>项目简要信息6</text>
+      <text>福州大学</text>
+    </view>
+    <view>这是一个关于环保材料的项目，旨在开发可降解塑料。</view>
+    <view>
+      <view  class="main-school">
+        <text>学校要求</text>
+        <text>本科及研究生</text>
+      </view>
+      <view class="main-skill">
+        <text>技能要求</text>
+        <text>化学工程背景</text>
+      </view>
+    </view>
+  </view>
+  <view class="main-item">
+    <view>
+      <text>项目简要信息7</text>
+      <text>华侨大学</text>
+    </view>
+    <view>这是一个关于跨境电商的项目，研究全球市场的物流优化。</view>
+    <view>
+      <view class="main-school">
+        <text>学校要求</text>
+        <text>本科</text>
+      </view>
+      <view class="main-skill">
+        <text>技能要求</text>
+        <text>熟悉国际贸易</text>
+      </view>
+    </view>
+  </view>
+  </view>
+
+<view class="main" wx:if="{{currentTab == 'mySchool'}}">
+  <view class="main-item">
+    <view>
+      <text>项目简要信息3</text>
+      <text>泉州信息工程学院</text>
+    </view>
+    <view>这是一个关于咖啡制作的项目，将会参加今年的挑战杯比赛。</view>
+    <view>
+      <view  class="main-school">
+        <text>学校要求</text>
+        <text>本科</text>
+      </view>
+      <view class="main-skill">
+        <text>技能要求</text>
+        <text>会分析财务数据</text>
+      </view>
+    </view>
+  </view>
+  <view class="main-item">
+    <view>
+      <text>项目简要信息4</text>
+      <text>泉州信息工程学院</text>
+    </view>
+    <view>这是一个关于无障碍的项目，我们已经申请了多项专利，参加今年的创赛。</view>
+    <view>
+      <view class="main-school">
+        <text>学校要求</text>
+        <text>本科及研究生</text>
+      </view>
+      <view class="main-skill">
+        <text>技能要求</text>
+        <text>无</text>
+      </view>
+    </view>
+  </view>
+  <view class="main-item">
+    <view>
+      <text>项目简要信息8</text>
+      <text>泉州信息工程学院</text>
+    </view>
+    <view>这是一个关于智能家居的项目，研究如何通过物联网技术提升生活便利性。</view>
+    <view>
+      <view class="main-school">
+        <text>学校要求</text>
+        <text>本科</text>
+      </view>
+      <view class="main-skill">
+        <text>技能要求</text>
+        <text>熟悉嵌入式开发</text>
+      </view>
+    </view>
+  </view>
+  <view class="main-item">
+    <view>
+      <text>项目简要信息9</text>
+      <text>泉州信息工程学院</text>
+    </view>
+    <view>这是一个关于健康监测的项目，开发可穿戴设备用于实时健康数据采集。</view>
+    <view>
+      <view class="main-school">
+        <text>学校要求</text>
+        <text>本科及研究生</text>
+      </view>
+      <view class="main-skill">
+        <text>技能要求</text>
+        <text>熟悉传感器技术</text>
+      </view>
+    </view>
+  </view>
+  <view class="main-item">
+    <view>
+      <text>项目简要信息10</text>
+      <text>泉州信息工程学院</text>
+    </view>
+    <view>这是一个关于教育科技的项目，研究如何通过AI技术提升在线学习体验。</view>
+    <view>
+      <view class="main-school">
+        <text>学校要求</text>
+        <text>研究生</text>
+      </view>
+      <view class="main-skill">
+        <text>技能要求</text>
+        <text>熟悉教育心理学</text>
+      </view>
+    </view>
+  </view>
+</view>
+</view>

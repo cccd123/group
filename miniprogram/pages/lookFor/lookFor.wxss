@@ -1,0 +1,88 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx 30rpx;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 40rpx;
+}
+
+.header-title {
+  display: flex;
+  width: 40%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 30rpx;
+  padding: 0; /* 移除内边距 */
+  color: #585858;
+}
+
+.header-title-name {
+  flex: 1; /* 每个选项占据父容器的一半宽度 */
+  text-align: center; /* 文字居中 */
+  padding: 10rpx 0; /* 增加内边距 */
+  border-radius: 30rpx; /* 添加圆角 */
+}
+
+.active {
+  color: #000;
+  background-color: #cbcdcf;
+  border-radius: 30rpx; /* 确保圆角与父容器一致 */
+}
+
+.main {
+  margin-top: 30rpx;
+}
+
+.main-item {
+  background-color: #fff;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  border-radius: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+  margin-bottom: 30rpx;
+}
+
+.main-item > view:nth-child(1){
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-item > view:nth-child(1) > text:nth-child(1) {
+  font-size: 45rpx;
+  color: #000;
+  font-weight: bold;
+}
+
+.main-item > view:nth-child(2){
+  margin-top: 30rpx;
+}
+
+.main-item > view:nth-child(3){
+  display: flex;
+  justify-content: space-between;
+  padding: 30rpx 50rpx;
+}
+
+.main-item > view:nth-child(3) .main-school, .main-skill{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+}
+
+.main-item > view:nth-child(3) > view > text:nth-child(2){
+  color: #a3a2a2;
+}
+
+
+
+
+
+

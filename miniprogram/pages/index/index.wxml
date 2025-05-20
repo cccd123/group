@@ -1,14 +1,16 @@
 <view class="content">
-  <view class="header">
-    <text>找个队</text>
-    <text>注册成为人才，持续
-    探索优秀项目小组。</text>
-    <image class="image" src="/images/search.png" ></image>
+  <view class="header" bind:tap="infoLookfor">
+    <view>
+      <text>找个队</text>
+      <text>注册成为人才，持续探索优秀项目小组。</text>
+    </view>
+    <image class="image" src="/images/search.jpg" ></image>
   </view>
-  <view class="footer">
-    <text>组个队</text>
-    <text>我有优秀创意，召集
-    优秀人才小组。</text>
-    <image class="image" src="/images/idea.png" ></image>
+  <view class="footer" bind:tap="infoIdea">
+    <view>
+      <text>组个队</text>
+      <text>我有优秀创意，召集优秀人才小组。</text>
+    </view>
+    <image class="image" src="/images/idea.jpg" ></image>
   </view>
 </view>

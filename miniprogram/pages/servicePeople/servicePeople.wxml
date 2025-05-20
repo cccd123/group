@@ -1,0 +1,13 @@
+<view class="content">
+	<view>
+		<image src="/images/onlineHelp.png"></image>
+		<text>在线帮助</text>
+		<text>></text>
+	</view>
+
+	<view>
+		<image src="/images/phoneHelp.png"></image>
+		<text>电话帮助</text>
+		<text>></text>
+	</view>
+</view>

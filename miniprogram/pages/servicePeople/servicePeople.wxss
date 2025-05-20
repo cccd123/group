@@ -1,0 +1,27 @@
+.content{
+	padding: 0 30rpx;
+	display: flex;
+	flex-direction: column;
+}
+
+.content > view{
+	display: flex;
+	background-color: #fff;
+	margin-top: 50rpx;
+	height: 100rpx;
+	padding: 30rpx 30rpx;
+	border-radius: 50rpx;
+	justify-content: space-between;
+	align-items: center;
+}
+.content > view > image{
+	height: 100rpx;
+	width: 100rpx;
+}
+.content > view > text{
+	font-size: 50rpx;
+	font-weight: bold;
+}
+.content > view > text:nth-child(2){
+	margin-right: 50rpx;
+}
