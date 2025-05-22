@@ -1,0 +1,15 @@
+/* 提交按钮样式 */
+.submit-btn {
+  margin-top: 40rpx;
+  background-color: #007AFF;
+  color: white;
+  border-radius: 8rpx;
+}
+
+/* 输入框样式 */
+.logininfo .inp{
+  margin-left: 5vw;
+  margin-right: 5vw;
+  padding: 1em;
+  background-color: white;
+}
