@@ -7,7 +7,14 @@
     "pages/myTeam/myTeam",
     "pages/interested/interested",
     "pages/servicePeople/servicePeople",
-    "pages/myRedact/myRedact"
+    "pages/myRedact/myRedact",
+    "pages/formFeedback/formFeedback",
+    "pages/projectDetails/projectDetails",
+    "pages/filtrate/filtrate",
+    "pages/userinfo/userinfo",
+    "pages/unUserinfo/unUserinfo",
+    "pages/schoolAccreditation/schoolAccreditation",
+    "pages/Login/Login"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

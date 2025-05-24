@@ -11,7 +11,10 @@
 
 		<view class="main1">
 			<text>快组程序测试号</text>
-			<text>清华大学</text>
+			<view>
+				<text>清华大学</text>
+				<text bind:tap="schoolAccreditation">快速认证→</text>
+			</view>
 			<text>简介：擅长吹牛，创新还不错，但是希望可以落地。</text>
 		</view>
 
@@ -29,6 +32,24 @@
 				<view>
 					<text>目前年级</text>
 					<text>大二</text>
+				</view>
+			</view>
+			<view class="main2-item">
+				<view >
+					<text>人设</text>
+					<text>乐观勤劳</text>
+				</view>
+				<view>
+					<text>性格</text>
+					<text>ENFJ</text>
+				</view>
+				<view class="direction">
+					<text>偏向</text>
+						<view class="body-direction">
+							<view class="body-title-name {{ direction === '落地' ? 'active' : '' }}" data-direction="落地" bindtap="direction">落地</view>
+							<view class="body-title-name {{ direction === '获奖' ? 'active' : '' }}" data-direction="获奖" bindtap="direction">获奖</view>
+							<view class="body-title-name {{ direction === '学习' ? 'active' : '' }}" data-direction="学习" bindtap="direction">学习</view>
+						</view>
 				</view>
 			</view>
 		</view>
@@ -76,16 +97,21 @@
 				<text>></text>
 			</view>
 
+	
 			<!-- 自定义模态弹窗 -->
-
 			<!-- 深灰色半透明背景层 -->
-  <view wx:if="{{showOverlay}}" class="overlay" catchtouchmove="preventScroll"></view>
-			<view wx:if="{{showModal}}" class="modal">
-				<view class="modal-content">
-					<view class="modal-item" bindtap="onFeedback">表单反馈</view>
-					<view class="modal-item" bindtap="onComplain">人工投诉</view>
-					<view class="modal-item" bindtap="onCancel">取消</view>
-				</view>
+  		<view wx:if="{{showOverlay}}" class="overlay" catchtouchmove="preventScroll"></view>
+				<view wx:if="{{showModal}}" class="modal">
+					<view class="modal-content">
+						<view class="modal-item" bindtap="onFeedback">表单反馈</view>
+						<view class="modal-item" bindtap="onComplain">人工投诉</view>
+						<view class="modal-item" bindtap="onCancel">取消</view>
+					</view>
+			</view>
+
+			<!-- 人工投诉 -->
+			<view wx:if="{{manualComplaint}}">
+  			<include src="manualComplaint.wxml" />
 			</view>
 		</view>
 

@@ -15,21 +15,25 @@
 	</view>
 
 	<view>
+		<!-- 1 -->
 		<view class="body-item">
 			<text>昵称</text>
 			<input placeholder="快租程序测试号" />
 		</view>
 
+		<!-- 2 -->
 		<view class="body-item">
 			<text>学校</text>
 			<input placeholder="清华大学" />
 		</view>
 
+		<!-- 3 -->
 		<view class="body-item">
 			<text>专业</text>
 			<input placeholder="计算机应用" />
 		</view>
 
+		<!-- 4 -->
 		<view>
 			<text>目前年级</text>
 			<view class="body-title">
@@ -42,11 +46,79 @@
 			</view>
 		</view>
 
+		<!-- 5 -->
+		<view class="body-item">
+			<text>人设</text>
+			<input placeholder="乐观勤劳" />
+		</view>
+
+		<!-- 6 -->
+		<view class="container">
+  		<view>性格（MBTI）</view>
+			<view class="result">
+					<view>
+						<view class="result-item {{ trait1 === 'E' ? 'comfirm' : '' }} " data-trait="E" bind:tap="trait1">
+							<view class="letter">E</view>
+							<view class="description">(外向)</view>
+						</view>
+						<view class="result-item {{ trait1 === 'I' ? 'comfirm' : '' }}" data-trait="I" bind:tap="trait1">
+							<view class="letter">I</view>
+							<view class="description">(内向)</view>
+						</view>
+					</view>
+
+					<view>
+						<view class="result-item {{ trait2 === 'S' ? 'comfirm' : '' }}" data-trait="S" bind:tap="trait2">
+							<view class="letter">S</view>
+							<view class="description">(实感)</view>
+						</view>
+						<view class="result-item {{ trait2 === 'N' ? 'comfirm' : '' }}" data-trait="N" bind:tap="trait2">
+							<view class="letter">N</view>
+							<view class="description">(直觉)</view>
+						</view>
+					</view>
+
+					<view>
+						<view class="result-item {{ trait3 === 'T' ? 'comfirm' : '' }}" data-trait="T" bind:tap="trait3">
+							<view class="letter">T</view>
+							<view class="description">(思考)</view>
+						</view>
+						<view class="result-item {{ trait3 === 'F' ? 'comfirm' : '' }}" data-trait="F" bind:tap="trait3">
+							<view class="letter">F</view>
+							<view class="description">(情感)</view>
+						</view>
+					</view>
+
+					<view>
+						<view class="result-item {{ trait4 === 'J' ? 'comfirm' : '' }}" data-trait="J" bind:tap="trait4">
+							<view class="letter">J</view>
+							<view class="description">(判断)</view>
+						</view>
+						<view class="result-item {{ trait4 === 'P' ? 'comfirm' : '' }}" data-trait="P" bind:tap="trait4">
+							<view class="letter">P</view>
+							<view class="description">(知觉)</view>
+						</view>
+					</view>
+			</view>
+		</view>
+
+		<!-- 7 -->
+		<view>
+			<text>偏向</text>
+			<view class="body-direction">
+				<view class="body-title-name {{ direction === '落地' ? 'active' : '' }}" data-direction="落地" bindtap="direction">落地</view>
+				<view class="body-title-name {{ direction === '获奖' ? 'active' : '' }}" data-direction="获奖" bindtap="direction">获奖</view>
+				<view class="body-title-name {{ direction === '学习' ? 'active' : '' }}" data-direction="学习" bindtap="direction">学习</view>
+			</view>
+		</view>
+
+		<!-- 8 -->
 		<view class="body-item">
 			<text>简介</text>
 			<textarea placeholder="计算机应用" maxlength="36"></textarea>
 		</view>
 
+		<!-- 9 -->
 		<view>
 				<image src="/images/picture.png"></image>
 				<text>编辑封面</text>

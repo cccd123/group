@@ -1,7 +1,7 @@
 .content {
   display: flex;
   flex-direction: column;
-  padding: 20rpx 30rpx;
+  padding: 20rpx 30rpx ;
 }
 
 .header {
@@ -38,6 +38,9 @@
 .main {
   margin-top: 30rpx;
 }
+.main .main-item:nth-last-child(1){
+  margin-bottom: 100rpx;
+}
 
 .main-item {
   background-color: #fff;
@@ -48,7 +51,7 @@
   margin-bottom: 30rpx;
 }
 
-.main-item > view:nth-child(1){
+.main-item > view:nth-child(1) {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -60,29 +63,28 @@
   font-weight: bold;
 }
 
-.main-item > view:nth-child(2){
+.main-item > view:nth-child(2) {
   margin-top: 30rpx;
 }
 
-.main-item > view:nth-child(3){
+.main-item > view:nth-child(3) {
   display: flex;
   justify-content: space-between;
-  padding: 30rpx 50rpx;
+  padding: 20rpx 50rpx;
 }
 
-.main-item > view:nth-child(3) .main-school, .main-skill{
+.main-item > view:nth-child(3) .main-school,
+.main-item > view:nth-child(3) .main-skill {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-weight: bold;
+  width: 200rpx; /* 固定宽度 */
+  flex-shrink: 0; /* 禁止收缩 */
+  text-align: center; /* 文字居中 */
 }
 
-.main-item > view:nth-child(3) > view > text:nth-child(2){
+.main-item > view:nth-child(3) > view > text:nth-child(2) {
   color: #a3a2a2;
+  margin-top: 10rpx;
 }
-
-
-
-
-
-

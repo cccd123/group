@@ -8,6 +8,12 @@ Page({
 
   },
 
+  filtrate(){
+    wx.navigateTo({
+      url: '/pages/filtrate/filtrate',
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */

@@ -5,7 +5,9 @@ Page({
    */
   data: {
     showModal: false,
-    showOverlay: false
+    showOverlay: false,
+    manualComplaint: false,
+    direction:'落地'
   },
 
   showCustomModal() {
@@ -14,24 +16,31 @@ Page({
       showOverlay: true
     });
   },
+
+  //表单反馈
   onFeedback() {
-    // 处理表单反馈
-    this.setData({ 
-      showModal: false,
-      showOverlay: false 
-    });
+    wx.navigateTo({
+      url: '../formFeedback/formFeedback',
+    })
   },
+
+  // 人工投诉
   onComplain() {
-    // 处理人工投诉
     this.setData({ 
-      showModal: false,
-      showOverlay: false 
+      manualComplaint: true,
     });
   },
+
   onCancel() {
     this.setData({ 
       showModal: false,
       showOverlay: false
+    });
+  },
+
+  cancelComplaint() {
+    this.setData({ 
+      manualComplaint: false,
     });
   },
 
@@ -56,6 +65,12 @@ Page({
   myRedact(){
     wx.navigateTo({
       url: '../myRedact/myRedact',
+    })
+  },
+
+  schoolAccreditation(){
+    wx.navigateTo({
+      url: '../schoolAccreditation/schoolAccreditation',
     })
   },
   /**

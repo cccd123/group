@@ -5,7 +5,19 @@ Page({
    * 页面的初始数据
    */
   data: {
+    phoneHelp: false
+  },
 
+  phoneHelp(){
+    this.setData({
+    phoneHelp: true
+    })
+  },
+
+  cancelComplaint(){
+    this.setData({
+      phoneHelp: false
+      })
   },
 
   /**

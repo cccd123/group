@@ -1,13 +1,17 @@
 <view class="content">
-	<view>
+	<button class="content-Help" open-type="contact">
 		<image src="/images/onlineHelp.png"></image>
 		<text>在线帮助</text>
 		<text>></text>
-	</view>
+	</button>
 
-	<view>
+	<button class="content-Help" bind:tap="phoneHelp">
 		<image src="/images/phoneHelp.png"></image>
 		<text>电话帮助</text>
 		<text>></text>
+	</button>
+
+	<view wx:if="{{phoneHelp}}">
+  			<include src="phoneHelp.wxml" />
 	</view>
 </view>
