@@ -1,11 +1,16 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/serve/serve"
+    "pages/my/my",
+    "pages/lookFor/lookFor",
+    "pages/idea/idea",
+    "pages/myTeam/myTeam",
+    "pages/interested/interested",
+    "pages/servicePeople/servicePeople",
+    "pages/myRedact/myRedact"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
-    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
     "navigationBarTitleText": "快组",
     "navigationBarTextStyle": "black"
@@ -25,7 +30,7 @@
         "selectedIconPath": "/images/serve.png"
       },
       {
-        "pagePath": "pages/serve/serve",
+        "pagePath": "pages/my/my",
         "text": "我的",
         "iconPath": "/images/my-up.png",
         "selectedIconPath": "/images/my.png"

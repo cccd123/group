@@ -1,0 +1,96 @@
+<view class="content">
+	<view>
+		<image src="/images/background.jpg"></image>
+	</view>
+
+	<view class="body">
+		<view class="header">
+				<image src="/images/smile.png"></image>
+				<text bind:tap="myRedact">编辑</text>
+		</view>
+
+		<view class="main1">
+			<text>快组程序测试号</text>
+			<text>清华大学</text>
+			<text>简介：擅长吹牛，创新还不错，但是希望可以落地。</text>
+		</view>
+
+		<view class="main2">
+			<text>个人资料</text>
+			<view class="main2-item">
+				<view >
+					<text>参与项目</text>
+					<text>暂无记录</text>
+				</view>
+				<view>
+					<text>所学专业</text>
+					<text>软件工程</text>
+				</view>
+				<view>
+					<text>目前年级</text>
+					<text>大二</text>
+				</view>
+			</view>
+		</view>
+
+		<view class="main3">
+			<view class="main3-item" bind:tap="myTeam">
+				<view>
+				<image class="main3-image" src="/images/myTeam.png"></image>
+				<text>我的组队</text>
+				</view>
+				<text>></text>
+			</view>
+
+			<view class="main3-item" bind:tap="interested">
+				<view>
+				<image class="main3-image" src="/images/interested.png"></image>
+				<text>感兴趣的项目小组</text>
+				</view>
+				<text>></text>
+			</view>
+		</view>
+
+		<view class="main4">
+			<view class="main3-item" bind:tap="servicePeople">
+				<view>
+				<image class="main3-image" src="/images/servicePeople.png"></image>
+				<text>官方客服</text>
+				</view>
+				<text>></text>
+			</view>
+
+			<view class="main3-item">
+				<view>
+				<image class="main3-image" src="/images/knowWe.png"></image>
+				<text>了解我们</text>
+				</view>
+				<text>></text>
+			</view>
+
+			<view class="main3-item" bindtap="showCustomModal">
+				<view>
+				<image class="main3-image" src="/images/advise.png"></image>
+				<text>投诉建议</text>
+				</view>
+				<text>></text>
+			</view>
+
+			<!-- 自定义模态弹窗 -->
+
+			<!-- 深灰色半透明背景层 -->
+  <view wx:if="{{showOverlay}}" class="overlay" catchtouchmove="preventScroll"></view>
+			<view wx:if="{{showModal}}" class="modal">
+				<view class="modal-content">
+					<view class="modal-item" bindtap="onFeedback">表单反馈</view>
+					<view class="modal-item" bindtap="onComplain">人工投诉</view>
+					<view class="modal-item" bindtap="onCancel">取消</view>
+				</view>
+			</view>
+		</view>
+
+		<view>
+			<view class="edition">版本: v1.0.0</view>
+		</view>
+	</view>
+</view>

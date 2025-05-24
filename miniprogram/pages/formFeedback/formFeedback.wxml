@@ -1,0 +1,18 @@
+<view class="content">
+	<view class="header">
+		<text>你的好评或建议，就是我们的动力~动动手指，帮助我们做的更好！</text>
+	</view>
+
+	<view class="body">
+		<textarea bindinput="suggest" value="{{feedback}}" placeholder="评价或建议、遇到的问题，我们将会更好的改进"></textarea>
+	</view>
+
+	<view class="main">
+		<text>邮箱(选题)</text>
+		<input bindinput="onInput" value="{{num}}" placeholder="请输入邮箱"/>
+	</view>
+
+	<view class="footer">
+		<button bind:tap="submit">立刻提交</button>
+	</view>
+</view>

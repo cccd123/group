@@ -1,0 +1,88 @@
+.content{
+	padding: 0 20rpx 120rpx 20rpx;
+}
+
+.body{
+	display: flex;
+	flex-direction: column;
+	border-radius: 40rpx;
+	padding-top: 15rpx;
+	box-shadow: 0 4rpx 8rpx #8a8a8a;
+	margin-top: 30rpx;
+}
+.accept{
+	background-color: #42d07c;
+}
+.refuse{
+	background-color: #5da0ec;
+}
+
+
+.body-header{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+	color: #fff;
+	font-size: 35rpx;
+}
+
+.body-main{
+	background-color: #fff;
+	margin-top: 15rpx;
+	padding: 30rpx 20rpx;
+	border-radius: 40rpx;
+}
+
+/* body-main第一个view */
+.body-main > view:nth-child(1) {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.body-main > view:nth-child(1) > text:nth-child(1){
+	font-size: 45rpx;
+	font-weight: bold;
+}
+.body-main > view:nth-child(1) > text:nth-child(2){
+	font-size: 35rpx;
+}
+
+/* body-main第2个view */
+.body-main > view:nth-child(2){
+	margin-top: 35rpx;
+}
+
+/* body-main第3个view */
+.body-main > view:nth-child(3){
+	display: flex;
+	justify-content: space-between;
+	padding: 50rpx 80rpx;
+}
+.body-main > view:nth-child(3) > view {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.body-main > view:nth-child(3) > view > text:nth-child(2) {
+	margin-top: 5rpx;
+	color: #8a8a8a;
+}
+
+/* body-main第4个view */
+.body-main > view:nth-child(4){
+	display: flex;
+	padding: 0 0 0 220rpx;
+}
+.body-main > view:nth-child(4) > button{
+	width: 200rpx;
+	color: #fff;
+	border-radius: 50rpx;
+	font-size: 35rpx;
+}
+.body-main > view:nth-child(4) > button:nth-child(1){
+	background-color: #8a8a8a;
+}
+.body-main > view:nth-child(4) > button:nth-child(2){
+	background-color: #42d07c;
+}

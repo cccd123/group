@@ -1,0 +1,86 @@
+<view class="content">
+	<view class="header">
+		<view>
+			<text>项目简要信息（外显）</text>
+			<textarea placeholder="请输入项目简要信息" maxlength="50" value="{{brief}}" bindinput="brief"></textarea>
+		</view>
+		<view>
+			<text>项目详情（详情页显）</text>
+			<textarea 
+			placeholder="请输入项目详情" 
+			value="{{inDetail}}" 
+			bindinput="inDetail"
+			></textarea>
+		</view>
+		<view>
+			<text>项目方向偏向（详情页显）</text>
+				<view class="header-title">
+					<view class="header-title-name {{ direction === '落地' ? 'active' : '' }}" data-direction="落地" bindtap="direction">落地</view>
+					<view class="header-title-name {{ direction === '获奖' ? 'active' : '' }}" data-direction="获奖" bindtap="direction">获奖</view>
+					<view class="header-title-name {{ direction === '学习' ? 'active' : '' }}" data-direction="学习" bindtap="direction">学习</view>
+				</view>
+		</view>
+	</view>
+		
+	<view class="body">
+		<view>
+			<text>队伍人数（详情页显）</text>
+				<view class="header-title">
+					<view class="header-title-name {{ number === '3' ? 'active' : '' }}" data-number="3" bindtap="number">3人</view>
+					<view class="header-title-name {{ number === '5' ? 'active' : '' }}" data-number="5" bindtap="number">5人</view>
+					<view class="header-title-name {{ number === '10' ? 'active' : '' }}" data-number="10" bindtap="number">10人</view>
+					<view class="header-title-name {{ number === '15' ? 'active' : '' }}" data-number="15" bindtap="number">15人</view>
+				</view>
+		</view>
+		<view>
+			<text>是否接受跨校（详情页显）</text>
+				<view class="header-title">
+					<view class="header-title-name {{ crossSchool === true ? 'active' : '' }}" data-tab="0" bindtap="crossSchool">接受</view>
+					<view class="header-title-name {{ crossSchool === false ? 'active' : '' }}" data-tab="1" bindtap="crossSchool">不接受</view>
+				</view>
+		</view>
+	</view>
+		
+	<view class="main">
+		<view>
+			<text>学校要求（外显）</text>
+			<radio-group bindchange="onRadioChange">
+				<label wx:for="{{items}}" wx:key="value">
+					<radio class="bg" value="{{item.value}}" checked="{{item.checked}}">{{item.name}}</radio>
+				</label>
+			</radio-group>
+		</view>
+
+		<view>
+			<text>技能要求简要（外显）</text>
+			<input class="main-input" placeholder="请输入技能简要要求" maxlength="12" value="{{simplenessSkill}}" bindinput="simplenessSkill" />
+		</view>
+
+		<view>
+			<text>技能详细要求（详情页显）</text>
+			<textarea class="main-textarea" placeholder="请输入技能详细要求" maxlength="20" value="{{detailSkill}}" bindinput="detailSkill"></textarea>
+		</view>
+
+		<view>
+			<radio-group bindchange="noRequirement"  >
+				<label>
+					<checkbox value="noRequirement" checked="{{noRequirementChecked}}" bindchange="noRequirement">学习能力强，积极热情亦可参与</checkbox>
+				</label>
+			</radio-group>
+		</view>
+	</view>
+
+	<view class="footer">
+		<view>
+			<text>邮件推广</text>
+			<text>限时免费</text>
+		</view>
+		<view>
+		<switch checked="{{promotionChecked}}" bindchange="promotionChange"></switch>
+		</view>
+	</view>
+
+	<view>
+		<button>一键快组</button>
+	</view>
+</view>

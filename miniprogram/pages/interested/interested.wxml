@@ -1,0 +1,121 @@
+<view class="content">
+	<view class="body accept">
+		<view class="body-header">祝贺您，项目小队向您发出进一步了解的请求</view>
+		<view class="body-main">
+			<view>
+				<text>项目简要信息</text>
+				<text>泉州信息工程学院</text>
+			</view>
+
+			<view>
+				<text>这是一个关于咖啡制作的项目，将会参加今年的挑战杯比赛。</text>
+			</view>
+
+			<view>
+				<view>
+					<text>学校要求</text>
+					<text>本科</text>
+				</view>
+				<view>
+					<text>技能要求</text>
+					<text>会分析财务数据</text>
+				</view>
+			</view>
+
+			<view>
+				<button>删除</button>
+				<button>下一步</button>
+			</view>
+		</view>
+	</view>
+
+	<view class="body refuse">
+		<view class="body-header">已投递，暂无反馈</view>
+		<view class="body-main">
+			<view>
+				<text>项目简要信息</text>
+				<text>泉州信息工程学院</text>
+			</view>
+
+			<view>
+				<text>这是一个关于咖啡制作的项目，将会参加今年的挑战杯比赛。</text>
+			</view>
+
+			<view>
+				<view>
+					<text>学校要求</text>
+					<text>本科</text>
+				</view>
+				<view>
+					<text>技能要求</text>
+					<text>会分析财务数据</text>
+				</view>
+			</view>
+
+			<view>
+				<button>删除</button>
+				<button>下一步</button>
+			</view>
+		</view>
+	</view>
+
+	<view class="body refuse">
+		<view class="body-header">已投递，暂无反馈</view>
+		<view class="body-main">
+			<view>
+				<text>项目简要信息</text>
+				<text>泉州信息工程学院</text>
+			</view>
+
+			<view>
+				<text>这是一个关于咖啡制作的项目，将会参加今年的挑战杯比赛。</text>
+			</view>
+
+			<view>
+				<view>
+					<text>学校要求</text>
+					<text>本科</text>
+				</view>
+				<view>
+					<text>技能要求</text>
+					<text>会分析财务数据</text>
+				</view>
+			</view>
+
+			<view>
+				<button>删除</button>
+				<button>下一步</button>
+			</view>
+		</view>
+	</view>
+
+	<view class="body refuse">
+		<view class="body-header">已投递，暂无反馈</view>
+		<view class="body-main">
+			<view>
+				<text>项目简要信息</text>
+				<text>泉州信息工程学院</text>
+			</view>
+
+			<view>
+				<text>这是一个关于咖啡制作的项目，将会参加今年的挑战杯比赛。</text>
+			</view>
+
+			<view>
+				<view>
+					<text>学校要求</text>
+					<text>本科</text>
+				</view>
+				<view>
+					<text>技能要求</text>
+					<text>会分析财务数据</text>
+				</view>
+			</view>
+
+			<view>
+				<button>删除</button>
+				<button>下一步</button>
+			</view>
+		</view>
+	</view>
+</view>
