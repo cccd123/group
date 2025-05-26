@@ -8,7 +8,7 @@
 	</view>
 
 	<view class="main">
-		<text>邮箱(选题)</text>
+		<text>邮箱(选填)</text>
 		<input bindinput="onInput" value="{{num}}" placeholder="请输入邮箱"/>
 	</view>
 
