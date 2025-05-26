@@ -27,7 +27,7 @@ Page({
    * @param formData as { email, password, school, studentId }
    * @description 注册函数
    */
-  doRegist(formData) {
+  doLogin(formData) {
     // 显示加载状态
     wx.showLoading({ title: '注册中...' })
     // 调用登录接口
@@ -36,12 +36,17 @@ Page({
         if (res.code) {
           //发起网络请求
           wx.request({
-            url: 'http://47.121.112.143:8080/api/user/login',
+            url: `http://127.0.0.1/api/user/login/`,
             method: 'POST',
+            header : {
+              'content-type': 'application/json',
+              'Authorization': res.code
+            },
             data: {
               jsCode: res.code
             }
           })
+          
         } else {
           console.log('登录失败！' + res.errMsg)
         }
@@ -49,24 +54,22 @@ Page({
     })
     wx.hideLoading()
   },
-  // 测试注册
-  // 仅供测试使用，实际应用中请删除
-  _testRegist(e) {
+  testLogin(e) {
     const formData = {
       email: '1@example.com',
-      password: 'a12345678',
-      school: '测试大学',
+      password: '12345678',
+      school: '测试学校',
       studentId: '123456789'
     }
-    this.doRegist(formData)
+    this.doLogin(formData)
   },
-  regist(e) {
+  login(e) {
     const formData = e.detail.value
 
     // 前端验证
     if (!this.validateForm(formData)) {
       return
     }
-    doRegist(formData)
+    this.doLogin(formData)
   },
 })

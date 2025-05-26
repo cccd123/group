@@ -1,5 +1,5 @@
 <view class="content">
-  <form class="logininfo" bindsubmit="_testRegist" >
+  <form class="logininfo" bindsubmit="testLogin" >
     <input name="email" type="text" placeholder="电子邮箱" class="inp"/>
     <input name="password" placeholder="密码" password class="inp"/>
     <input name="confirmPassword" placeholder="确认密码" password class="inp" />
