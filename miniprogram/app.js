@@ -1,4 +1,5 @@
 // app.js
+const TOKEN_KEY = 'sys:auth_token'
 App({
   onLaunch: function () {
     if (!wx.cloud) {
@@ -13,7 +14,39 @@ App({
         traceUser: true,
       });
     }
-
-    this.globalData = {};
   },
+  globalData: {
+    token: null,
+    host: 'http://47.121.112.143:8080'
+  },
+
+  setToken(token) {
+    try {
+      // 内存存储
+      this.globalData.token = token
+      
+      // todo(加密)
+      wx.setStorageSync(TOKEN_KEY, token)
+    } catch (e) {
+      console.error('Token存储失败:', e)
+    }
+  },
+  getToken() {
+    if (this.globalData.token) return this.globalData.token
+    
+    try {
+      const token = wx.getStorageSync(TOKEN_KEY)
+      this.globalData.token = token 
+      return token 
+    } catch (e) {
+      console.error('Token解析失败:', e)
+      return null
+    }
+  },
+  // 清除令牌
+  clearToken() {
+    this.globalData.token = null
+    wx.removeStorageSync(TOKEN_KEY)
+    wx.reLaunch({ url: '/pages/login/index' })
+  }
 });

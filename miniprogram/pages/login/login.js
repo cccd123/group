@@ -28,31 +28,45 @@ Page({
    * @description 注册函数
    */
   doLogin(formData) {
+    const app = getApp()
     // 显示加载状态
-    wx.showLoading({ title: '注册中...' })
     // 调用登录接口
+    wx.showLoading({ title: '注册中...' })
     wx.login({
       success (res) {
         if (res.code) {
           //发起网络请求
+          console.log(`Code ${res.code}`)
           wx.request({
-            url: `http://127.0.0.1/api/user/login/`,
+            url: `${app.globalData.host}/api/user/login`,
             method: 'POST',
-            header : {
-              'content-type': 'application/json',
-              'Authorization': res.code
+            header: {
+              "Authorization": res.code
             },
             data: {
               jsCode: res.code
+            },
+            success(res) {
+              console.log(`success ${res.statusCode} ${res.data}`)
+              const token = res.data
+              console.log(token)
+              app.setToken(token)
+            },
+            fail(err) {
+              console.error(`错误：${err.errMsg}`)
             }
           })
-          
         } else {
           console.log('登录失败！' + res.errMsg)
         }
+      },
+      fail(err) {
+        console.error(err.errMsg)
+      },
+      complete() {
+        wx.hideLoading()
       }
     })
-    wx.hideLoading()
   },
   testLogin(e) {
     const formData = {
@@ -72,4 +86,30 @@ Page({
     }
     this.doLogin(formData)
   },
+  testRegist(e) {
+    const formData = {
+      email: '1@example.com',
+      password: '12345678',
+      school: '测试学校',
+      studentId: '123456789'
+    }
+    this.doRegist(formData)
+  },
+  doRegist(formdata) {
+    const {email, password, school, studentId} = formdata
+    const app = getApp()
+    wx.request({
+      url: `${app.globalData.host}/api/user/regist`,
+      method: 'POST',
+      header: {
+        'Authorization': 'token'
+      },
+      data: {
+        email: email,
+        password: password,
+        school: school,
+        studentId: studentId
+      }
+    })
+  }
 })

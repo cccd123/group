@@ -5,11 +5,14 @@
   color: white;
   border-radius: 8rpx;
 }
+.content {
+  margin-top: 5vh;
+}
 
 /* 输入框样式 */
-.logininfo .inp{
+.inp{
   margin-left: 5vw;
   margin-right: 5vw;
-  padding: 1em;
+  padding: 1em; 
   background-color: white;
 }

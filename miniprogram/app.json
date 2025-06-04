@@ -38,7 +38,7 @@
       },
       {
         "pagePath": "pages/login/login",
-        "text": "注册",
+        "text": "登录",
         "iconPath": "/images/my-up.png",
         "selectedIconPath": "/images/my.png"
       }

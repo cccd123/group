@@ -69,5 +69,6 @@
     "ignore": [],
     "include": []
   },
-  "appid": "wx1cb9eddd2bef98d5"
+  "appid": "wx1cb9eddd2bef98d5",
+  "userCompilerPlugins":  ["typescript", "less"]
 }
