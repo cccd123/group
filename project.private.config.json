@@ -1,5 +1,20 @@
 {
+  "libVersion": "3.8.5",
+  "condition": {},
+  "projectname": "group",
   "setting": {
+    "urlCheck": false,
+    "coverView": true,
+    "lazyloadPlaceholderEnable": false,
+    "skylineRenderEnable": false,
+    "preloadBackgroundData": false,
+    "autoAudits": false,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "showShadowRootInWxmlPanel": true,
+    "useStaticServer": false,
+    "useLanDebug": false,
+    "showES6CompileOption": false,
     "compileHotReLoad": true,
     "urlCheck": false
   },

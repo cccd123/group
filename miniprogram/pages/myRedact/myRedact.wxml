@@ -127,3 +127,60 @@
 		<button class="button">更新信息</button>
 	</view>
 </view>
+<view class="content">
+	<view>
+		<image src="/images/myRedact.png"></image>
+		<image src="/images/kuaizu.png"></image>
+	</view>
+	<view>
+		<text>全面的资料</text>
+		<text>让大家更好了解你</text>
+	</view>
+</view>
+
+<view class="body">
+	<view>
+		<image src="/images/头像.jpg"></image>
+	</view>
+
+	<view>
+		<view class="body-item">
+			<text>昵称</text>
+			<input placeholder="快租程序测试号" />
+		</view>
+
+		<view class="body-item">
+			<text>学校</text>
+			<input placeholder="清华大学" />
+		</view>
+
+		<view class="body-item">
+			<text>专业</text>
+			<input placeholder="计算机应用" />
+		</view>
+
+		<view>
+			<text>目前年级</text>
+			<view class="body-title">
+				<view class="body-title-name {{ grade === '大一' ? 'active' : '' }}" data-grade="大一" bindtap="grade">大一</view>
+				<view class="body-title-name {{ grade === '大二' ? 'active' : '' }}" data-grade="大二" bindtap="grade">大二</view>
+				<view class="body-title-name {{ grade === '大三' ? 'active' : '' }}" data-grade="大三" bindtap="grade">大三</view>
+				<view class="body-title-name {{ grade === '大四' ? 'active' : '' }}" data-grade="大四" bindtap="grade">大四</view>
+				<view class="body-title-name {{ grade === '研究生' ? 'active' : '' }}" data-grade="研究生" bindtap="grade">研究生</view>
+				<view class="body-title-name {{ grade === '博士生' ? 'active' : '' }}" data-grade="博士生" bindtap="grade">博士生</view>
+			</view>
+		</view>
+
+		<view class="body-item">
+			<text>简介</text>
+			<textarea placeholder="计算机应用" maxlength="36"></textarea>
+		</view>
+
+		<view>
+				<image src="/images/picture.png"></image>
+				<text>编辑封面</text>
+		</view>
+
+		<button class="button">更新信息</button>
+	</view>
+</view>
