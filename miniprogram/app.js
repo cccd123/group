@@ -17,7 +17,7 @@ App({
   },
   globalData: {
     token: null,
-    host: 'https://114.55.85.236:8080'
+    host: 'http://114.55.85.236:8080'
   },
 
   setToken(token) {
