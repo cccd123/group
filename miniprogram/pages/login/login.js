@@ -33,12 +33,12 @@ Page({
     // 调用登录接口
     wx.showLoading({ title: '注册中...' })
     wx.login({
-      success (res) {
+      success(res) {
         if (res.code) {
           //发起网络请求
           console.log(`Code ${res.code} formData ${formData}`)
           wx.request({
-            url: `${app.globalData.host}/api/user/login`,
+            url: `${app.globalData.host}/user/login`,
             method: 'POST',
             header: {
               "Authorization": res.code
@@ -86,30 +86,4 @@ Page({
     }
     this.doLogin(formData)
   },
-  testRegist(e) {
-    const formData = {
-      email: '1@example.com',
-      password: '12345678',
-      school: '测试学校',
-      studentId: '123456789'
-    }
-    this.doRegist(formData)
-  },
-  doRegist(formdata) {
-    const {email, password, school, studentId} = formdata
-    const app = getApp()
-    wx.request({
-      url: `${app.globalData.host}/api/user/regist`,
-      method: 'POST',
-      header: {
-        'Authorization': 'token'
-      },
-      data: {
-        email: email,
-        password: password,
-        school: school,
-        studentId: studentId
-      }
-    })
-  }
 })
