@@ -25,7 +25,7 @@ Page({
   },
   /**
    * @param formData as { email, password, school, studentId }
-   * @description 注册函数
+   * @description 登录函数
    */
   doLogin(formData) {
     const app = getApp()
@@ -36,7 +36,7 @@ Page({
       success (res) {
         if (res.code) {
           //发起网络请求
-          console.log(`Code ${res.code}`)
+          console.log(`Code ${res.code} formData ${formData}`)
           wx.request({
             url: `${app.globalData.host}/api/user/login`,
             method: 'POST',

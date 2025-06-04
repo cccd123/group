@@ -7,5 +7,5 @@
     <input name="studentId" placeholder="学号" class="inp"/>
     <button form-type="submit" class="submit-btn">立即登录</button>
   </form>
-  <button bind:tap="testRegist">测试注册</button>
+  <button bind:tap="testLogin">测试登录</button>
 </view>
