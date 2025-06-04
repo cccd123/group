@@ -1,23 +1,11 @@
-// pages/servicePeople/servicePeople.js
+// pages/unUserinfo/unUserinfo.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    phoneHelp: false
-  },
-
-  phoneHelp(){
-    this.setData({
-    phoneHelp: true
-    })
-  },
-
-  cancelComplaint(){
-    this.setData({
-      phoneHelp: false
-      })
+    direction:'落地'
   },
 
   /**

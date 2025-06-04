@@ -1,0 +1,288 @@
+.content {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* 设置明确的高度 */
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* 图片高度为父元素的 100% */
+  z-index: -1;
+  object-fit: cover; /* 确保图片填充容器 */
+}
+
+.hello{
+  font-size: 140rpx;
+  text-align: center;
+  padding-top: 100rpx;
+  color: #fff;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* login1 */
+.login1{
+	display: flex;
+	flex-direction: column;
+}
+
+.login1 > view:nth-child(1){
+	display: flex;
+  flex-direction: column;
+  color: #fff;
+  font-size: 100rpx;
+  font-weight: bold;
+  margin-top: 50rpx;
+  justify-content: flex-end;
+  text-align: right; /* 右对齐 */
+}
+
+.login1 > view:nth-child(2){
+  margin-top: 50rpx;
+  display: flex;
+  justify-content: flex-end;
+}
+.login1 > view:nth-child(2) > image{
+  width: 120rpx;
+  height: 120rpx;
+  margin-right: 50rpx;
+}
+
+.login1 > view:nth-child(3){
+  display: flex;
+  flex-direction: column;
+  margin-top: 500rpx;
+}
+.login1 > view:nth-child(3) > button{
+  margin-top: 30rpx;
+  width: 80%;
+  line-height: 60rpx;
+  border-radius: 50rpx;
+  font-size: 50rpx;
+}
+.login1 > view:nth-child(3) > button:nth-child(1){
+  background-color: #000;
+  color: #fff;
+  font-weight: normal;
+}
+.login1 > view:nth-child(3) > button:nth-child(2){
+  background-color: #fff;
+  color: #000;
+  font-weight: bold;
+  border: 5rpx solid #000;
+}
+
+/* login2 */
+.login2{
+  padding: 60rpx 40rpx;
+  display: flex;
+  height: 1000rpx;
+  flex-direction: column;
+  background-color: #fff;
+  margin-top: 280rpx;
+  border-radius: 60rpx 60rpx 0 0 ;
+}
+
+.login2 > view:nth-child(1){
+  font-size: 60rpx;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 40rpx;
+}
+
+.input-container {
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  margin-top: 100rpx;
+}
+.login2 > view:nth-child(2) > input{
+  justify-content: center;
+  text-align: center;
+  width: 90%;
+  border: 1rpx solid #8a8a8a;
+  height: 100rpx;
+  font-size: 45rpx;
+  border-radius: 50rpx;
+}
+
+.login2 > view:nth-child(3){
+  display: flex;
+  margin-top: 80rpx;
+  justify-content: center;
+  align-items: center;
+}
+
+.login2 > view:nth-child(3) > text{
+  color: rgb(17, 107, 241);
+  font-weight: bold;
+  margin-left: 10rpx;
+}
+
+.login2 > view:nth-child(4){
+  margin-top: 140rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login2 image{
+  width: 150rpx;
+  height: 150rpx;
+}
+
+/* login3 */
+.login3{
+  padding: 60rpx 40rpx;
+  display: flex;
+  height: 1000rpx;
+  flex-direction: column;
+  background-color: #fff;
+  margin-top: 280rpx;
+  border-radius: 60rpx 60rpx 0 0 ;
+}
+
+.login3 > view:nth-child(1){
+  font-size: 60rpx;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 40rpx;
+}
+
+.login3 > view:nth-child(2){
+  width: 100%;
+  margin-top: 200rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+.login3 > view:nth-child(2) > button{
+  width: 90%;
+  margin-top: 50rpx;
+  height: 100rpx;
+  border-radius: 50rpx;
+  font-size: 40rpx;
+  font-weight: bold;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+}
+.login3 > view:nth-child(2) > button:nth-child(1){
+  background-color: #2de087;
+  color: #fff;
+}
+.login3 > view:nth-child(2) > button:nth-child(2){
+  border: 6rpx solid #000;
+  background-color: #fff;
+  color: #000;
+}
+
+/* login4 */
+.login4{
+  padding: 60rpx 40rpx;
+  display: flex;
+  height: 1000rpx;
+  flex-direction: column;
+  background-color: #fff;
+  margin-top: 280rpx;
+  border-radius: 60rpx 60rpx 0 0 ;
+}
+.login4 > view:nth-child(1){
+  font-size: 60rpx;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 40rpx;
+}
+.login4 > view:nth-child(2){
+  font-size: 60rpx;
+  text-align: center;
+  font-weight: bold;
+}
+
+.login4 > view:nth-child(3) > input{
+  justify-content: center;
+  text-align: center;
+  width: 90%;
+  border: 1rpx solid #8a8a8a;
+  height: 100rpx;
+  font-size: 45rpx;
+  border-radius: 50rpx;
+}
+
+.login4 > view:nth-child(4){
+  margin-top: 170rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login4 image{
+  width: 150rpx;
+  height: 150rpx;
+}
+
+/* login5 */
+.login5{
+  padding: 60rpx 40rpx;
+  display: flex;
+  height: 1000rpx;
+  flex-direction: column;
+  background-color: #fff;
+  margin-top: 280rpx;
+  border-radius: 60rpx 60rpx 0 0 ;
+}
+.login5 > view:nth-child(1){
+  display: flex;
+  flex-direction: column;
+}
+.login5 > view:nth-child(1) > view:nth-child(1){
+  font-size: 60rpx;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 40rpx;
+}
+.login5 > view:nth-child(1) > view:nth-child(2){
+  font-size: 50rpx;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 45rpx;
+  color: #8a8a8a;
+}
+.login5 > view:nth-child(1) > view:nth-child(3){
+  font-size: 45rpx;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10rpx;
+  color: #8a8a8a;
+}
+
+.input-login5 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 水平居中 */
+  margin-top: 15rpx;
+}
+
+.input-login5 > input {
+  justify-content: center;
+  text-align: center;
+  width: 100%; /* 确保宽度适当 */
+  border: 1rpx solid #8a8a8a;
+  height: 100rpx;
+  font-size: 45rpx;
+  border-radius: 50rpx;
+  margin-top: 10rpx;
+}
+
+.login5 > view:nth-child(3){
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15rpx;
+}
+.login5 image{
+  width: 150rpx;
+  height: 150rpx;
+}
+
+

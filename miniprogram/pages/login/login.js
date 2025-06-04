@@ -1,115 +1,262 @@
+// pages/Login/Login.js
 Page({
-  validateForm(formData) {
-    const { email, password, school, studentId } = formData
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-    if (!email || !emailPattern.test(email)) {
-      wx.showToast({ title: '请输入有效的邮箱地址', icon: 'none' })
-      return false
-    }
 
-    if (!password || !passwordPattern.test(password)) {
-      wx.showToast({ title: '密码至少8个字符，包含字母和数字', icon: 'none' })
-      return false
-    }
-    if (!school) {
-      wx.showToast({ title: '请输入学校名称', icon: 'none' })
-      return false
-    }
-    if (!studentId) {
-      wx.showToast({ title: '请输入学号', icon: 'none' })
-      return false
-    }
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    login: 1,
+    userName:'',
+    userPhone:'',
+    userEmail:'',
+    inSchool:'',
+    grade:'',
+    schoolMajor:'',
+    openid:'',
+    access_token:'',
+    nokuaizubook:false
+  },
 
-    return true
+  // 登录首页
+  login1(){
+    this.setData({
+      login: 2
+    })
+  },
+
+  // 获取昵称和openid
+  userName(e) {
+    const userName = e.detail.value.trim();
+    this.setData({
+      userName: userName,
+    });
+    wx.login({
+      success: (res) => {
+        const codes = res.code
+        wx.request({
+          url: `https://api.weixin.qq.com/sns/jscode2session?appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b&js_code=${codes}&grant_type=authorization_code `,
+          success: (res) => {
+            console.log(res)
+            console.log(res.data.openid)
+            const openid = res.data.openid
+            this.setData({
+              openid
+            })
+          }
+        })
+      },
+    })
+  },
+  kuaizubook(e){
+    wx.navigateTo({
+      url: '../kuaizubook/kuaizubook',
+    })
+  },
+
+  //获取手机号码
+  login2(){
+    this.setData({
+      login: 3
+    });
+  },
+
+  // 后端获取微信手机号快捷注册
+  // getPhoneNumber(e) {
+  //   if (e.detail.code) {
+  //     // 将code发送到后端
+  //     wx.request({
+  //       url: 'http://localhost:3000/getPhoneNumber',
+  //       method: 'POST',
+  //       data: { code: e.detail.code },
+  //       success: (res) => {
+  //         const phoneNumber = res.data.phoneNumber
+  //         this.setData({
+  //           userPhone: phoneNumber
+  //         })
+  //       },
+  //       fail: (err) => {
+  //         console.error('请求失败', err)
+  //       }
+  //     })
+  //   } else {
+  //     console.error('用户拒绝授权或获取失败', e.detail)
+  //   };
+  //   this.setData({
+  //     login: 4
+  //   })
+  // },
+
+  // 前端获取微信手机号快捷注册
+  getPhoneNumber(e) {
+    const code = e.detail.code;
+    wx.request({
+      url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b',
+      success: (res) => {
+        const access_token = res.data.access_token;
+        this.setData({
+          access_token: access_token
+        });
+        // 在获取 access_token 成功后发起第二个请求
+        wx.request({
+          url: `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${access_token}`,
+          method: 'POST', // 指定为 POST 方法
+          data: {
+            code: code // 将 code 作为请求体传递
+          },
+          success: (res) => {
+            console.log(res)
+            const phoneNumber = res.data.phone_info.phoneNumber
+            console.log(phoneNumber)
+            this.setData({
+              userPhone: phoneNumber
+            })
+          },
+          fail: (err) => {
+            console.error('获取用户手机号失败', err);
+          }
+        });
+      },
+      fail: (err) => {
+        console.error('获取 access_token 失败', err);
+      }
+    });
+    this.setData({
+      login: 4
+    });
+  },
+
+  // 手机号验证码注册
+  getrealtimephonenumber(e){
+    console.log(e.detail.code) 
+    const code = e.detail.code;
+    wx.request({
+      url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b',
+      success: (res) => {
+        const access_token = res.data.access_token;
+        this.setData({
+          access_token: access_token
+        });
+        // 在获取 access_token 成功后发起第二个请求
+        wx.request({
+          url: `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${access_token}`,
+          method: 'POST', // 指定为 POST 方法
+          data: {
+            code: code // 将 code 作为请求体传递
+          },
+          success: (res) => {
+            console.log(res)
+            const phoneNumber = res.data.phone_info.phoneNumber
+            console.log(phoneNumber)
+            this.setData({
+              userPhone: phoneNumber
+            })
+          },
+          fail: (err) => {
+            console.error('获取用户手机号失败', err);
+          }
+        });
+      },
+      fail: (err) => {
+        console.error('获取 access_token 失败', err);
+      }
+    });
+    this.setData({
+      login: 4
+    }); 
+  },
+  
+  // 获取邮件
+  userEmail(e){
+    const userEmail = e.detail.value;
+    this.setData({
+      userEmail: userEmail
+    })
+  },
+  login4(){
+    this.setData({
+      login: 5
+    })
+  },
+
+  // 其它信息
+  inSchool(e){
+    const inSchool = e.detail.value;
+    this.setData({
+      inSchool: inSchool
+    })
+  },
+  grade(e){
+    const grade = e.detail.value;
+    this.setData({
+      grade: grade
+    })  
+  },
+  schoolMajor(e){
+    const schoolMajor = e.detail.value;
+    this.setData({
+      schoolMajor: schoolMajor
+    }) 
+  },
+  login5() {
+    const { userName, userPhone, userEmail, inSchool, grade, schoolMajor ,openid } = this.data;
+    wx.setStorageSync('userInfo', { userName, userPhone, userEmail, inSchool, grade, schoolMajor ,openid});
+    wx.switchTab({
+      url: '../index/index',
+    });
   },
   /**
-   * @param formData as { email, password, school, studentId }
-   * @description 登录函数
+   * 生命周期函数--监听页面加载
    */
-  doLogin(formData) {
-    const app = getApp()
-    // 显示加载状态
-    // 调用登录接口
-    wx.showLoading({ title: '注册中...' })
-    wx.login({
-      success (res) {
-        if (res.code) {
-          //发起网络请求
-          console.log(`Code ${res.code} formData ${formData}`)
-          wx.request({
-            url: `${app.globalData.host}/api/user/login`,
-            method: 'POST',
-            header: {
-              "Authorization": res.code
-            },
-            data: {
-              jsCode: res.code
-            },
-            success(res) {
-              console.log(`success ${res.statusCode} ${res.data}`)
-              const token = res.data
-              console.log(token)
-              app.setToken(token)
-            },
-            fail(err) {
-              console.error(`错误：${err.errMsg}`)
-            }
-          })
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
-      },
-      fail(err) {
-        console.error(err.errMsg)
-      },
-      complete() {
-        wx.hideLoading()
-      }
-    })
-  },
-  testLogin(e) {
-    const formData = {
-      email: '1@example.com',
-      password: '12345678',
-      school: '测试学校',
-      studentId: '123456789'
-    }
-    this.doLogin(formData)
-  },
-  login(e) {
-    const formData = e.detail.value
+  onLoad(options) {
 
-    // 前端验证
-    if (!this.validateForm(formData)) {
-      return
-    }
-    this.doLogin(formData)
   },
-  testRegist(e) {
-    const formData = {
-      email: '1@example.com',
-      password: '12345678',
-      school: '测试学校',
-      studentId: '123456789'
-    }
-    this.doRegist(formData)
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady() {
+
   },
-  doRegist(formdata) {
-    const {email, password, school, studentId} = formdata
-    const app = getApp()
-    wx.request({
-      url: `${app.globalData.host}/api/user/regist`,
-      method: 'POST',
-      header: {
-        'Authorization': 'token'
-      },
-      data: {
-        email: email,
-        password: password,
-        school: school,
-        studentId: studentId
-      }
-    })
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom() {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage() {
+
   }
 })

@@ -1,0 +1,58 @@
+<view class="content">
+	<view>
+		<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/背景图.jpg"></image>
+	</view>
+
+	<view class="body">
+		<view class="header">
+				<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
+		</view>
+
+		<view class="main1">
+			<text>小明明</text>
+			<text>清华大学</text>
+			<text>简介：擅长吹牛，创新还不错，但是希望可以落地。</text>
+		</view>
+
+		<view class="main2">
+			<text>个人资料</text>
+			<view class="main2-item">
+				<view >
+					<text>参与项目</text>
+					<text>暂无记录</text>
+				</view>
+				<view>
+					<text>所学专业</text>
+					<text>软件工程</text>
+				</view>
+				<view>
+					<text>目前年级</text>
+					<text>大二</text>
+				</view>
+			</view>
+			<view class="main2-item">
+				<view >
+					<text>人设</text>
+					<text>乐观勤劳</text>
+				</view>
+				<view>
+					<text>性格</text>
+					<text>ENFJ</text>
+				</view>
+				<view class="direction">
+					<text>偏向</text>
+						<view class="body-direction">
+							<view class="body-title-name {{ direction === '落地' ? 'active' : '' }}" data-direction="落地" bindtap="direction">落地</view>
+							<view class="body-title-name {{ direction === '获奖' ? 'active' : '' }}" data-direction="获奖" bindtap="direction">获奖</view>
+							<view class="body-title-name {{ direction === '学习' ? 'active' : '' }}" data-direction="学习" bindtap="direction">学习</view>
+						</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</view>
+
+<view class="footer">
+		<button>拒绝</button>
+		<button>通过</button>
+	</view>

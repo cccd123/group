@@ -1,13 +1,17 @@
 <view class="content">
-	<view>
-		<image src="/images/onlineHelp.png"></image>
+	<button class="content-Help" open-type="contact">
+		<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/onlineHelp.png"></image>
 		<text>在线帮助</text>
 		<text>></text>
-	</view>
+	</button>
 
-	<view>
-		<image src="/images/phoneHelp.png"></image>
+	<button class="content-Help" bind:tap="phoneHelp">
+		<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/phoneHelp.png"></image>
 		<text>电话帮助</text>
 		<text>></text>
+	</button>
+
+	<view wx:if="{{phoneHelp}}">
+  			<include src="phoneHelp.wxml" />
 	</view>
 </view>

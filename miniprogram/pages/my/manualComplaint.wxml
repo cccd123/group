@@ -1,0 +1,20 @@
+<view class="manualComplaint-container" wx:if="{{manualComplaint}}">
+  <view class="manualComplaint">
+    <view>
+      <view>
+        <image src="/images/客服.png"></image>
+      </view>
+      <view>
+        <text>您可拨打</text>
+        <text>13290908769</text>
+        <text>（6：00 — 23：00）</text>
+      </view>
+      <view>
+        <text>我们已尝试将号码复制到您的粘贴板，期待您的反馈。</text>
+      </view>
+    </view>
+    <view>
+      <image src="/images/cancel-test.png" bind:tap="cancelComplaint"></image>
+    </view>
+  </view>
+</view>

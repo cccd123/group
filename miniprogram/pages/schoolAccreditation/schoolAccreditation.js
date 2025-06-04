@@ -1,13 +1,30 @@
-// pages/serve/serve.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    tempFiles:null ,
   },
 
+  uploading() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      success: (res) => { 
+        // 获取第一个文件的临时路径
+        const tempFilePath = res.tempFiles[0].tempFilePath; 
+        this.setData({
+          tempFiles: tempFilePath 
+        });
+        console.log('图片地址:', tempFilePath); 
+      },
+      fail(err) {
+        console.log('上传失败！', err);
+      }
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */

@@ -1,0 +1,82 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx 30rpx;
+}
+
+/* header */
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 40rpx;
+}
+
+.header-title {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 30rpx;
+  padding: 0; /* 移除内边距 */
+	color: #585858;
+	border: 1rpx solid #000;
+}
+
+.header-title-name {
+  flex: 1; /* 每个选项占据父容器的一半宽度 */
+  text-align: center; /* 文字居中 */
+  padding: 10rpx 0; /* 增加内边距 */
+  border-radius: 30rpx; /* 添加圆角 */
+}
+
+.active {
+  color: #000;
+  background-color: #cbcdcf;
+  border-radius: 30rpx; /* 确保圆角与父容器一致 */
+}
+
+/* body */
+.body{
+	display: flex;
+	flex-direction: column;
+	margin-top: 30rpx;
+}
+
+.body > view {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20rpx;
+	align-items: center;
+	padding-bottom: 25rpx;
+	border-bottom: 1rpx solid rgb(65, 64, 64);
+}
+
+.body > view > view > image{
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 50%;
+}
+.body > view > view:nth-child(1) {
+	width: 50%;
+	display: flex;
+	align-items: center;
+}
+.body > view > view:nth-child(2) {
+	font-size: 35rpx;
+	color: rgb(117, 117, 117);
+}
+.body > view > view:nth-child(1) > text{
+	margin: 0 auto;
+	font-size: 45rpx;
+	font-weight: bold;
+}
+
+.pass{
+	border: 1rpx solid #000;
+	padding: 20rpx 25rpx;
+	text-align: center;
+	border-radius: 30rpx;
+	color: rgb(78, 78, 78);
+}

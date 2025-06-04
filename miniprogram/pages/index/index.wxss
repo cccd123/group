@@ -14,7 +14,7 @@
   margin-bottom: 40rpx;
   background-color: #fff;
   border-radius: 25rpx;
-  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8rpx 12rpx rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
 }
@@ -46,5 +46,71 @@
   margin-left: 300rpx;
 }
 
+/* login */
+.login-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  z-index: 999;
+}
+
+.login {
+  background-color: #fff;
+  border-radius: 10px;
+  width: 95%;
+  height: 400rpx;
+  max-width: 400px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  border-radius: 50rpx;
+}
+.login > view:nth-child(1){
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1rpx solid #8a8a8a
+}
+.login > view:nth-child(1) > text:nth-child(1){
+  font-size: 60rpx;
+  font-weight: bold;
+  margin-top: 30rpx;
+}
+.login > view:nth-child(1) > text:nth-child(2){
+  font-size: 50rpx;
+  margin-top: 20rpx;
+  margin: 30rpx 20rpx;
+}
+
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.button {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80rpx;
+  border-radius: 10rpx;
+  margin: 0 10rpx;
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+.divider {
+  width: 1rpx;
+  height: 100rpx;
+  background-color: #8a8a8a;
+}
 
 

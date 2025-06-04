@@ -1,24 +1,21 @@
-// pages/servicePeople/servicePeople.js
+// pages/projectDetails/projectDetails.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    phoneHelp: false
+    direction:'落地',
+    checked: false
   },
 
-  phoneHelp(){
+  direction(e){
+    const direction = e.currentTarget.dataset.direction;
     this.setData({
-    phoneHelp: true
+      direction: direction
     })
-  },
-
-  cancelComplaint(){
-    this.setData({
-      phoneHelp: false
-      })
-  },
+    console.log(this.data.direction)
+   },
 
   /**
    * 生命周期函数--监听页面加载
