@@ -15,38 +15,4 @@ App({
       });
     }
   },
-  globalData: {
-    token: null,
-    host: 'https://114.55.85.236:8080'
-  },
-
-  setToken(token) {
-    try {
-      // 内存存储
-      this.globalData.token = token
-      
-      // todo(加密)
-      wx.setStorageSync(TOKEN_KEY, token)
-    } catch (e) {
-      console.error('Token存储失败:', e)
-    }
-  },
-  getToken() {
-    if (this.globalData.token) return this.globalData.token
-    
-    try {
-      const token = wx.getStorageSync(TOKEN_KEY)
-      this.globalData.token = token 
-      return token 
-    } catch (e) {
-      console.error('Token解析失败:', e)
-      return null
-    }
-  },
-  // 清除令牌
-  clearToken() {
-    this.globalData.token = null
-    wx.removeStorageSync(TOKEN_KEY)
-    wx.reLaunch({ url: '/pages/login/index' })
-  }
 });

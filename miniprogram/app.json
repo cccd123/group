@@ -14,7 +14,7 @@
     "pages/userinfo/userinfo",
     "pages/unUserinfo/unUserinfo",
     "pages/schoolAccreditation/schoolAccreditation",
-    "pages/Login/Login",
+    "pages/login/login",
     "pages/kuaizubook/kuaizubook"
   ],
   "window": {
@@ -40,12 +40,6 @@
       {
         "pagePath": "pages/my/my",
         "text": "我的",
-        "iconPath": "/images/my-up.png",
-        "selectedIconPath": "/images/my.png"
-      },
-      {
-        "pagePath": "pages/login/login",
-        "text": "登录",
         "iconPath": "/images/my-up.png",
         "selectedIconPath": "/images/my.png"
       }
