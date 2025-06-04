@@ -13,7 +13,8 @@ Page({
     grade:'',
     schoolMajor:'',
     openid:'',
-    access_token:''
+    access_token:'',
+    nokuaizubook:false
   },
 
   // 登录首页
@@ -44,6 +45,11 @@ Page({
           }
         })
       },
+    })
+  },
+  kuaizubook(e){
+    wx.navigateTo({
+      url: '../kuaizubook/kuaizubook',
     })
   },
 

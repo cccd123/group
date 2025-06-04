@@ -1,12 +1,12 @@
 <view class="content">
 	<button class="content-Help" open-type="contact">
-		<image src="/images/onlineHelp.png"></image>
+		<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/onlineHelp.png"></image>
 		<text>在线帮助</text>
 		<text>></text>
 	</button>
 
 	<button class="content-Help" bind:tap="phoneHelp">
-		<image src="/images/phoneHelp.png"></image>
+		<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/phoneHelp.png"></image>
 		<text>电话帮助</text>
 		<text>></text>
 	</button>

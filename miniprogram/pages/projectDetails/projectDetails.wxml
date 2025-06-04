@@ -59,11 +59,11 @@
 
 	<view>
 		<view>
-			<image src="/images/上传.png"></image>
+			<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/上传.png"></image>
 			<text>下一条</text>
 		</view>
 		<view>
-			<image src="/images/喜欢.png"></image>
+			<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/喜欢.png"></image>
 			<text>投递信息</text>
 		</view>
 	</view>

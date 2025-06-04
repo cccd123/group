@@ -71,7 +71,7 @@
   background-color: #fff;
   color: #000;
   font-weight: bold;
-  border: 6rpx solid #000;
+  border: 5rpx solid #000;
 }
 
 /* login2 */
@@ -108,7 +108,20 @@
 }
 
 .login2 > view:nth-child(3){
-  margin-top: 250rpx;
+  display: flex;
+  margin-top: 80rpx;
+  justify-content: center;
+  align-items: center;
+}
+
+.login2 > view:nth-child(3) > text{
+  color: rgb(17, 107, 241);
+  font-weight: bold;
+  margin-left: 10rpx;
+}
+
+.login2 > view:nth-child(4){
+  margin-top: 140rpx;
   display: flex;
   justify-content: center;
   align-items: center;

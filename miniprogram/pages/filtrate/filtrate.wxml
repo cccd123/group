@@ -10,7 +10,7 @@
 	<view class="body" wx:if="{{state === '1'}}">
     <view bind:tap="unUserinfo">
       <view>
-        <image src="/images/头像.jpg"></image>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
         <text>小明明</text>
       </view>
       <view>
@@ -19,7 +19,7 @@
     </view>
     <view>
       <view>
-        <image src="/images/头像.jpg"></image>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
         <text>小明</text>
       </view>
       <view>
@@ -28,7 +28,7 @@
     </view>
     <view>
       <view>
-        <image src="/images/头像.jpg"></image>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
         <text>小明</text>
       </view>
       <view>
@@ -43,7 +43,7 @@
     </view>
     <view>
       <view bind:tap="userinfo">
-        <image src="/images/头像.jpg"></image>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
         <text>高明</text>
       </view>
       <view>
@@ -52,7 +52,7 @@
     </view>
     <view>
       <view>
-        <image src="/images/头像.jpg"></image>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
         <text>黄小小</text>
       </view>
       <view>
@@ -61,7 +61,7 @@
     </view>
     <view>
       <view>
-        <image src="/images/头像.jpg"></image>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
         <text>小明</text>
       </view>
       <view>
@@ -73,7 +73,7 @@
   <view class="body" wx:if="{{state === '3'}}">
     <view>
       <view>
-        <image src="/images/头像.jpg"></image>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
         <text>庄小峰</text>
       </view>
       <view>
@@ -82,7 +82,7 @@
     </view>
     <view>
       <view>
-        <image src="/images/头像.jpg"></image>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
         <text>小明</text>
       </view>
       <view>
@@ -91,7 +91,7 @@
     </view>
     <view>
       <view>
-        <image src="/images/头像.jpg"></image>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
         <text>小明</text>
       </view>
       <view>

@@ -1,11 +1,11 @@
 <view class="content">
 	<view>
-		<image src="/images/背景图.jpg"></image>
+		<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/背景图.jpg"></image>
 	</view>
 
 	<view class="body">
 		<view class="header">
-				<image src="/images/头像.jpg"></image>
+				<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
 		</view>
 
 		<view class="main1">

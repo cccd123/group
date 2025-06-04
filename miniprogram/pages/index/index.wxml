@@ -4,14 +4,14 @@
       <text>找个队</text>
       <text>注册成为人才，持续探索优秀项目小组。</text>
     </view>
-    <image class="image" src="/images/search.jpg" ></image>
+    <image class="image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/search.jpg" ></image>
   </view>
   <view class="footer" bind:tap="infoIdea">
     <view>
       <text>组个队</text>
       <text>我有优秀创意，召集优秀人才小组。</text>
     </view>
-    <image class="image" src="/images/idea.jpg" ></image>
+    <image class="image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/idea.jpg" ></image>
   </view>
 
   <view class="login-container" wx:if="{{userInfo}}">

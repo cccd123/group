@@ -1,11 +1,11 @@
 <view class="content">
 	<view>
-		<image src="/images/background.jpg"></image>
+		<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/background.jpg"></image>
 	</view>
 
 	<view class="body">
 		<view class="header">
-				<image src="/images/smile.png"></image>
+				<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/smile.png"></image>
 				<text bind:tap="myRedact">编辑</text>
 		</view>
 
@@ -57,7 +57,7 @@
 		<view class="main3">
 			<view class="main3-item" bind:tap="myTeam">
 				<view>
-				<image class="main3-image" src="/images/myTeam.png"></image>
+				<image class="main3-image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/myTeam.png"></image>
 				<text>我的组队</text>
 				</view>
 				<text>></text>
@@ -65,7 +65,7 @@
 
 			<view class="main3-item" bind:tap="interested">
 				<view>
-				<image class="main3-image" src="/images/interested.png"></image>
+				<image class="main3-image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/interested.png"></image>
 				<text>感兴趣的项目小组</text>
 				</view>
 				<text>></text>
@@ -75,7 +75,7 @@
 		<view class="main4">
 			<view class="main3-item" bind:tap="servicePeople">
 				<view>
-				<image class="main3-image" src="/images/servicePeople.png"></image>
+				<image class="main3-image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/servicePeople.png"></image>
 				<text>官方客服</text>
 				</view>
 				<text>></text>
@@ -83,7 +83,7 @@
 
 			<view class="main3-item">
 				<view>
-				<image class="main3-image" src="/images/knowWe.png"></image>
+				<image class="main3-image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/knowWe.png"></image>
 				<text>了解我们</text>
 				</view>
 				<text>></text>
@@ -91,7 +91,7 @@
 
 			<view class="main3-item" bindtap="showCustomModal">
 				<view>
-				<image class="main3-image" src="/images/advise.png"></image>
+				<image class="main3-image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/advise.png"></image>
 				<text>投诉建议</text>
 				</view>
 				<text>></text>
