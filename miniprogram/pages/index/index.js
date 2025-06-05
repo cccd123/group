@@ -27,7 +27,7 @@ Page({
 
   infoLogin(){
     wx.navigateTo({
-      url: '../Login/Login',
+      url: '../login/login',
     })
   },
   /**
