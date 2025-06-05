@@ -80,7 +80,7 @@
 		</view>
 	</view>
 
-	<view>
-		<button>一键快组</button>
-	</view>
+  <view>
+    <button bindtap="quickGroup">一键快组</button>
+</view>
 </view>
