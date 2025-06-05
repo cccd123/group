@@ -42,8 +42,6 @@ Page({
     console.log(this.data.inDetail)
   },
 
-
-
   direction(e){
     const direction = e.currentTarget.dataset.direction;
     this.setData({
@@ -153,6 +151,28 @@ Page({
     return true;
   },
 
+  // 检查用户登录状态
+  checkLoginStatus() {
+    const token = wx.getStorageSync('token');
+    if (!token) {
+      wx.showModal({
+        title: '提示',
+        content: '请先登录',
+        showCancel: false,
+        success: (res) => {
+          if (res.confirm) {
+            // 跳转到登录页面，根据你的实际登录页面路径调整
+            wx.navigateTo({
+              url: '/pages/login/login'
+            });
+          }
+        }
+      });
+      return false;
+    }
+    return true;
+  },
+
   // 转换数据格式以匹配后端API
   formatDataForAPI() {
     // 获取选中的学历要求
@@ -204,13 +224,10 @@ Page({
   quickGroup() {
     console.log('quickGroup函数被调用了');
     
-    // 先显示一个简单的提示，确认函数被调用
-    wx.showToast({
-      title: '按钮被点击了！',
-      icon: 'success'
-    });
-    
-    console.log('当前数据：', this.data);
+    // 检查登录状态
+    if (!this.checkLoginStatus()) {
+      return;
+    }
     
     // 验证表单
     if (!this.validateForm()) {
@@ -239,12 +256,16 @@ Page({
       mask: true
     });
     
+    // 获取token
+    const token = wx.getStorageSync('token');
+    
     // 发送请求到后端
     wx.request({
       url: 'http://114.55.85.236:8080/project/create',
       method: 'POST',
       header: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'Authorization': token // 添加token到请求头
       },
       data: requestData,
       success: (res) => {
