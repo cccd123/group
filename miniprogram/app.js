@@ -16,5 +16,5 @@ App({
   },
   globalData: {
     baseUrl: 'http://114.55.85.236:8080',
-  },
+  }
 });
