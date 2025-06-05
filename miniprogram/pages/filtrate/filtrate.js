@@ -1,25 +1,31 @@
-// pages/servicePeople/servicePeople.js
+// pages/filtrate/filtrate.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    phoneHelp: false
+    state:'1'
   },
 
-  phoneHelp(){
+  state(e){
+    const state = e.currentTarget.dataset.state;
     this.setData({
-    phoneHelp: true
+      state: state
     })
   },
 
-  cancelComplaint(){
-    this.setData({
-      phoneHelp: false
-      })
+  userinfo(){
+    wx.navigateTo({
+      url: '/pages/userinfo/userinfo',
+    })
   },
 
+  unUserinfo(){
+    wx.navigateTo({
+      url: '/pages/unUserinfo/unUserinfo',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

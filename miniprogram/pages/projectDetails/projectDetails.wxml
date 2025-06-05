@@ -1,0 +1,70 @@
+<view class="content">
+	<view>
+		<view class="content-body">
+			<text>项目简要信息</text>
+			<text>这是一个关于咖啡制作的项目，将会参加今年的挑战杯比赛。</text>
+		</view>
+		<view class="content-body">
+			<text>项目详情</text>
+			<text>这是一个关于咖啡制作的项目，计划参加今年的挑战杯比赛。该项目旨在探索咖啡制作的创新方法和技术，提升咖啡的品质和口感。项目团队将深入研究咖啡豆的选择、烘焙程度、冲泡技巧等方面，力求为消费者带来独特的咖啡体验。在挑战杯的赛场上，这个项目将展示其在咖啡制作领域的研究成果和创新理念，与其他优秀的参赛项目一同竞争，为推动咖啡文化的发展贡献力量。</text>
+		</view>
+
+		<view class="content-main">
+			<view>
+				<text>队伍预计规模</text>
+				<text>15人</text>
+			</view>
+			<view>
+				<text>是否接受跨校</text>
+				<text>是</text>
+			</view>
+		</view>
+
+		<view class="content-school">
+			<text>项目发起校</text>
+			<text>泉州信息工程学院</text>
+		</view>
+
+		<view class="content-main">
+			<view>
+				<text>学校要求</text>
+				<text>本科</text>
+			</view>
+			<view>
+				<text>项目偏向</text>
+				<view>
+					<view class="header-title">
+					<view class="header-title-name {{ direction === '落地' ? 'active' : '' }}" data-direction="落地" bindtap="direction">落地</view>
+					<view class="header-title-name {{ direction === '获奖' ? 'active' : '' }}" data-direction="获奖" bindtap="direction">获奖</view>
+					<view class="header-title-name {{ direction === '学习' ? 'active' : '' }}" data-direction="学习" bindtap="direction">学习</view>
+					</view>
+				</view>
+			</view>
+		</view>
+
+		<view class="content-body">
+			<view class="requirement">
+				<text>详细要求</text>
+				<text>一定的财务数据分析能力，乐观，敢于实践。</text>
+			</view>
+			<view class="other">
+				<radio-group>
+				<label>
+					<radio class="bg" checked="{{checked}}">学习能力强，积极热情亦可参与</radio>
+				</label>
+				</radio-group>
+			</view>
+		</view>
+	</view>
+
+	<view>
+		<view>
+			<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/上传.png"></image>
+			<text>下一条</text>
+		</view>
+		<view>
+			<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/喜欢.png"></image>
+			<text>投递信息</text>
+		</view>
+	</view>
+</view>

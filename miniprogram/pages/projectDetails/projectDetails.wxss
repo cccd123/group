@@ -1,0 +1,160 @@
+.content{
+	padding: 20rpx 30rpx;
+}
+
+.content > view{
+	display: flex;
+	flex-direction: column;
+}
+
+.content > view:nth-child(1) > view{
+	margin-top: 30rpx;
+}
+
+/* content-body */
+.content-body{
+	display: flex;
+	flex-direction: column;
+	padding: 30rpx 20rpx;
+	border-radius: 30rpx;
+	background-color: #fff;
+}
+
+
+.content-body > text:nth-child(1), .content-main > view > text:nth-child(1){
+	font-size: 45rpx;
+	font-weight: bold;
+}
+
+.content-body > text:nth-child(2){
+	margin-top: 20rpx;
+}
+
+.requirement{
+	display: flex;
+	flex-direction: column;
+}
+
+.requirement > text:nth-child(1){
+	font-size: 45rpx;
+	font-weight: bold;
+}
+
+.requirement > text:nth-child(2){
+	font-size: 45rpx;
+	font-weight: bold;
+	margin-top: 20rpx;
+	color: rgb(117, 117, 117);
+}
+
+.other{
+	margin-top: 20rpx;
+	font-weight: bold;
+}
+
+/* content-main */
+.content-main{
+	display: flex;
+}
+
+.content-main > view{
+	display: flex;
+  flex-direction: column;
+  width: 300rpx;
+  height: 150rpx;
+  background-color: #fff;
+	border-radius: 30rpx;
+  padding: 15rpx 20rpx;
+	box-shadow: 0 8rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.content-main > view:nth-child(1){
+	margin-right: 25rpx;
+}
+.content-main > view:nth-child(2){
+	margin-left: 25rpx;
+}
+
+.content-main > view > text:nth-child(2){
+	font-size: 60rpx;
+	font-weight: bold;
+	color: rgb(117, 117, 117);
+	margin-top: 15rpx;
+	
+}
+
+/* content-school */
+.content-school{
+	background-color: #fff;
+	padding: 35rpx 20rpx;
+	border-radius: 30rpx;
+	display: flex;
+	justify-content: space-between;
+}
+.content-school > text{
+	font-size: 45rpx;
+	font-weight: bold;
+}
+.content-school > text:nth-child(2){
+	color: rgb(117, 117, 117);
+}
+
+/* 项目偏向 */
+.header-title {
+  display: flex;
+  width: 100%;
+  margin-left: auto;
+  align-items: center;
+  border-radius: 30rpx;
+  padding: 0; /* 移除内边距 */
+  color: #585858;
+  border: 1rpx solid #000;
+  margin-top: 20rpx;
+}
+
+.header-title-name {
+  flex: 1;
+  text-align: center; 
+  padding: 10rpx 0; 
+  border-radius: 30rpx; 
+}
+
+.active {
+  color: #000;
+  background-color: #cbcdcf;
+  border-radius: 30rpx; /* 确保圆角与父容器一致 */
+}
+
+/* content的第二个view */
+.content > view:nth-child(2) {
+  display: flex;
+  flex-direction: row; /* 确保横向排列 */
+  justify-content: space-between; /* 让两个子 view 均匀分布 */
+  margin: 50rpx 0;
+  width: 100%; /* 确保父容器宽度足够 */
+}
+
+.content > view:nth-child(2) > view {
+  display: flex;
+  width: 38%; /* 调整宽度，留出间距 */
+	align-items: center; /* 让内容垂直居中 */
+	justify-content: center;
+}
+.content > view:nth-child(2) > view:nth-child(1) {
+	border: 1rpx solid #000;
+	border-radius: 50rpx;
+	padding: 10rpx 30rpx;
+	color: #000;
+}
+.content > view:nth-child(2) > view:nth-child(2) {
+	border-radius: 50rpx;
+	padding: 10rpx 30rpx;
+	background-color: #3f8ee5;
+	color: #fff;
+}
+
+.content > view:nth-child(2) > view > image {
+  width: 60rpx;
+  height: 60rpx;
+  margin-right: 10rpx; /* 图片和文字之间的间距 */
+}

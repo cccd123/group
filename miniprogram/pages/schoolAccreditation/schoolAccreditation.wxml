@@ -1,0 +1,18 @@
+<view class="content">
+  <view wx:if="{{!tempFiles}}" class="accreditation" bind:tap="uploading">
+    <text>点击选择证件照片</text>
+  </view>
+
+  <view wx:if="{{tempFiles}}" class="accreditation" bind:tap="uploading">
+    <image src="{{tempFiles}}" class="image" mode="aspectFill"></image>
+  </view>
+
+  <view class="body">
+    <text>上传清晰的学生卡（证）信息页，包括：姓名、学号、照片等，请勿涂抹、遮挡。</text>
+    <text>我们将仅用作校园核对，该证件图片将会在核对确定后永久删除，您在该平台的校园信息将会显示平台已经校验，该信息将有助于您的建队或加队的信息显示。</text>
+  </view>
+
+  <view class="footer">
+    <button class="button">快速审核</button>
+  </view>
+</view>

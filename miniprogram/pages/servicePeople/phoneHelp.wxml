@@ -1,0 +1,21 @@
+<view class="manualComplaint-container" wx:if="{{phoneHelp}}">
+  <view class="manualComplaint">
+    <view>
+      <view>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/客服.png"></image>
+      </view>
+      <view>
+        <text>请不要着急</text>
+        <text>我们会尽全力解决您的问题</text>
+        <text>13290908769</text>
+        <text>（工作时间：24H）</text>
+      </view>
+      <view>
+        <text>我们已尝试将号码复制到您的粘贴板。</text>
+      </view>
+    </view>
+    <view>
+      <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/cancel-test.png" bind:tap="cancelComplaint"></image>
+    </view>
+  </view>
+</view>

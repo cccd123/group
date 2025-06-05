@@ -33,7 +33,8 @@
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true,
-    "ignoreUploadUnusedFiles": true
+    "ignoreUploadUnusedFiles": true,
+    "useCompilerPlugins": ["typescript"]
   },
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
   "condition": {
@@ -69,6 +70,5 @@
     "ignore": [],
     "include": []
   },
-  "appid": "wx1cb9eddd2bef98d5",
-  "userCompilerPlugins":  ["typescript", "less"]
+  "appid": "wx1cb9eddd2bef98d5"
 }

@@ -24,12 +24,12 @@
 
 			<view>
 				<view>
-					<image class="body-image1" src="/images/read.png"></image>
+					<image class="body-image1" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/read.png"></image>
 					<text>阅读量</text>
 					<text>298</text>
 				</view>
 				<view>
-					<image class="body-image2" src="/images/file.png"></image>
+					<image class="body-image2" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/file.png"></image>
 					<text>投递量</text>
 					<text>120</text>
 				</view>
@@ -41,7 +41,7 @@
 
 			<view>
 				<button>下架</button>
-				<button>筛选</button>
+				<button bind:tap="filtrate">筛选</button>
 			</view>
 		</view>
 	</view>

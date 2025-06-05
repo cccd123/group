@@ -73,13 +73,40 @@
 	display: flex;
 	flex-direction: column;
 }
-.body > view:nth-child(2) > view:nth-child(4) > text{
+.body > view:nth-child(2) > view:nth-child(5) > text{
 	color: #8a8a8a;
-	margin-top: 40rpx;
+	margin-top: 10rpx;
+}
+
+
+.body > view:nth-child(2) > view:nth-child(9){
+	height: 250rpx;
+	margin-top: 80rpx;
+	width: 100%;
+	border: 1rpx solid #8a8a8a;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border-radius: 30rpx;
+}
+
+.body > view:nth-child(2) > view:nth-child(9)  > image{
+	width: 80rpx;
+	height: 80rpx;
+}
+
+.body > view:nth-child(2) > view:nth-child(9)  > text{
+	font-size: 50rpx;
+	margin-top: 25rpx;
 }
 
 
 /* 目前年级的css */
+.body > view:nth-child(2) > view:nth-child(4){
+	margin-top: 40rpx;
+	color: #8a8a8a;
+}
 .body-title {
   display: flex;
   width: 100%;
@@ -105,36 +132,70 @@
   border-radius: 30rpx; /* 确保圆角与父容器一致 */
 }
 
+/* 性格 */
+.container{
+	margin-top: 40rpx;
+	display: flex;
+	flex-direction: column;
+}
+.container > view:nth-child(1){
+	color: #8a8a8a;
+}
+.container .result{
+	display: flex;
+	margin-left: auto;
+	margin-top: 20rpx;
+}
+.container .result > view{
+	display: flex;
+	flex-direction: column;
+	border: 1rpx solid #000;
+	margin-left: 15rpx;
+	border-radius: 20rpx;
+	color: #504f4f;
+}
+.container .result > view > view{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.container .result > view > view > view:nth-child(1){
+	font-weight: bold;
+}
+
+.comfirm{
+	background-color: #afafaf;
+	color: #000;
+	border-radius: 20rpx;
+}
+
+
+
+/* 偏向 */
+.body > view:nth-child(2) > view:nth-child(7){
+	margin-top: 40rpx;
+	color: #8a8a8a;
+}
+.body-direction {
+  display: flex;
+  width: 60%;
+  margin-left: auto;
+  align-items: center;
+  border-radius: 30rpx;
+  padding: 0; /* 移除内边距 */
+  color: #585858;
+  border: 1rpx solid #000;
+  margin-top: 20rpx;
+}
+
 /* 简介 */
-.body > view:nth-child(2) > view:nth-child(5) > textarea{
+.body > view:nth-child(2) > view:nth-child(8) > textarea{
 	border: 1rpx solid #8a8a8a;
 	width: 95%;
 	padding: 20rpx 20rpx;
 	border-radius: 30rpx;
 	height: 85rpx;
-}
-/* 断 */
-
-.body > view:nth-child(2) > view:nth-child(6){
-	height: 250rpx;
-	margin-top: 80rpx;
-	width: 100%;
-	border: 1rpx solid #8a8a8a;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	border-radius: 30rpx;
-}
-
-.body > view:nth-child(2) > view:nth-child(6)  > image{
-	width: 80rpx;
-	height: 80rpx;
-}
-
-.body > view:nth-child(2) > view:nth-child(6)  > text{
-	font-size: 50rpx;
-	margin-top: 25rpx;
 }
 
 

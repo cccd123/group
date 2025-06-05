@@ -4,7 +4,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
+    userInfo: null
   },
 
   infoLookfor(e){
@@ -18,11 +18,22 @@ Page({
       url: '../idea/idea',
     })
   },
+
+  cancelLogin(){
+    this.setData({
+      userInfo: false
+    })
+  },
+
+  infoLogin(){
+    wx.navigateTo({
+      url: '../login/login',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
   },
 
   /**
@@ -36,7 +47,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    const userInfo = wx.getStorageSync('userInfo');
+    if (userInfo) {
+      this.setData({
+        userInfo: false
+      });
+    } else {
+      this.setData({
+        userInfo: true
+      });
+    }
   },
 
   /**
