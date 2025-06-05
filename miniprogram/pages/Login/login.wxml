@@ -1,0 +1,73 @@
+<view class="content">
+	<image class="background-image" src=https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/login.jpg"></image>
+
+	<view class="hello" wx:if="{{login !== 1}}">Hello! Bro</view>
+
+	<!-- 登录首页 -->
+	<view class="login1" wx:if="{{login === 1}}">
+		<view>
+			<text>要组队，</text>
+			<text>上快组。</text>
+		</view>
+		<view>
+			<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/kuaizu.png"></image>
+		</view>
+		<view>
+			<button>登录</button>
+			<button bind:tap="login1">注册</button>
+		</view>
+	</view>
+
+	<!-- 获取昵称 -->
+	<view class="login2" wx:if="{{login === 2}}">
+		<view>让我们认识一下吧</view>
+		<view class="input-container">
+      <input placeholder="昵称" type="nickname" bindinput="userName"/>
+    </view>
+		<view>
+			<checkbox value="noRequirement" checked="{{nokuaizubook}}"/>
+			<text catch:tap="kuaizubook">快组用户手册</text>
+		</view>
+		<view>
+			<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/next.png" bind:tap="login2"></image>
+		</view>
+	</view>
+
+	<!-- 获取手机号码 -->
+	<view class="login3" wx:if="{{login === 3}}">
+		<view>让我们认识一下吧</view>
+		<view>
+      <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">微信手机号快捷注册</button>
+			<button open-type="getRealtimePhoneNumber" bindgetrealtimephonenumber="getrealtimephonenumber">手机号验证码注册</button>
+    </view>
+	</view>
+
+	<!-- 获取邮件 -->
+	<view class="login4" wx:if="{{login === 4}}">
+		<view>快人一步</view>
+		<view>好队伍邮件先推送</view>
+		<view class="input-container">
+      <input placeholder="邮箱" value="{{userEmail}}" bindinput="userEmail"/>
+    </view>
+		<view>
+			<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/next.png" bind:tap="login4"></image>
+		</view>
+	</view>
+	
+	<!-- 其它信息 -->
+	<view class="login5" wx:if="{{login === 5}}">
+		<view>
+			<view>最后一步</view>
+			<view>完善一下个人信息</view>
+			<view>好的队伍更有可能找上门哦</view>
+		</view>
+		<view class="input-login5">
+      <input placeholder="就读学校" value="{{inSchool}}" bindinput="inSchool"/>
+			<input placeholder="目前年级" value="{{grade}}" bindinput="grade"/>
+			<input placeholder="所学专业" value="{{schoolMajor}}" bindinput="schoolMajor"/>
+    </view>
+		<view>
+			<image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/next.png" bind:tap="login5"></image>
+		</view>
+	</view>
+</view>
