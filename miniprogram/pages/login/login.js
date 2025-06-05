@@ -6,19 +6,19 @@ Page({
    */
   data: {
     login: 1,
-    userName:'',
-    userPhone:'',
-    userEmail:'',
-    inSchool:'',
-    grade:'',
-    schoolMajor:'',
-    openid:'',
-    access_token:'',
-    nokuaizubook:false
+    userName: '',
+    userPhone: '',
+    userEmail: '',
+    inSchool: '',
+    grade: '',
+    schoolMajor: '',
+    openid: '',
+    access_token: '',
+    nokuaizubook: false
   },
 
   // 登录首页
-  login1(){
+  login1() {
     this.setData({
       login: 2
     })
@@ -47,14 +47,14 @@ Page({
       },
     })
   },
-  kuaizubook(e){
+  kuaizubook(e) {
     wx.navigateTo({
       url: '../kuaizubook/kuaizubook',
     })
   },
 
   //获取手机号码
-  login2(){
+  login2() {
     this.setData({
       login: 3
     });
@@ -126,8 +126,8 @@ Page({
   },
 
   // 手机号验证码注册
-  getrealtimephonenumber(e){
-    console.log(e.detail.code) 
+  getrealtimephonenumber(e) {
+    console.log(e.detail.code)
     const code = e.detail.code;
     wx.request({
       url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b',
@@ -162,46 +162,74 @@ Page({
     });
     this.setData({
       login: 4
-    }); 
+    });
   },
-  
+
   // 获取邮件
-  userEmail(e){
+  userEmail(e) {
     const userEmail = e.detail.value;
     this.setData({
       userEmail: userEmail
     })
   },
-  login4(){
+  login4() {
     this.setData({
       login: 5
     })
   },
 
   // 其它信息
-  inSchool(e){
+  inSchool(e) {
     const inSchool = e.detail.value;
     this.setData({
       inSchool: inSchool
     })
   },
-  grade(e){
+  grade(e) {
     const grade = e.detail.value;
     this.setData({
       grade: grade
-    })  
+    })
   },
-  schoolMajor(e){
+  schoolMajor(e) {
     const schoolMajor = e.detail.value;
     this.setData({
       schoolMajor: schoolMajor
-    }) 
+    })
   },
-  login5() {
-    const { userName, userPhone, userEmail, inSchool, grade, schoolMajor ,openid } = this.data;
-    wx.setStorageSync('userInfo', { userName, userPhone, userEmail, inSchool, grade, schoolMajor ,openid});
-    wx.switchTab({
-      url: '../index/index',
+
+  async login5() {
+    const { userName, userPhone, userEmail, inSchool, grade, schoolMajor, openid } = this.data;
+    wx.setStorageSync('userInfo', { userName, userPhone, userEmail, inSchool, grade, schoolMajor, openid });
+    const app = getApp()
+    // 显示加载状态
+    // 调用登录接口
+    const { code } = await wx.login();
+    wx.request({
+      url: `${app.globalData.baseUrl}/user/login`,
+      method: 'POST',
+      data: {
+        jsCode: code,
+      },
+      success: (res) => {
+        if (res.data.code === 200) {
+          wx.switchTab({
+            url: '../index/index',
+          });
+        } else {
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none'
+          });
+        }
+      },
+      fail: (err) => {
+        wx.showToast({
+          title: '网络错误，请稍后再试',
+          icon: 'none'
+        });
+        console.error('登录失败', err);
+      }
     });
   },
   /**

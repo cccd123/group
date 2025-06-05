@@ -1,5 +1,4 @@
 // app.js
-const TOKEN_KEY = 'sys:auth_token'
 App({
   onLaunch: function () {
     if (!wx.cloud) {
@@ -14,5 +13,8 @@ App({
         traceUser: true,
       });
     }
+  },
+  globalData: {
+    baseUrl: 'http://114.55.85.236:8080',
   },
 });
