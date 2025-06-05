@@ -198,20 +198,62 @@ Page({
     })
   },
 
+  /**
+   * {"jsCode":"0e3ZqR000ugDnU1aa9200NUDOt3ZqR04","phone":"13333333","nickname":"大王","email":"309@333","school":"泰山科技","grade":"大三","major":"书山呼哈数据库的"}
+   */
   async login5() {
     const { userName, userPhone, userEmail, inSchool, grade, schoolMajor, openid } = this.data;
     wx.setStorageSync('userInfo', { userName, userPhone, userEmail, inSchool, grade, schoolMajor, openid });
     const app = getApp()
-    // 显示加载状态
     // 调用登录接口
     const { code } = await wx.login();
+    await wx.request({
+      url: `${app.globalData.baseUrl}/user/region`,
+      method: 'POST',
+      data: {
+        jsCode: code,
+        phone: userPhone,
+        nickname: userName,
+        email: userEmail,
+        school: inSchool,
+        grade: grade,
+        major: schoolMajor,
+      },
+      success: (res) => {
+        console.log(res)
+        if (res.data.code === 200) {
+          wx.showToast({
+            title: res.data.message,
+            icon: 'success'
+          });
+          wx.setStorageSync('token', res.data.data);
+        } else {
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none'
+          });
+        }
+      },
+      fail: (err) => {
+        wx.showToast({
+          title: '网络错误，请稍后再试',
+          icon: 'none'
+        });
+        console.error('注册失败', err);
+        return
+      }
+    })
     wx.request({
       url: `${app.globalData.baseUrl}/user/login`,
       method: 'POST',
       data: {
         jsCode: code,
       },
+      headers: {
+        'Authorization': wx.getStorageSync('token')
+      },
       success: (res) => {
+        console.log(res)
         if (res.data.code === 200) {
           wx.switchTab({
             url: '../index/index',
