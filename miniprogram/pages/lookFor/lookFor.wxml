@@ -7,7 +7,8 @@
   </view>
 
   <view class="main" wx:if="{{currentTab == 'all'}}">
-    <view class="main-item" wx:for="{{allProjectList}}" wx:key="title" bind:tap="projectDetails">
+    <!-- 添加项目ID绑定 -->
+    <view class="main-item" wx:for="{{allProjectList}}" wx:key="id" bind:tap="projectDetails" data-project-id="{{item.id}}">
       <view>
         <text>{{item.title}}</text>
         <text>{{item.school}}</text>
@@ -24,10 +25,26 @@
         </view>
       </view>
     </view>
+    
+    <!-- 加载状态提示 -->
+    <view wx:if="{{allPageInfo.loading}}" class="loading-more">
+      <text>加载中...</text>
+    </view>
+    
+    <!-- 没有更多数据提示 -->
+    <view wx:if="{{!allPageInfo.hasMore && allProjectList.length > 0}}" class="no-more">
+      <text>没有更多项目了</text>
+    </view>
+    
+    <!-- 空状态 -->
+    <view wx:if="{{allProjectList.length === 0 && !allPageInfo.loading}}" class="empty-state">
+      <text>暂无项目</text>
+    </view>
   </view>
 
   <view class="main" wx:if="{{currentTab == 'mySchool'}}">
-    <view class="main-item" wx:for="{{mySchoolProjectList}}" wx:key="title" bind:tap="projectDetails">
+    <!-- 添加项目ID绑定 -->
+    <view class="main-item" wx:for="{{mySchoolProjectList}}" wx:key="id" bind:tap="projectDetails" data-project-id="{{item.id}}">
       <view>
         <text>{{item.title}}</text>
         <text>{{item.school}}</text>
@@ -43,6 +60,21 @@
           <text>{{item.skillRequirement}}</text>
         </view>
       </view>
+    </view>
+    
+    <!-- 加载状态提示 -->
+    <view wx:if="{{mySchoolPageInfo.loading}}" class="loading-more">
+      <text>加载中...</text>
+    </view>
+    
+    <!-- 没有更多数据提示 -->
+    <view wx:if="{{!mySchoolPageInfo.hasMore && mySchoolProjectList.length > 0}}" class="no-more">
+      <text>没有更多项目了</text>
+    </view>
+    
+    <!-- 空状态 -->
+    <view wx:if="{{mySchoolProjectList.length === 0 && !mySchoolPageInfo.loading}}" class="empty-state">
+      <text>暂无本校项目</text>
     </view>
   </view>
   

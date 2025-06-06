@@ -88,3 +88,28 @@
   color: #a3a2a2;
   margin-top: 10rpx;
 }
+/* 添加到您的 lookFor.wxss 文件中 */
+
+/* 加载状态 */
+.loading-more {
+  text-align: center;
+  padding: 20rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 没有更多数据 */
+.no-more {
+  text-align: center;
+  padding: 20rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 100rpx 20rpx;
+  color: #999;
+  font-size: 32rpx;
+}
