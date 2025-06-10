@@ -194,10 +194,6 @@ Page({
     })
   },
 
-  async login5() {
-    await this.handleRegisterAndLogin();
-    app.refreshUserInfo()
-  },
   async handleRegisterAndLogin() {
     const { userName, userPhone, userEmail, inSchool, grade, schoolMajor } = this.data;
     try {
