@@ -13,8 +13,27 @@ App({
         traceUser: true,
       });
     }
+    this.globalData.userInfo = wx.getStorageSync('userInfo')
+    this.globalData.token = wx.getStorageSync('token')
   },
   globalData: {
     baseUrl: 'http://114.55.85.236:8080',
-  }
+    userInfo: null,
+    token: null
+  },
+  refreshUserInfo() {
+    wx.request({
+      url: `${this.globalData.baseUrl}/user/getuserinfo`,
+      method: 'GET',
+      header: {
+        'Authorization': this.globalData.token
+      },
+      success(res) {
+        wx.setStorageSync('userInfo', res.data.data)
+      },
+      fail(err) {
+        console.error(err.message)
+      }
+    })
+  },
 });

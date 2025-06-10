@@ -1,5 +1,5 @@
+const app = getApp()
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -7,7 +7,6 @@ Page({
     showModal: false,
     showOverlay: false,
     manualComplaint: false,
-    direction:'落地'
   },
 
   showCustomModal() {
@@ -78,7 +77,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    this.setData({
+      userInfo: app.globalData.userInfo
+    })
   },
 
   /**
@@ -92,7 +93,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    this.setData({
+      userInfo: app.globalData.userInfo
+    })
   },
 
   /**

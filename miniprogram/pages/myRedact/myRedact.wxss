@@ -1,26 +1,28 @@
 /* content */
-.content{
+.content {
 	display: flex;
 	flex-direction: column;
 	padding: 0 30rpx;
 	margin-top: 50rpx;
 }
 
-.content > view:nth-child(1){
+.content>view:nth-child(1) {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
 }
-.content > view > image:nth-child(1){
+
+.content>view>image:nth-child(1) {
 	width: 90rpx;
 	height: 100rpx;
 }
-.content > view > image:nth-child(2){
+
+.content>view>image:nth-child(2) {
 	width: 120rpx;
 	height: 120rpx;
 }
 
-.content > view:nth-child(2){
+.content>form {
 	display: flex;
 	flex-direction: column;
 	font-weight: bold;
@@ -29,57 +31,61 @@
 }
 
 /* body */
-.body{
+.body {
 	background-color: #fff;
 	margin-top: 40rpx;
 	padding: 35rpx 30rpx;
-	border-radius: 100rpx 100rpx 0 0 ;
+	border-radius: 100rpx 100rpx 0 0;
 }
 
 /* body的第1个view */
-.body > view:nth-child(1){
+.body>view:nth-child(1) {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-.body > view:nth-child(1) > image{
+
+.body>view:nth-child(1)>image {
 	width: 150rpx;
 	height: 150rpx;
 	border-radius: 50%;
 }
 
-/* body的第2个view */
-.body > view:nth-child(2){
+.body>form {
 	display: flex;
 	flex-direction: column;
 	margin-top: 30rpx;
 }
-.body .body-item{
+
+.body .body-item {
 	display: flex;
 	flex-direction: column;
 	margin-top: 40rpx;
 }
-.body .body-item > text{
+
+.body .body-item>text {
 	margin-bottom: 20rpx;
 	color: #8a8a8a;
 }
-.body .body-item > input{
+
+.body .body-item>input {
 	border: 1rpx solid #8a8a8a;
 	border-radius: 15rpx;
 	padding: 10rpx 20rpx;
 }
 
-.body > view:nth-child(2) > view:nth-child(4){
+.body>form>view:nth-child(4) {
 	display: flex;
 	flex-direction: column;
 }
-.body > view:nth-child(2) > view:nth-child(5) > text{
+
+.body>form>view:nth-child(5)>text {
 	color: #8a8a8a;
 	margin-top: 10rpx;
 }
 
 
-.body > view:nth-child(2) > view:nth-child(9){
+.body>form>view:nth-child(9) {
 	height: 250rpx;
 	margin-top: 80rpx;
 	width: 100%;
@@ -91,62 +97,68 @@
 	border-radius: 30rpx;
 }
 
-.body > view:nth-child(2) > view:nth-child(9)  > image{
+.body>form>view:nth-child(9)>image {
 	width: 80rpx;
 	height: 80rpx;
 }
 
-.body > view:nth-child(2) > view:nth-child(9)  > text{
+.body>form>view:nth-child(9)>text {
 	font-size: 50rpx;
 	margin-top: 25rpx;
 }
 
 
 /* 目前年级的css */
-.body > view:nth-child(2) > view:nth-child(4){
+.label {
 	margin-top: 40rpx;
 	color: #8a8a8a;
 }
+
 .body-title {
-  display: flex;
-  width: 100%;
-  margin-left: auto;
-  align-items: center;
-  border-radius: 30rpx;
-  padding: 0; /* 移除内边距 */
-  color: #585858;
-  border: 1rpx solid #000;
-  margin-top: 20rpx;
+	display: flex;
+	width: 100%;
+	margin-left: auto;
+	align-items: center;
+	border-radius: 30rpx;
+	padding: 0;
+	/* 移除内边距 */
+	color: #585858;
+	border: 1rpx solid #000;
+	margin-top: 20rpx;
 }
 
 .body-title-name {
-  flex: 1;
-  text-align: center; 
-  padding: 10rpx 0; 
-  border-radius: 30rpx; 
+	flex: 1;
+	text-align: center;
+	padding: 10rpx 0;
+	border-radius: 30rpx;
 }
 
 .active {
-  color: #000;
-  background-color: #cbcdcf;
-  border-radius: 30rpx; /* 确保圆角与父容器一致 */
+	color: #000;
+	background-color: #cbcdcf;
+	border-radius: 30rpx;
+	/* 确保圆角与父容器一致 */
 }
 
 /* 性格 */
-.container{
+.container {
 	margin-top: 40rpx;
 	display: flex;
 	flex-direction: column;
 }
-.container > view:nth-child(1){
+
+.container>view:nth-child(1) {
 	color: #8a8a8a;
 }
-.container .result{
+
+.container .result {
 	display: flex;
 	margin-left: auto;
 	margin-top: 20rpx;
 }
-.container .result > view{
+
+.container .result>view {
 	display: flex;
 	flex-direction: column;
 	border: 1rpx solid #000;
@@ -154,17 +166,19 @@
 	border-radius: 20rpx;
 	color: #504f4f;
 }
-.container .result > view > view{
+
+.container .result>view>view {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
-.container .result > view > view > view:nth-child(1){
+
+.container .result>view>view>view:nth-child(1) {
 	font-weight: bold;
 }
 
-.comfirm{
+.comfirm {
 	background-color: #afafaf;
 	color: #000;
 	border-radius: 20rpx;
@@ -173,24 +187,26 @@
 
 
 /* 偏向 */
-.body > view:nth-child(2) > view:nth-child(7){
+.body>form>view:nth-child(7) {
 	margin-top: 40rpx;
 	color: #8a8a8a;
 }
+
 .body-direction {
-  display: flex;
-  width: 60%;
-  margin-left: auto;
-  align-items: center;
-  border-radius: 30rpx;
-  padding: 0; /* 移除内边距 */
-  color: #585858;
-  border: 1rpx solid #000;
-  margin-top: 20rpx;
+	display: flex;
+	width: 60%;
+	margin-left: auto;
+	align-items: center;
+	border-radius: 30rpx;
+	padding: 0;
+	/* 移除内边距 */
+	color: #585858;
+	border: 1rpx solid #000;
+	margin-top: 20rpx;
 }
 
 /* 简介 */
-.body > view:nth-child(2) > view:nth-child(8) > textarea{
+.body>form>view:nth-child(8)>textarea {
 	border: 1rpx solid #8a8a8a;
 	width: 95%;
 	padding: 20rpx 20rpx;
@@ -200,7 +216,7 @@
 
 
 /* button */
-.button{
+.button {
 	margin-top: 50rpx;
 	background-color: #2b82e3;
 	width: 100% !important;
