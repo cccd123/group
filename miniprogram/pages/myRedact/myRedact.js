@@ -37,12 +37,8 @@ Page({
 
   direction(e) {
     const direction = e.currentTarget.dataset.direction
-    const old = this.data.formData
     this.setData({
-      formData: {
-        ...old,
-        projectOrientation: direction
-      }
+      projectOrientation: direction,
     })
   },
 
@@ -54,7 +50,6 @@ Page({
     this.setData({
       [key]: trait
     });
-
     // 打印当前MBTI结果
     console.log('当前MBTI:', this.data.traits.join(''));
   },
@@ -210,7 +205,8 @@ Page({
     const info = {
       ...app.globalData.userInfo,
       ...formData,
-      mbti: this.getMBTIResult(this.data.traits)
+      mbti: this.getMBTIResult(this.data.traits),
+      projectOrientation: this.data.projectOrientation
     }
     wx.request({
       url: `${app.globalData.baseUrl}/user/update`,
@@ -243,9 +239,9 @@ Page({
         major: userInfo.major,
         grade: userInfo.grade,
         persona: userInfo.persona, // 人设
-        projectOrientation: userInfo.projectOrientation,
         introduction: userInfo.introduction,
-      }
+      },
+      projectOrientation: userInfo.projectOrientation,
     })
   },
 

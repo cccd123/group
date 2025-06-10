@@ -1,6 +1,17 @@
-// pages/Login/Login.js
-Page({
+// pages/login/login.js
+const app = getApp();
+// 封装 wx.request 为 Promise
+const promisifyRequest = (options) => {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      ...options,
+      success: (res) => resolve(res),
+      fail: (err) => reject(err)
+    });
+  });
+};
 
+Page({
   /**
    * 页面的初始数据
    */
@@ -14,7 +25,8 @@ Page({
     schoolMajor: '',
     openid: '',
     access_token: '',
-    nokuaizubook: false
+    nokuaizubook: false,
+    registed: false, // 是否已经注册
   },
 
   // 登录首页
@@ -24,28 +36,12 @@ Page({
     })
   },
 
-  // 获取昵称和openid
+  // 获取昵称
   userName(e) {
     const userName = e.detail.value.trim();
     this.setData({
       userName: userName,
     });
-    wx.login({
-      success: (res) => {
-        const codes = res.code
-        wx.request({
-          url: `https://api.weixin.qq.com/sns/jscode2session?appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b&js_code=${codes}&grant_type=authorization_code `,
-          success: (res) => {
-            console.log(res)
-            console.log(res.data.openid)
-            const openid = res.data.openid
-            this.setData({
-              openid
-            })
-          }
-        })
-      },
-    })
   },
   kuaizubook(e) {
     wx.navigateTo({
@@ -88,38 +84,38 @@ Page({
 
   // 前端获取微信手机号快捷注册
   getPhoneNumber(e) {
-    const code = e.detail.code;
-    wx.request({
-      url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b',
-      success: (res) => {
-        const access_token = res.data.access_token;
-        this.setData({
-          access_token: access_token
-        });
-        // 在获取 access_token 成功后发起第二个请求
-        wx.request({
-          url: `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${access_token}`,
-          method: 'POST', // 指定为 POST 方法
-          data: {
-            code: code // 将 code 作为请求体传递
-          },
-          success: (res) => {
-            console.log(res)
-            const phoneNumber = res.data.phone_info.phoneNumber
-            console.log(phoneNumber)
-            this.setData({
-              userPhone: phoneNumber
-            })
-          },
-          fail: (err) => {
-            console.error('获取用户手机号失败', err);
-          }
-        });
-      },
-      fail: (err) => {
-        console.error('获取 access_token 失败', err);
-      }
-    });
+    // const code = e.detail.code;
+    // wx.request({
+    //   url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b',
+    //   success: (res) => {
+    //     const access_token = res.data.access_token;
+    //     this.setData({
+    //       access_token: access_token
+    //     });
+    //     // 在获取 access_token 成功后发起第二个请求
+    //     wx.request({
+    //       url: `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${access_token}`,
+    //       method: 'POST', // 指定为 POST 方法
+    //       data: {
+    //         code: code // 将 code 作为请求体传递
+    //       },
+    //       success: (res) => {
+    //         console.log(res)
+    //         const phoneNumber = res.data.phone_info.phoneNumber
+    //         console.log(phoneNumber)
+    //         this.setData({
+    //           userPhone: phoneNumber
+    //         })
+    //       },
+    //       fail: (err) => {
+    //         console.error('获取用户手机号失败', err);
+    //       }
+    //     });
+    //   },
+    //   fail: (err) => {
+    //     console.error('获取 access_token 失败', err);
+    //   }
+    // });
     this.setData({
       login: 4
     });
@@ -127,39 +123,39 @@ Page({
 
   // 手机号验证码注册
   getrealtimephonenumber(e) {
-    console.log(e.detail.code)
-    const code = e.detail.code;
-    wx.request({
-      url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b',
-      success: (res) => {
-        const access_token = res.data.access_token;
-        this.setData({
-          access_token: access_token
-        });
-        // 在获取 access_token 成功后发起第二个请求
-        wx.request({
-          url: `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${access_token}`,
-          method: 'POST', // 指定为 POST 方法
-          data: {
-            code: code // 将 code 作为请求体传递
-          },
-          success: (res) => {
-            console.log(res)
-            const phoneNumber = res.data.phone_info.phoneNumber
-            console.log(phoneNumber)
-            this.setData({
-              userPhone: phoneNumber
-            })
-          },
-          fail: (err) => {
-            console.error('获取用户手机号失败', err);
-          }
-        });
-      },
-      fail: (err) => {
-        console.error('获取 access_token 失败', err);
-      }
-    });
+    // console.log(e.detail.code)
+    // const code = e.detail.code;
+    // wx.request({
+    //   url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b',
+    //   success: (res) => {
+    //     const access_token = res.data.access_token;
+    //     this.setData({
+    //       access_token: access_token
+    //     });
+    //     // 在获取 access_token 成功后发起第二个请求
+    //     wx.request({
+    //       url: `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${access_token}`,
+    //       method: 'POST', // 指定为 POST 方法
+    //       data: {
+    //         code: code // 将 code 作为请求体传递
+    //       },
+    //       success: (res) => {
+    //         console.log(res)
+    //         const phoneNumber = res.data.phone_info.phoneNumber
+    //         console.log(phoneNumber)
+    //         this.setData({
+    //           userPhone: phoneNumber
+    //         })
+    //       },
+    //       fail: (err) => {
+    //         console.error('获取用户手机号失败', err);
+    //       }
+    //     });
+    //   },
+    //   fail: (err) => {
+    //     console.error('获取 access_token 失败', err);
+    //   }
+    // });
     this.setData({
       login: 4
     });
@@ -198,81 +194,61 @@ Page({
     })
   },
 
-  /**
-   * {"jsCode":"0e3ZqR000ugDnU1aa9200NUDOt3ZqR04","phone":"13333333","nickname":"大王","email":"309@333","school":"泰山科技","grade":"大三","major":"书山呼哈数据库的"}
-   */
   async login5() {
-    const { userName, userPhone, userEmail, inSchool, grade, schoolMajor, openid } = this.data;
-    wx.setStorageSync('userInfo', { userName, userPhone, userEmail, inSchool, grade, schoolMajor, openid });
-    const app = getApp()
-    // 调用登录接口
-    const { code } = await wx.login();
-    await wx.request({
-      url: `${app.globalData.baseUrl}/user/region`,
-      method: 'POST',
-      data: {
-        jsCode: code,
-        phone: userPhone,
-        nickname: userName,
-        email: userEmail,
-        school: inSchool,
-        grade: grade,
-        major: schoolMajor,
-      },
-      success: (res) => {
-        console.log(res)
-        if (res.data.code === 200) {
-          wx.showToast({
-            title: res.data.message,
-            icon: 'success'
-          });
-          wx.setStorageSync('token', res.data.data);
-        } else {
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none'
-          });
-        }
-      },
-      fail: (err) => {
-        wx.showToast({
-          title: '网络错误，请稍后再试',
-          icon: 'none'
+    await this.handleRegisterAndLogin();
+    app.refreshUserInfo()
+  },
+  async handleRegisterAndLogin() {
+    const { userName, userPhone, userEmail, inSchool, grade, schoolMajor } = this.data;
+    try {
+      // 1. 注册逻辑
+      if (!this.data.registed) {
+        const registerRes = await promisifyRequest({
+          url: `${app.globalData.baseUrl}/user/region`,
+          method: 'POST',
+          data: {
+            jsCode: (await wx.login()).code,
+            phone: userPhone,
+            nickname: userName,
+            email: userEmail,
+            school: inSchool,
+            grade: grade,
+            major: schoolMajor,
+          }
         });
-        console.error('注册失败', err);
-        return
-      }
-    })
-    wx.request({
-      url: `${app.globalData.baseUrl}/user/login`,
-      method: 'POST',
-      data: {
-        jsCode: code,
-      },
-      headers: {
-        'Authorization': wx.getStorageSync('token')
-      },
-      success: (res) => {
-        console.log(res)
-        if (res.data.code === 200) {
-          wx.switchTab({
-            url: '../index/index',
-          });
+        if (registerRes.data.code === 200) {
+          this.setData({ registed: true }); // 同步更新状态
+          wx.setStorageSync('token', registerRes.data.data);
+          app.globalData.token = registerRes.data.data
+          wx.showToast({ title: '注册成功', icon: 'success' });
         } else {
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none'
-          });
+          throw new Error(registerRes.data.message || '注册失败');
         }
-      },
-      fail: (err) => {
-        wx.showToast({
-          title: '网络错误，请稍后再试',
-          icon: 'none'
-        });
-        console.error('登录失败', err);
       }
-    });
+      // 2. 登录逻辑（注册成功后或已注册时执行）
+      if (this.data.registed) {
+        wx.request({
+          url: `${app.globalData.baseUrl}/user/login`,
+          method: 'POST',
+          data: 'jsCode=' + (await wx.login()).code,  // 改为字符串格式
+          header: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          success: (e) => {
+            if (e.data.code === 200) {
+              wx.switchTab({
+                url: '../index/index',
+              })
+            } else {
+              throw new Error(loginRes.data.message || '登录失败');
+            }
+          }
+        })
+      }
+    } catch (err) {
+      console.error('操作失败:', err);
+      wx.showToast({ title: err.message, icon: 'none' });
+    }
   },
   /**
    * 生命周期函数--监听页面加载

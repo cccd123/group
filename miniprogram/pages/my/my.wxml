@@ -111,6 +111,7 @@
       </view>
     </view>
 
+    <button class="modal-item" bind:tap="logout">退出登录</button>
     <view>
       <view class="edition">版本: v1.0.0</view>
     </view>

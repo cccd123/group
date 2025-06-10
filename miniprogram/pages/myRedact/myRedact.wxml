@@ -67,7 +67,7 @@
     <view class="label">
       <text>偏向</text>
       <view class="body-direction">
-        <view wx:for="{{directions}}" wx:key="index" class="body-title-name {{ formData.projectOrientation === item ? 'active' : ''}}" data-direction="{{item}}" bindtap="direction">{{item}}</view>
+        <view wx:for="{{directions}}" wx:key="index" class="body-title-name {{ projectOrientation === item ? 'active' : ''}}" data-direction="{{item}}" bindtap="direction">{{item}}</view>
       </view>
     </view>
 
