@@ -50,8 +50,6 @@ Page({
     this.setData({
       [key]: trait
     });
-    // 打印当前MBTI结果
-    console.log('当前MBTI:', this.data.traits.join(''));
   },
   // 如果需要获取最终结果的方法
   getMBTIResult() {
@@ -230,6 +228,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    app.refreshUserInfo()
     const userInfo = app.globalData.userInfo
     this.setData({
       traits: this.formatMBTI(userInfo.mbti),

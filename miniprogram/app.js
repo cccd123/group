@@ -21,6 +21,10 @@ App({
     userInfo: null,
     token: null
   },
+  setToken(token) {
+    this.globalData.token = token
+    wx.setStorageSync('token', token)
+  },
   refreshUserInfo() {
     wx.request({
       url: `${this.globalData.baseUrl}/user/getuserinfo`,

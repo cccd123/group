@@ -218,8 +218,8 @@ Page({
         });
         if (registerRes.data.code === 200) {
           this.setData({ registed: true }); // 同步更新状态
-          wx.setStorageSync('token', registerRes.data.data);
-          app.globalData.token = registerRes.data.data
+          app.setToken(registerRes.data.data)
+          app.refreshUserInfo()
           wx.showToast({ title: '注册成功', icon: 'success' });
         } else {
           throw new Error(registerRes.data.message || '注册失败');
