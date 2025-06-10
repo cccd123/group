@@ -1,90 +1,180 @@
-.content {
-  display: flex;
-  flex-direction: column;
-  padding: 20rpx 30rpx ;
+/* lookFor.wxss */
+
+/* 页面容器 */
+.container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 40rpx;
 }
 
-.header {
+/* 顶部标签栏 */
+.tab-header {
   display: flex;
+  background: #ffffff;
+  margin: 0;
+  padding: 20rpx 40rpx;
   justify-content: center;
   align-items: center;
-  line-height: 40rpx;
+  gap: 20rpx;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1rpx solid #e5e5e5;
 }
 
-.header-title {
-  display: flex;
-  width: 40%;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 30rpx;
-  padding: 0; /* 移除内边距 */
-  color: #585858;
+.tab-item {
+  padding: 16rpx 32rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  color: #666666;
+  background-color: #f0f0f0;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
-.header-title-name {
-  flex: 1; /* 每个选项占据父容器的一半宽度 */
-  text-align: center; /* 文字居中 */
-  padding: 10rpx 0; /* 增加内边距 */
-  border-radius: 30rpx; /* 添加圆角 */
+.tab-item.active {
+  background-color: #333333;
+  color: #ffffff;
 }
 
-.active {
-  color: #000;
-  background-color: #cbcdcf;
-  border-radius: 30rpx; /* 确保圆角与父容器一致 */
+/* 内容区域 */
+.tab-content {
+  padding: 30rpx 40rpx 0;
 }
 
-.main {
-  margin-top: 30rpx;
-}
-.main .main-item:nth-last-child(1){
-  margin-bottom: 100rpx;
+/* 项目卡片 */
+.project-card {
+  background: #ffffff;
+  margin-bottom: 30rpx;
+  border-radius: 24rpx;
+  padding: 40rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
-.main-item {
-  background-color: #fff;
-  padding: 20rpx;
+/* 项目标题 */
+.project-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #000000;
   margin-bottom: 20rpx;
-  border-radius: 30rpx;
-  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+  line-height: 1.3;
+}
+
+/* 学校名称 - 右上角 */
+.project-school {
+  position: absolute;
+  top: 40rpx;
+  right: 40rpx;
+  font-size: 24rpx;
+  color: #999999;
+  font-weight: 400;
+}
+
+/* 项目描述 */
+.project-desc {
+  font-size: 28rpx;
+  color: #333333;
+  line-height: 1.6;
+  margin-bottom: 40rpx;
+  margin-top: 10rpx;
+}
+
+/* 底部信息区域 */
+.project-info-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 30rpx;
 }
 
-.main-item > view:nth-child(1) {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.info-item {
+  flex: 1;
+  text-align: center;
 }
 
-.main-item > view:nth-child(1) > text:nth-child(1) {
-  font-size: 45rpx;
-  color: #000;
-  font-weight: bold;
+.info-label {
+  font-size: 24rpx;
+  color: #999999;
+  margin-bottom: 12rpx;
+  font-weight: 500;
 }
 
-.main-item > view:nth-child(2) {
-  margin-top: 30rpx;
+.info-value {
+  font-size: 26rpx;
+  color: #333333;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
-.main-item > view:nth-child(3) {
-  display: flex;
-  justify-content: space-between;
-  padding: 20rpx 50rpx;
+/* 隐藏原有的信息显示方式 */
+.project-skill,
+.project-skill-detail,
+.project-time {
+  display: none;
 }
 
-.main-item > view:nth-child(3) .main-school,
-.main-item > view:nth-child(3) .main-skill {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-weight: bold;
-  width: 200rpx; /* 固定宽度 */
-  flex-shrink: 0; /* 禁止收缩 */
-  text-align: center; /* 文字居中 */
+/* 详情按钮 */
+.detail-btn {
+  width: 100%;
+  background-color: #007AFF;
+  color: #ffffff;
+  border: none;
+  border-radius: 16rpx;
+  padding: 28rpx 0;
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-top: 20rpx;
+  transition: all 0.2s ease;
 }
 
-.main-item > view:nth-child(3) > view > text:nth-child(2) {
-  color: #a3a2a2;
-  margin-top: 10rpx;
+.detail-btn:active {
+  background-color: #0056CC;
+  transform: scale(0.98);
+}
+
+/* 空状态提示 */
+.empty-tip {
+  text-align: center;
+  padding: 120rpx 40rpx;
+  color: #999999;
+  font-size: 28rpx;
+  background: #ffffff;
+  border-radius: 24rpx;
+  margin-top: 40rpx;
+}
+
+.empty-tip::before {
+  content: '📝';
+  display: block;
+  font-size: 60rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.6;
+}
+
+/* 加载状态 */
+.loading-tip {
+  text-align: center;
+  padding: 40rpx;
+  color: #999999;
+  font-size: 26rpx;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 750rpx) {
+  .project-card {
+    margin: 0 20rpx 30rpx;
+    padding: 30rpx;
+  }
+  
+  .tab-content {
+    padding: 30rpx 0 0;
+  }
+  
+  .project-school {
+    position: static;
+    text-align: right;
+    margin-bottom: 10rpx;
+    margin-top: -10rpx;
+  }
 }

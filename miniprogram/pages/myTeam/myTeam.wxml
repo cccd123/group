@@ -1,95 +1,111 @@
+<!-- pages/myTeam/myTeam.wxml -->
 <view class="content">
-	<view class="body underway">
-		<view class="body-header">推送中</view>
-		<view class="body-main">
-			<view>
-				<text>项目简要信息</text>
-				<text>泉州信息工程学院</text>
-			</view>
+  <!-- 显示加载状态 -->
+  <view wx:if="{{loading}}" class="loading">
+    <text>加载中...</text>
+  </view>
+  
+  <!-- 显示空状态 -->
+  <view wx:elif="{{projectList.length === 0}}" class="empty">
+    <text>暂无项目，快去创建一个吧！</text>
+  </view>
+  
+  <!-- 项目列表 -->
+  <block wx:for="{{projectList}}" wx:key="id" wx:for-index="index">
+    <!-- 推送中的项目 -->
+    <view wx:if="{{item.isActive}}" class="body underway">
+      <view class="body-header">{{item.statusText}}</view>
+      <view class="body-main">
+        <view>
+          <text>{{item.projectName || item.brief}}</text>
+          <text>{{item.school || '泉州信息工程学院'}}</text>
+        </view>
 
-			<view>
-				<text>这是一个关于咖啡制作的项目，将会参加今年的挑战杯比赛。</text>
-			</view>
+        <view>
+          <text>{{item.projectInfo || item.inDetail}}</text>
+        </view>
 
-			<view>
-				<view>
-					<text>学校要求</text>
-					<text>本科</text>
-				</view>
-				<view>
-					<text>技能要求</text>
-					<text>会分析财务数据</text>
-				</view>
-			</view>
+        <view>
+          <view>
+            <text>学历要求</text>
+            <text>{{item.educationText}}</text>
+          </view>
+          <view>
+            <text>技能要求</text>
+            <text>{{item.skillSummary || item.simplenessSkill || '无特殊要求'}}</text>
+          </view>
+        </view>
 
-			<view>
-				<view>
-					<image class="body-image1" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/read.png"></image>
-					<text>阅读量</text>
-					<text>298</text>
-				</view>
-				<view>
-					<image class="body-image2" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/file.png"></image>
-					<text>投递量</text>
-					<text>120</text>
-				</view>
-			</view>
+        <view>
+          <view>
+            <image class="body-image1" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/read.png"></image>
+            <text>阅读量</text>
+            <text>{{item.readCount || 0}}</text>
+          </view>
+          <view>
+            <image class="body-image2" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/file.png"></image>
+            <text>投递量</text>
+            <text>{{item.applicationCount || 0}}</text>
+          </view>
+        </view>
 
-			<view>
-				<view>您已选择邮件推广，部分简历可能已发送至预留邮箱，请注意查收。</view>
-			</view>
+        <view wx:if="{{item.emailPromotion}}">
+          <view>您已选择邮件推广，部分简历可能已发送至预留邮箱，请注意查收。</view>
+        </view>
 
-			<view>
-				<button>下架</button>
-				<button bind:tap="filtrate">筛选</button>
-			</view>
-		</view>
-	</view>
+        <view>
+          <button bind:tap="takeDownProject" data-project-id="{{item.id}}" data-index="{{index}}">下架</button>
+          <button bind:tap="filtrate" data-project-id="{{item.id}}">筛选</button>
+        </view>
+      </view>
+    </view>
 
-	<view class="body finish">
-		<view class="body-header">已下架</view>
-		<view class="body-main">
-			<view>
-				<text>项目简要信息</text>
-				<text>泉州信息工程学院</text>
-			</view>
+    <!-- 已下架的项目 -->
+    <view wx:else class="body finish">
+      <view class="body-header">{{item.statusText}}</view>
+      <view class="body-main">
+        <view>
+          <text>{{item.projectName || item.brief}}</text>
+          <text>{{item.school || '泉州信息工程学院'}}</text>
+        </view>
 
-			<view>
-				<text>这是一个关于咖啡制作的项目，将会参加今年的挑战杯比赛。</text>
-			</view>
+        <view>
+          <text>{{item.projectInfo || item.inDetail}}</text>
+        </view>
 
-			<view>
-				<view>
-					<text>学校要求</text>
-					<text>本科</text>
-				</view>
-				<view>
-					<text>技能要求</text>
-					<text>会分析财务数据</text>
-				</view>
-			</view>
+        <view>
+          <view>
+            <text>学历要求</text>
+            <text>{{item.educationText}}</text>
+          </view>
+          <view>
+            <text>技能要求</text>
+            <text>{{item.skillSummary || item.simplenessSkill || '无特殊要求'}}</text>
+          </view>
+        </view>
 
-			<view>
-				<view>
-					<image class="body-image1" src="/images/read.png"></image>
-					<text>阅读量</text>
-					<text>298</text>
-				</view>
-				<view>
-					<image class="body-image2" src="/images/file.png"></image>
-					<text>投递量</text>
-					<text>120</text>
-				</view>
-			</view>
+        <view>
+          <view>
+            <image class="body-image1" src="/images/read.png"></image>
+            <text>阅读量</text>
+            <text>{{item.readCount || 0}}</text>
+          </view>
+          <view>
+            <image class="body-image2" src="/images/file.png"></image>
+            <text>投递量</text>
+            <text>{{item.applicationCount || 0}}</text>
+          </view>
+        </view>
 
-			<view>
-				<view>您已选择邮件推广，部分简历可能已发送至预留邮箱，请注意查收。</view>
-			</view>
+        <view wx:if="{{item.emailPromotion}}">
+          <view>您已选择邮件推广，部分简历可能已发送至预留邮箱，请注意查收。</view>
+        </view>
 
-			<view>
-				<button>下架</button>
-				<button>筛选</button>
-			</view>
-		</view>
-	</view>
+        <view>
+          <button bind:tap="reactivateProject" data-project-id="{{item.id}}" data-index="{{index}}">重新上架</button>
+          <button bind:tap="filtrate" data-project-id="{{item.id}}">筛选</button>
+        </view>
+      </view>
+    </view>
+  </block>
 </view>
