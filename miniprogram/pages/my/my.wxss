@@ -513,5 +513,6 @@
   border-bottom: 1rpx solid rgb(241, 239, 239);
 }
 
-
-
+.logout {
+  margin-top: 15px;
+}

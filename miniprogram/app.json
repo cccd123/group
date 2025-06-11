@@ -11,8 +11,6 @@
     "pages/formFeedback/formFeedback",
     "pages/projectDetails/projectDetails",
     "pages/filtrate/filtrate",
-    "pages/userinfo/userinfo",
-    "pages/unUserinfo/unUserinfo",
     "pages/schoolAccreditation/schoolAccreditation",
     "pages/login/login",
     "pages/kuaizubook/kuaizubook"

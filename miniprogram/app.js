@@ -1,4 +1,13 @@
 // app.js
+export const promisifyRequest = (options) => {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      ...options,
+      success: (res) => resolve(res),
+      fail: (err) => reject(err)
+    });
+  });
+};
 App({
   onLaunch: function () {
     if (!wx.cloud) {
@@ -33,11 +42,39 @@ App({
         'Authorization': this.globalData.token
       },
       success(res) {
+        console.log('后端个人信息', res.data.data)
         wx.setStorageSync('userInfo', res.data.data)
+        getApp().globalData.userInfo = res.data.data
       },
       fail(err) {
         console.error(err.message)
       }
     })
   },
+  async login() {
+    const code = (await wx.login()).code
+    console.log(code, this.globalData.token)
+    wx.request({
+      url: `${this.globalData.baseUrl}/user/login`,
+      method: 'POST',
+      data: 'jsCode=' + code,  // 改为字符串格式
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Authorization': this.globalData.token
+      },
+      success: (e) => {
+        if (e.data.code === 200) {
+          this.refreshUserInfo()
+          wx.switchTab({
+            url: '../index/index',
+          })
+        } else {
+          throw new Error(loginRes.data.message || '登录失败');
+        }
+      },
+      fail(e) {
+        console.error(e)
+      }
+    })
+  }
 });

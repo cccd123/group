@@ -1,16 +1,6 @@
 // pages/login/login.js
 const app = getApp();
-// 封装 wx.request 为 Promise
-const promisifyRequest = (options) => {
-  return new Promise((resolve, reject) => {
-    wx.request({
-      ...options,
-      success: (res) => resolve(res),
-      fail: (err) => reject(err)
-    });
-  });
-};
-
+import { promisifyRequest } from '../../app'
 Page({
   /**
    * 页面的初始数据
@@ -193,7 +183,9 @@ Page({
       schoolMajor: schoolMajor
     })
   },
-
+  async fastLogin() {
+    await app.login()
+  },
   async handleRegisterAndLogin() {
     const { userName, userPhone, userEmail, inSchool, grade, schoolMajor } = this.data;
     try {
@@ -215,7 +207,6 @@ Page({
         if (registerRes.data.code === 200) {
           this.setData({ registed: true }); // 同步更新状态
           app.setToken(registerRes.data.data)
-          app.refreshUserInfo()
           wx.showToast({ title: '注册成功', icon: 'success' });
         } else {
           throw new Error(registerRes.data.message || '注册失败');

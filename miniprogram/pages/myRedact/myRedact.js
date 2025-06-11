@@ -37,6 +37,7 @@ Page({
 
   direction(e) {
     const direction = e.currentTarget.dataset.direction
+    console.log(direction)
     this.setData({
       projectOrientation: direction,
     })
@@ -160,29 +161,20 @@ Page({
       },
       success(res) {
         wx.hideLoading();
-        if (res.statusCode === 200) {
-          const data = JSON.parse(res.data);
-          if (data.code === 200) {
-            wx.showToast({
-              title: '上传成功',
-              icon: 'success'
-            });
-
-            app.refreshUserInfo()
-            that.setData({
-              'userInfo': wx.getStorageSync('userInfo')
-            });
-
-          } else {
-            console.error(data)
-            wx.showToast({
-              title: data.message || '上传失败',
-              icon: 'none'
-            });
-          }
-        } else {
+        if (res.statusCode === 200 && res.data.code === 200) {
           wx.showToast({
-            title: '上传失败',
+            title: '上传成功',
+            icon: 'success'
+          });
+
+          app.refreshUserInfo()
+          that.setData({
+            'userInfo': wx.getStorageSync('userInfo')
+          });
+        } else {
+          console.error(JSON.stringify(res.data))
+          wx.showToast({
+            title: data.message || '上传失败',
             icon: 'none'
           });
         }
@@ -204,8 +196,9 @@ Page({
       ...app.globalData.userInfo,
       ...formData,
       mbti: this.getMBTIResult(this.data.traits),
-      projectOrientation: this.data.projectOrientation
+      projectOrientation: this.data.projectOrientation + 1 // 0, 1, 2 to 1, 2, 3...
     }
+    console.log('上传 UserProfile', info)
     wx.request({
       url: `${app.globalData.baseUrl}/user/update`,
       method: 'POST',
@@ -215,9 +208,11 @@ Page({
       data: info,
       success(res) {
         console.log(res.data)
-        app.globalData.userInfo = info
-        console.log(app.globalData.userInfo)
-        wx.setStorageSync('userInfo', info)
+        wx.showToast({
+          title: '用户信息已更新',
+          icon: 'success'
+        })
+        app.refreshUserInfo()
       },
       fail(err) {
         console.error(err)

@@ -13,7 +13,7 @@
       <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/kuaizu.png"></image>
     </view>
     <view>
-      <button>登录</button>
+      <button bind:tap="fastLogin">登录</button>
       <button bind:tap="login1">注册</button>
     </view>
   </view>
