@@ -26,12 +26,9 @@ Page({
   },
   grade(e) {
     const grade = e.currentTarget.dataset.grade
-    const old = this.data.formData
+    console.log('dataset', grade)
     this.setData({
-      formData: {
-        ...old,
-        grade: grade
-      }
+      grade: grade
     })
   },
 
@@ -161,9 +158,9 @@ Page({
       },
       success(res) {
         wx.hideLoading();
-        if (res.statusCode === 200 && res.data.code === 200) {
+        if (res.statusCode === 200) {
           wx.showToast({
-            title: '上传成功',
+            title: res.data,
             icon: 'success'
           });
 
@@ -174,7 +171,7 @@ Page({
         } else {
           console.error(JSON.stringify(res.data))
           wx.showToast({
-            title: data.message || '上传失败',
+            title: res.message || '上传失败',
             icon: 'none'
           });
         }
@@ -195,8 +192,9 @@ Page({
     const info = {
       ...app.globalData.userInfo,
       ...formData,
+      grade: this.data.grade,
       mbti: this.getMBTIResult(this.data.traits),
-      projectOrientation: this.data.projectOrientation + 1 // 0, 1, 2 to 1, 2, 3...
+      projectOrientation: this.data.projectOrientation
     }
     console.log('上传 UserProfile', info)
     wx.request({
@@ -231,10 +229,10 @@ Page({
         nickname: userInfo.nickname,
         school: userInfo.school,
         major: userInfo.major,
-        grade: userInfo.grade,
         persona: userInfo.persona, // 人设
         introduction: userInfo.introduction,
       },
+      grade: userInfo.grade,
       projectOrientation: userInfo.projectOrientation,
     })
   },

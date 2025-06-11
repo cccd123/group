@@ -214,24 +214,7 @@ Page({
       }
       // 2. 登录逻辑（注册成功后或已注册时执行）
       if (this.data.registed) {
-        wx.request({
-          url: `${app.globalData.baseUrl}/user/login`,
-          method: 'POST',
-          data: 'jsCode=' + (await wx.login()).code,  // 改为字符串格式
-          header: {
-            'content-type': 'application/x-www-form-urlencoded'
-          },
-          success: (e) => {
-            if (e.data.code === 200) {
-              app.refreshUserInfo()
-              wx.switchTab({
-                url: '../index/index',
-              })
-            } else {
-              throw new Error(loginRes.data.message || '登录失败');
-            }
-          }
-        })
+        await app.login()
       }
     } catch (err) {
       console.error('操作失败:', err);

@@ -1,5 +1,5 @@
+const app = getApp()
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -47,7 +47,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    const userInfo = wx.getStorageSync('userInfo');
+    const userInfo = app.globalData.userInfo;
     if (userInfo) {
       this.setData({
         userInfo: false

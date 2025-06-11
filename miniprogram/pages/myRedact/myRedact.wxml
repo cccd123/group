@@ -35,7 +35,7 @@
     <view class="label">
       <text>目前年级</text>
       <view class="body-title">
-        <view wx:for="{{ grades }}" wx:key="index" class="body-title-name {{ formData.grade === item ? 'active' : ''}}" data-grade="{{item}}" bind:tap="grade">{{ item }}</view>
+        <view wx:for="{{ grades }}" wx:key="index" class="body-title-name {{ grade === item ? 'active' : ''}}" data-grade="{{item}}" bind:tap="grade">{{ item }}</view>
       </view>
     </view>
 
@@ -67,7 +67,7 @@
     <view class="label">
       <text>偏向</text>
       <view class="body-direction">
-        <view wx:for="{{directions}}" wx:key="index" class="body-title-name {{ projectOrientation === index ? 'active' : ''}}" data-direction="{{index}}" bindtap="direction">{{item}}</view>
+        <view wx:for="{{directions}}" wx:key="index" class="body-title-name {{ projectOrientation === item ? 'active' : ''}}" data-direction="{{item}}" bindtap="direction">{{item}}</view>
       </view>
     </view>
 

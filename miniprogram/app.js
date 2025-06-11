@@ -27,6 +27,7 @@ App({
   },
   globalData: {
     baseUrl: 'http://114.55.85.236:8080',
+    // baseUrl: 'http://localhost:8080',
     userInfo: null,
     token: null
   },
@@ -53,17 +54,16 @@ App({
   },
   async login() {
     const code = (await wx.login()).code
-    console.log(code, this.globalData.token)
     wx.request({
       url: `${this.globalData.baseUrl}/user/login`,
       method: 'POST',
       data: 'jsCode=' + code,  // 改为字符串格式
       header: {
         'content-type': 'application/x-www-form-urlencoded',
-        'Authorization': this.globalData.token
       },
-      success: (e) => {
-        if (e.data.code === 200) {
+      success: (res) => {
+        if (res.data.code === 200) {
+          this.setToken(res.data.data)
           this.refreshUserInfo()
           wx.switchTab({
             url: '../index/index',
