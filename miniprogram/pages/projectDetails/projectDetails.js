@@ -87,6 +87,7 @@ Page({
       loading: true
     });
 
+    // 使用原来的项目详情接口
     wx.request({
       url: `http://114.55.85.236:8080/project/details/${this.data.projectId}`,
       method: 'GET',
@@ -95,8 +96,26 @@ Page({
         console.log('获取项目详情响应:', res);
         
         if (res.statusCode === 200 && res.data) {
+          const projectData = res.data.data || res.data;
+          
+          // 处理数据映射，根据后端返回的字段结构进行映射
+          const processedProject = {
+            ...projectData,
+            // 根据创建项目的字段映射到显示字段
+            projectName: projectData.projectName || '未知项目',
+            projectDescription: projectData.projectInfo || projectData.projectDescription || '暂无描述',
+            projectDetail: projectData.skillDetails || projectData.projectDetail || '暂无详细信息',
+            teamSize: projectData.teamSize || projectData.expectedSize || '未知',
+            crossSchool: this.formatCrossSchool(projectData.crossSchool),
+            school: projectData.school || '未知学校',
+            requirement: this.formatEducationRequirement(projectData.educationRequirement),
+            detailRequirement: projectData.skillSummary || projectData.detailRequirement || '暂无详细要求',
+            flexible: projectData.emailPromotion || false,
+            direction: this.formatDirection(projectData.direction)
+          };
+          
           this.setData({
-            projectDetails: res.data.data || res.data,
+            projectDetails: processedProject,
             loading: false
           });
         } else if (res.statusCode === 401) {
@@ -110,6 +129,43 @@ Page({
         this.handleError('网络错误，请重试');
       }
     });
+  },
+
+  /**
+   * 格式化跨校字段
+   */
+  formatCrossSchool(crossSchool) {
+    if (crossSchool === 1 || crossSchool === true) {
+      return '是';
+    } else if (crossSchool === 0 || crossSchool === false) {
+      return '否';
+    }
+    return '未知';
+  },
+
+  /**
+   * 格式化教育要求字段
+   */
+  formatEducationRequirement(educationRequirement) {
+    const educationMap = {
+      1: '高中',
+      2: '本科',
+      3: '硕士',
+      4: '博士'
+    };
+    return educationMap[educationRequirement] || '未知';
+  },
+
+  /**
+   * 格式化项目方向字段
+   */
+  formatDirection(direction) {
+    const directionMap = {
+      1: '落地',
+      2: '获奖',
+      3: '学习'
+    };
+    return directionMap[direction] || '落地';
   },
 
   /**
