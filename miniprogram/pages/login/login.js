@@ -223,6 +223,7 @@ Page({
           },
           success: (e) => {
             if (e.data.code === 200) {
+              app.refreshUserInfo()
               wx.switchTab({
                 url: '../index/index',
               })
