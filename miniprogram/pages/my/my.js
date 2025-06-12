@@ -10,7 +10,7 @@ Page({
   },
 
   showCustomModal() {
-    this.setData({ 
+    this.setData({
       showModal: true,
       showOverlay: true
     });
@@ -25,54 +25,54 @@ Page({
 
   // 人工投诉
   onComplain() {
-    this.setData({ 
+    this.setData({
       manualComplaint: true,
     });
   },
 
   onCancel() {
-    this.setData({ 
+    this.setData({
       showModal: false,
       showOverlay: false
     });
   },
 
   cancelComplaint() {
-    this.setData({ 
+    this.setData({
       manualComplaint: false,
     });
   },
 
-  myTeam(){
+  myTeam() {
     wx.navigateTo({
       url: '../myTeam/myTeam'
     })
   },
 
-  interested(){
+  interested() {
     wx.navigateTo({
       url: '../interested/interested',
     })
   },
 
-  servicePeople(){
+  servicePeople() {
     wx.navigateTo({
       url: '../servicePeople/servicePeople',
     })
   },
 
-  myRedact(){
+  myRedact() {
     wx.navigateTo({
       url: '../myRedact/myRedact',
     })
   },
 
-  schoolAccreditation(){
+  schoolAccreditation() {
     wx.navigateTo({
       url: '../schoolAccreditation/schoolAccreditation',
     })
   },
-  
+
   logout() {
     wx.navigateTo({
       url: '../login/login',
@@ -82,16 +82,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      userInfo: app.globalData.userInfo
-    })
+    // this.setData({
+    //   userInfo: app.globalData.userInfo
+    // })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**
@@ -107,34 +107,34 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    
+
   }
 })

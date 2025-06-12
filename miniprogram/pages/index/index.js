@@ -46,14 +46,14 @@ Page({
    */
   onShow: function () {
     const userInfo = app.globalData.userInfo;
-    console.log('index onshow', userInfo)
+    // console.log('index onshow', userInfo)
     if (userInfo) {
-      console.log(false)
+      // console.log(false)
       this.setData({
         userInfo: false
       });
     } else {
-      console.log(true)
+      // console.log(true)
       this.setData({
         userInfo: true
       });

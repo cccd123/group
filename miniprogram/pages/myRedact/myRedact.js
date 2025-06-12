@@ -108,7 +108,7 @@ Page({
       });
       wx.hideLoading();
 
-      if (res.statusCode === 200 && res.data.code === 200) {
+      if (res.statusCode === 200 && JSON.parse(res.data).code === 200) {
         wx.showToast({
           title: '上传成功',
           icon: 'success'
@@ -147,7 +147,7 @@ Page({
       wx.hideLoading();
       console.log(res)
 
-      if (res.statusCode === 200 && res.data.code === 200) {
+      if (res.statusCode === 200 && JSON.parse(res.data).code === 200) {
         wx.showToast({
           title: '上传成功',
           icon: 'success'

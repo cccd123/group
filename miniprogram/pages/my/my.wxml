@@ -1,6 +1,6 @@
 <view class="content">
   <view class="coverimg">
-    <image src="{{userInfo.coverImage || 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/background.jpg'}}"></image>
+    <image src="{{ 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + userInfo.coverImage || 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/background.jpg' }}"></image>
   </view>
 
   <view class="body">
