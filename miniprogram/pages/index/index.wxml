@@ -14,7 +14,7 @@
     <image class="image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/idea.jpg" ></image>
   </view>
 
-  <view class="login-container" wx:if="{{userInfo}}">
+  <view class="login-container" wx:if="{{!isLogin}}">
     <view class="login">
       <view>
         <text>请先登录</text>

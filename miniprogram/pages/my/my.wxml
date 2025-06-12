@@ -5,7 +5,7 @@
 
   <view class="body">
     <view class="header">
-      <image src="{{ userInfo.avatarUrl || 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg'}}"></image>
+      <image src="{{ 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + userInfo.avatarUrl || 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg'}}"></image>
       <text bind:tap="myRedact">编辑</text>
     </view>
 

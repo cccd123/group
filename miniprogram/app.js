@@ -1,4 +1,5 @@
 // app.js
+import './utils/extendApi'
 export const promisifyRequest = (options) => {
   return new Promise((resolve, reject) => {
     wx.request({
@@ -35,9 +36,9 @@ App({
     this.globalData.token = wx.getStorageSync('token')
   },
   globalData: {
-    baseUrl: 'http://114.55.85.236:8080',
+    baseUrl: 'http://localhost:8080',
     // baseUrl: 'http://localhost:8080',
-    storeUrl: 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img',
+    // storeUrl: 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img',
     userInfo: null,
     token: null
   },

@@ -1,8 +1,15 @@
 import { promisifyUploadFile } from "../../app";
+import { userBehavior } from './behavior'
+import { uploadAvatarService, uploadCoverService, updateUserInfoService, getUserInfoService } from '../../api/user'
+import { setStorage } from '../../utils/storage'
 
 // pages/myRedact/myRedact.js
 const app = getApp()
 Page({
+
+  // 注册behavior
+  behaviors: [userBehavior],
+
   /**
    * 页面的初始数据
    */
@@ -63,19 +70,33 @@ Page({
   },
 
   // 选择头像
-  chooseAvatar: function () {
-    const that = this;
-    wx.chooseMedia({
-      count: 1,
-      mediaType: ['image'],
-      sourceType: ['album', 'camera'],
-      maxDuration: 30,
-      camera: 'back',
-      success(res) {
-        const tempFilePaths = res.tempFiles[0].tempFilePath;
-        that.uploadAvatar(tempFilePaths);
-      }
+  async chooseAvatar(evt) {
+    // const that = this;
+    // wx.chooseMedia({
+    //   count: 1,
+    //   mediaType: ['image'],
+    //   sourceType: ['album', 'camera'],
+    //   maxDuration: 30,
+    //   camera: 'back',
+    //   success(res) {
+    //     const tempFilePaths = res.tempFiles[0].tempFilePath;
+    //     that.uploadAvatar(tempFilePaths);
+    //   }
+    // })
+    console.log(evt)
+    const {avatarUrl} = evt.detail;
+    const res = await uploadAvatarService(avatarUrl, 'file')
+    console.log(res)
+    const {data} = res
+    this.setData({
+      'userInfo.avatarUrl': data
     })
+    console.log(this.data.userInfo)
+    // 用户信息更新成功以后，需要将最新的用户信息存储到本地
+    setStorage('userInfo', this.data.userInfo)
+      
+    // 用户信息更新成功以后，同时同步到store
+    this.setUserInfo(this.data.userInfo)
   },
   chooseCover: function () {
     const that = this;
@@ -85,86 +106,97 @@ Page({
       sourceType: ['album', 'camera'],
       maxDuration: 30,
       camera: 'back',
-      success(res) {
+      success: async (res) => {
         const tempFilePaths = res.tempFiles[0].tempFilePath;
-        that.uploadCover(tempFilePaths);
+        // that.uploadCover(tempFilePaths);
+        const result = await uploadCoverService(tempFilePaths, 'file')
+        console.log("背景图片上传", result)
+        const {data} = result
+        that.setData({
+          'userInfo.coverImage': data
+        })
+        // 用户信息更新成功以后，需要将最新的用户信息存储到本地
+        setStorage('userInfo', this.data.userInfo)
+          
+        // 用户信息更新成功以后，同时同步到store
+        this.setUserInfo(this.data.userInfo)
       }
     })
   },
   // 上传封面到服务器
-  uploadCover: async function (tempFilePath) {
-    const that = this;
-    wx.showLoading({
-      title: '上传中...',
-    });
-    try {
-      const res = await promisifyUploadFile({
-        url: `${app.globalData.baseUrl}/user/uploadbg`,
-        filePath: tempFilePath,
-        name: 'file',
-        header: {
-          'Authorization': app.globalData.token
-        }
-      });
-      wx.hideLoading();
+  // uploadCover: async function (tempFilePath) {
+  //   const that = this;
+  //   wx.showLoading({
+  //     title: '上传中...',
+  //   });
+  //   try {
+  //     const res = await promisifyUploadFile({
+  //       url: `${app.globalData.baseUrl}/user/uploadbg`,
+  //       filePath: tempFilePath,
+  //       name: 'file',
+  //       header: {
+  //         'Authorization': app.globalData.token
+  //       }
+  //     });
+  //     wx.hideLoading();
 
-      if (res.statusCode === 200 && JSON.parse(res.data).code === 200) {
-        wx.showToast({
-          title: '上传成功',
-          icon: 'success'
-        });
-        // 更新用户信息
-        app.refreshUserInfo();
-      } else {
-        throw new Error(res.data.message || '上传失败');
-      }
-    } catch (error) {
-      wx.hideLoading();
-      wx.showToast({
-        title: error.message || '上传失败',
-        icon: 'none'
-      });
-      console.error('上传失败:', error);
-    }
-  },
+  //     if (res.statusCode === 200 && JSON.parse(res.data).code === 200) {
+  //       wx.showToast({
+  //         title: '上传成功',
+  //         icon: 'success'
+  //       });
+  //       // 更新用户信息
+  //       app.refreshUserInfo();
+  //     } else {
+  //       throw new Error(res.data.message || '上传失败');
+  //     }
+  //   } catch (error) {
+  //     wx.hideLoading();
+  //     wx.showToast({
+  //       title: error.message || '上传失败',
+  //       icon: 'none'
+  //     });
+  //     console.error('上传失败:', error);
+  //   }
+  // },
 
   // 上传头像到服务器
-  uploadAvatar: async function (tempFilePath) {
-    const that = this;
-    wx.showLoading({
-      title: '上传中...',
-    });
+  // uploadAvatar: async function (tempFilePath) {
+  //   const that = this;
+  //   wx.showLoading({
+  //     title: '上传中...',
+  //   });
 
-    try {
-      const res = await promisifyUploadFile({
-        url: `${app.globalData.baseUrl}/user/uploadavatar`,
-        filePath: tempFilePath,
-        name: 'file',
-        header: {
-          'Authorization': app.globalData.token
-        }
-      });
-      wx.hideLoading();
-      console.log(res)
+  //   try {
+  //     const res = await promisifyUploadFile({
+  //       url: `${app.globalData.baseUrl}/user/uploadavatar`,
+  //       filePath: tempFilePath,
+  //       name: 'file',
+  //       header: {
+  //         'Authorization': app.globalData.token
+  //       }
+  //     });
+  //     wx.hideLoading();
+  //     console.log(res)
 
-      if (res.statusCode === 200 && JSON.parse(res.data).code === 200) {
-        wx.showToast({
-          title: '上传成功',
-          icon: 'success'
-        });
-        app.refreshUserInfo();
-      } else {
-        throw new Error(res.data.message || '上传失败');
-      }
-    } catch (error) {
-      wx.showToast({
-        title: error.message || '上传失败',
-        icon: 'none'
-      });
-      console.error('上传失败:', error);
-    }
-  },
-  updateInfo(e) {
+  //     if (res.statusCode === 200 && JSON.parse(res.data).code === 200) {
+  //       wx.showToast({
+  //         title: '上传成功',
+  //         icon: 'success'
+  //       });
+  //       app.refreshUserInfo();
+  //     } else {
+  //       throw new Error(res.data.message || '上传失败');
+  //     }
+  //   } catch (error) {
+  //     wx.showToast({
+  //       title: error.message || '上传失败',
+  //       icon: 'none'
+  //     });
+  //     console.error('上传失败:', error);
+  //   }
+  // },
+  async updateInfo(e) {
     const formData = e.detail.value;
     console.log('表单', formData)
     const info = {
@@ -175,42 +207,58 @@ Page({
       projectOrientation: this.data.projectOrientation
     }
     console.log('上传 UserProfile', info)
-    wx.request({
-      url: `${app.globalData.baseUrl}/user/update`,
-      method: 'POST',
-      header: {
-        'Authorization': app.globalData.token
-      },
-      data: info,
-      success(res) {
-        console.log(res.data)
-        wx.showToast({
-          title: '用户信息已更新',
-          icon: 'success'
-        })
-        app.refreshUserInfo()
-      },
-      fail(err) {
-        console.error(err)
-      }
-    })
+    const res = await updateUserInfoService(info);
+    console.log("修改个人信息结果：", res)
+    if (res.code === 200) {
+      // 获取用户信息
+      const {data} = await getUserInfoService();
+      console.log(data)
+      // 将用户信息存储到本地
+      setStorage('userInfo', data);
+
+      // 将用户信息存储到store对象
+      this.setUserInfo(data);
+
+      app.globalData.userInfo = data
+      
+      wx.toast({ title: '用户信息更新成功' })
+    }
+    // wx.request({
+    //   url: `${app.globalData.baseUrl}/user/update`,
+    //   method: 'POST',
+    //   header: {
+    //     'Authorization': app.globalData.token
+    //   },
+    //   data: info,
+    //   success(res) {
+    //     console.log(res.data)
+    //     wx.showToast({
+    //       title: '用户信息已更新',
+    //       icon: 'success'
+    //     })
+    //     app.refreshUserInfo()
+    //   },
+    //   fail(err) {
+    //     console.error(err)
+    //   }
+    // })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    const userInfo = app.globalData.userInfo
+    // const userInfo = app.globalData.userInfo
     this.setData({
-      traits: this.formatMBTI(userInfo.mbti),
+      traits: this.formatMBTI(this.data.userInfo.mbti),
       formData: {
-        nickname: userInfo.nickname,
-        school: userInfo.school,
-        major: userInfo.major,
-        persona: userInfo.persona, // 人设
-        introduction: userInfo.introduction,
+        nickname: this.data.userInfo.nickname,
+        school: this.data.userInfo.school,
+        major: this.data.userInfo.major,
+        persona: this.data.userInfo.persona, // 人设
+        introduction: this.data.userInfo.introduction,
       },
-      grade: userInfo.grade,
-      projectOrientation: userInfo.projectOrientation,
+      grade: this.data.userInfo.grade,
+      projectOrientation: this.data.userInfo.projectOrientation,
     })
   },
 
