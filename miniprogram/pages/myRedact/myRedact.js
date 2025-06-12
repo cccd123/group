@@ -1,3 +1,5 @@
+import { promisifyUploadFile } from "../../app";
+
 // pages/myRedact/myRedact.js
 const app = getApp()
 Page({
@@ -90,101 +92,77 @@ Page({
     })
   },
   // 上传封面到服务器
-  uploadCover: function (tempFilePath) {
+  uploadCover: async function (tempFilePath) {
     const that = this;
     wx.showLoading({
       title: '上传中...',
     });
-
-    wx.uploadFile({
-      url: `${app.globalData.baseUrl}/user/uploadbg`,
-      filePath: tempFilePath,
-      name: 'file',
-      header: {
-        'Authorization': app.globalData.token
-      },
-      success(res) {
-        wx.hideLoading();
-        if (res.statusCode === 200) {
-          const data = JSON.parse(res.data);
-          if (data.code === 200) {
-            wx.showToast({
-              title: '上传成功',
-              icon: 'success'
-            });
-
-            app.refreshUserInfo()
-            that.setData({
-              'userInfo': wx.getStorageSync('userInfo')
-            });
-
-          } else {
-            console.error(data)
-            wx.showToast({
-              title: data.message || '上传失败',
-              icon: 'none'
-            });
-          }
-        } else {
-          wx.showToast({
-            title: '上传失败',
-            icon: 'none'
-          });
+    try {
+      const res = await promisifyUploadFile({
+        url: `${app.globalData.baseUrl}/user/uploadbg`,
+        filePath: tempFilePath,
+        name: 'file',
+        header: {
+          'Authorization': app.globalData.token
         }
-      },
-      fail(err) {
-        wx.hideLoading();
+      });
+      wx.hideLoading();
+
+      if (res.statusCode === 200 && res.data.code === 200) {
         wx.showToast({
-          title: '上传失败',
-          icon: 'none'
+          title: '上传成功',
+          icon: 'success'
         });
-        console.error('上传失败:', err);
+        // 更新用户信息
+        app.refreshUserInfo();
+      } else {
+        throw new Error(res.data.message || '上传失败');
       }
-    });
+    } catch (error) {
+      wx.hideLoading();
+      wx.showToast({
+        title: error.message || '上传失败',
+        icon: 'none'
+      });
+      console.error('上传失败:', error);
+    }
   },
+
   // 上传头像到服务器
-  uploadAvatar: function (tempFilePath) {
+  uploadAvatar: async function (tempFilePath) {
     const that = this;
     wx.showLoading({
       title: '上传中...',
     });
 
-    wx.uploadFile({
-      url: `${app.globalData.baseUrl}/user/uploadavatar`,
-      filePath: tempFilePath,
-      name: 'file',
-      header: {
-        'Authorization': app.globalData.token
-      },
-      success(res) {
-        wx.hideLoading();
-        if (res.statusCode === 200) {
-          wx.showToast({
-            title: res.data,
-            icon: 'success'
-          });
-
-          app.refreshUserInfo()
-          that.setData({
-            'userInfo': wx.getStorageSync('userInfo')
-          });
-        } else {
-          console.error(JSON.stringify(res.data))
-          wx.showToast({
-            title: res.message || '上传失败',
-            icon: 'none'
-          });
+    try {
+      const res = await promisifyUploadFile({
+        url: `${app.globalData.baseUrl}/user/uploadavatar`,
+        filePath: tempFilePath,
+        name: 'file',
+        header: {
+          'Authorization': app.globalData.token
         }
-      },
-      fail(err) {
-        wx.hideLoading();
+      });
+      wx.hideLoading();
+      console.log(res)
+
+      if (res.statusCode === 200 && res.data.code === 200) {
         wx.showToast({
-          title: '上传失败',
-          icon: 'none'
+          title: '上传成功',
+          icon: 'success'
         });
-        console.error('上传失败:', err);
+        app.refreshUserInfo();
+      } else {
+        throw new Error(res.data.message || '上传失败');
       }
-    });
+    } catch (error) {
+      wx.showToast({
+        title: error.message || '上传失败',
+        icon: 'none'
+      });
+      console.error('上传失败:', error);
+    }
   },
   updateInfo(e) {
     const formData = e.detail.value;
@@ -221,7 +199,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    app.refreshUserInfo()
     const userInfo = app.globalData.userInfo
     this.setData({
       traits: this.formatMBTI(userInfo.mbti),

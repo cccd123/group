@@ -3,9 +3,7 @@ Page({
   /**
    * 页面的初始数据
    */
-  data: {
-    userInfo: null
-  },
+  data: {},
 
   infoLookfor(e){
     wx.navigateTo({
@@ -48,11 +46,14 @@ Page({
    */
   onShow: function () {
     const userInfo = app.globalData.userInfo;
+    console.log('index onshow', userInfo)
     if (userInfo) {
+      console.log(false)
       this.setData({
         userInfo: false
       });
     } else {
+      console.log(true)
       this.setData({
         userInfo: true
       });

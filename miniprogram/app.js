@@ -8,6 +8,15 @@ export const promisifyRequest = (options) => {
     });
   });
 };
+export const promisifyUploadFile = (options) => {
+  return new Promise((resolve, reject) => {
+    wx.uploadFile({
+      ...options,
+      success: (res) => resolve(res),
+      fail: (err) => reject(err)
+    });
+  });
+}
 App({
   onLaunch: function () {
     if (!wx.cloud) {
@@ -28,6 +37,7 @@ App({
   globalData: {
     baseUrl: 'http://114.55.85.236:8080',
     // baseUrl: 'http://localhost:8080',
+    storeUrl: 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img',
     userInfo: null,
     token: null
   },
@@ -35,46 +45,39 @@ App({
     this.globalData.token = token
     wx.setStorageSync('token', token)
   },
-  refreshUserInfo() {
-    wx.request({
-      url: `${this.globalData.baseUrl}/user/getuserinfo`,
-      method: 'GET',
-      header: {
-        'Authorization': this.globalData.token
-      },
-      success(res) {
-        console.log('后端个人信息', res.data.data)
-        wx.setStorageSync('userInfo', res.data.data)
-        getApp().globalData.userInfo = res.data.data
-      },
-      fail(err) {
-        console.error(err.message)
-      }
-    })
+  setUserInfo(info) {
+    this.globalData.userInfo = info
+    wx.setStorageSync('userInfo', info)
+    console.log('setUserInfo', info)
+  },
+  async refreshUserInfo() {
+    try {
+      const { data } = await promisifyRequest({
+        url: `${this.globalData.baseUrl}/user/getuserinfo`,
+        method: 'GET',
+        header: {
+          'Authorization': this.globalData.token
+        },
+      })
+      this.setUserInfo(data.data)
+    } catch (e) {
+      console.error('refreshUserInfo', e)
+    }
   },
   async login() {
     const code = (await wx.login()).code
-    wx.request({
+    const { data } = await promisifyRequest({
       url: `${this.globalData.baseUrl}/user/login`,
       method: 'POST',
       data: 'jsCode=' + code,  // 改为字符串格式
       header: {
         'content-type': 'application/x-www-form-urlencoded',
       },
-      success: (res) => {
-        if (res.data.code === 200) {
-          this.setToken(res.data.data)
-          this.refreshUserInfo()
-          wx.switchTab({
-            url: '../index/index',
-          })
-        } else {
-          throw new Error(loginRes.data.message || '登录失败');
-        }
-      },
-      fail(e) {
-        console.error(e)
-      }
     })
+    if (data.code === 200) {
+      this.setToken(data.data)
+      await this.refreshUserInfo()
+      wx.navigateBack()
+    }
   }
 });

@@ -15,7 +15,7 @@
   </view>
 
   <view class="login-container" wx:if="{{userInfo}}">
-    <view class="login" wx:if="{{userInfo}}">
+    <view class="login">
       <view>
         <text>请先登录</text>
         <text>请先登录或注册后进行下一步操作。</text>
