@@ -1,0 +1,102 @@
+<view class="content">
+	<view class="header">
+    <view class="header-title">
+      <view class="header-title-name {{ state === '1' ? 'active' : '' }}" data-state="1" bindtap="state">未筛选</view>
+      <view class="header-title-name {{ state === '2' ? 'active' : '' }}" data-state="2" bindtap="state">通过</view>
+			<view class="header-title-name {{ state === '3' ? 'active' : '' }}" data-state="3" bindtap="state">拒绝</view>
+    </view>
+  </view>
+
+	<view class="body" wx:if="{{state === '1'}}">
+    <view bind:tap="unUserinfo">
+      <view>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
+        <text>小明明</text>
+      </view>
+      <view>
+        <text>泉州信息工程学院</text>
+      </view>
+    </view>
+    <view>
+      <view>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
+        <text>小明</text>
+      </view>
+      <view>
+        <text>泉州信息工程学院</text>
+      </view>
+    </view>
+    <view>
+      <view>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
+        <text>小明</text>
+      </view>
+      <view>
+        <text>泉州信息工程学院</text>
+      </view>
+    </view>
+	</view>
+
+  <view class="body" wx:if="{{state === '2'}}">
+    <view class="pass">
+      <text>筛选通过的同学平台将开放您的预留邮箱，请留意邮箱中的简历信息。</text>
+    </view>
+    <view>
+      <view bind:tap="userinfo">
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
+        <text>高明</text>
+      </view>
+      <view>
+        <text>泉州信息工程学院</text>
+      </view>
+    </view>
+    <view>
+      <view>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
+        <text>黄小小</text>
+      </view>
+      <view>
+        <text>泉州信息工程学院</text>
+      </view>
+    </view>
+    <view>
+      <view>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
+        <text>小明</text>
+      </view>
+      <view>
+        <text>泉州信息工程学院</text>
+      </view>
+    </view>
+	</view>
+
+  <view class="body" wx:if="{{state === '3'}}">
+    <view>
+      <view>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
+        <text>庄小峰</text>
+      </view>
+      <view>
+        <text>泉州信息工程学院</text>
+      </view>
+    </view>
+    <view>
+      <view>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
+        <text>小明</text>
+      </view>
+      <view>
+        <text>泉州信息工程学院</text>
+      </view>
+    </view>
+    <view>
+      <view>
+        <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg"></image>
+        <text>小明</text>
+      </view>
+      <view>
+        <text>泉州信息工程学院</text>
+      </view>
+    </view>
+	</view>
+</view>
