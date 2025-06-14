@@ -4,6 +4,10 @@ export const loginService = (params) => {
   return http.post(`/user/login1/${params}`)
 }
 
+export const registService = (params) => {
+  return http.post(`/user/region`, params)
+}
+
 export const getUserInfoService = () => {
   return http.get('/user/getuserinfo')
 }

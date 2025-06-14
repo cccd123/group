@@ -6,6 +6,9 @@ export const userStore = observable({
   token: getStorage('token') || '',
 
   userInfo: getStorage('userInfo') || '',
+  
+  // 目前没有通过schoolId获取学校信息的api，所以这里先存储schoolInfo
+  schoolInfo: getStorage('schoolInfo') || '',
 
   isLogin: false,
   
@@ -19,5 +22,10 @@ export const userStore = observable({
 
   setUserInfo: action(function(userInfo) {
     this.userInfo = userInfo
+  }),
+  
+  // 目前没有通过schoolId获取学校信息的api，所以这里先存储schoolInfo
+  setSchoolInfo: action(function(schoolInfo) {
+    this.schoolInfo = schoolInfo
   })
 })

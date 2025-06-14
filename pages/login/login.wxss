@@ -28,7 +28,7 @@
 	flex-direction: column;
 }
 
-.login1 > view:nth-child(1){
+.login1-title {
 	display: flex;
   flex-direction: column;
   color: #fff;
@@ -39,43 +39,42 @@
   text-align: right; /* 右对齐 */
 }
 
-.login1 > view:nth-child(2){
+.login1-kuaizuimg {
   margin-top: 50rpx;
   display: flex;
   justify-content: flex-end;
 }
-.login1 > view:nth-child(2) > image{
+.login1-kuaizuimg > image {
   width: 120rpx;
   height: 120rpx;
   margin-right: 50rpx;
 }
 
-.login1 > view:nth-child(3){
+.login1-buttons {
   display: flex;
   flex-direction: column;
   margin-top: 500rpx;
 }
-.login1 > view:nth-child(3) > button{
+.login1-buttons > button{
   margin-top: 30rpx;
   width: 80%;
   line-height: 60rpx;
   border-radius: 50rpx;
   font-size: 50rpx;
 }
-.login1 > view:nth-child(3) > button:nth-child(1){
+.btn-login {
   background-color: #000;
   color: #fff;
   font-weight: normal;
 }
-.login1 > view:nth-child(3) > button:nth-child(2){
+.btn-regist {
   background-color: #fff;
   color: #000;
   font-weight: bold;
   border: 5rpx solid #000;
 }
 
-/* login2 */
-.login2{
+.login2 {
   padding: 60rpx 40rpx;
   display: flex;
   height: 1000rpx;

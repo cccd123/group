@@ -1,5 +1,7 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "schoolpicker": "/components/schoolpicker/schoolpicker"
+  },
   "navigationBarTitleText": "注册",
   "disableScroll": true
 }

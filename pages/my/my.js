@@ -1,4 +1,3 @@
-const app = getApp()
 import { ComponentWithStore } from 'mobx-miniprogram-bindings'
 import { userStore } from '../../store/userStore'
 import { clearStorage } from '../../utils/storage'
@@ -14,7 +13,7 @@ ComponentWithStore({
 
   storeBindings: {
     store: userStore,
-    fields: ['token', 'userInfo'],
+    fields: ['token', 'userInfo', 'schoolInfo'],
     actions: ['setToken', 'setUserInfo', 'setIsLogin']
   },
 
@@ -24,11 +23,6 @@ ComponentWithStore({
         showModal: true,
         showOverlay: true
       });
-    },
-    myOrder() {
-      wx.navigateTo({
-        url: '../myOrder/myOrder',
-      })
     },
 
     //表单反馈
@@ -68,8 +62,6 @@ ComponentWithStore({
       wx.navigateTo({
         url: '../interested/interested',
       })
-
-
     },
 
     servicePeople() {
@@ -97,12 +89,11 @@ ComponentWithStore({
       this.setIsLogin(false)
       // app.globalData.token = ''
       // app.globalData.userInfo = ''
-
       // ！！！是否需要做一些什么提示或者弹窗 来告知用户已经退出登录！！！
       // wx.navigateTo({
       //   url: '../login/login',
       // })
- 
+
       // 跳转首页
     }
   }

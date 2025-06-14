@@ -1,17 +1,16 @@
 // pages/login/login.js
 const app = getApp();
-import { promisifyRequest } from '../../app'
 import { ComponentWithStore } from 'mobx-miniprogram-bindings'
 import { userStore } from '../../store/userStore'
-import { loginService, getUserInfoService } from '../../api/user'
+import { loginService, getUserInfoService, registService } from '../../api/user'
 import { setStorage } from '../../utils/storage'
 ComponentWithStore({
 
   // 让页面和store对象建立联系
   storeBindings: {
     store: userStore,
-    fields: ['token','userInfo', 'isLogin'],
-    actions: ['setToken','setUserInfo', 'setIsLogin']
+    fields: ['token', 'userInfo', 'isLogin', 'schoolInfo'],
+    actions: ['setToken', 'setUserInfo', 'setIsLogin', 'setSchoolInfo']
   },
 
   /**
@@ -53,37 +52,20 @@ ComponentWithStore({
     },
 
     //获取手机号码
-    login2() {
+    async login2() {
+      // 只是为了获取token，在注册之前要查询学校信息
+      const code = (await wx.login()).code
+      const res = await loginService(code);
+      console.log(res);
+
+      setStorage('token', res.data)
+      app.globalData.token = res.data
+      this.setToken(res.data)
+
       this.setData({
         login: 3
       });
     },
-
-    // 后端获取微信手机号快捷注册
-    // getPhoneNumber(e) {
-    //   if (e.detail.code) {
-    //     // 将code发送到后端
-    //     wx.request({
-    //       url: 'http://localhost:3000/getPhoneNumber',
-    //       method: 'POST',
-    //       data: { code: e.detail.code },
-    //       success: (res) => {
-    //         const phoneNumber = res.data.phoneNumber
-    //         this.setData({
-    //           userPhone: phoneNumber
-    //         })
-    //       },
-    //       fail: (err) => {
-    //         console.error('请求失败', err)
-    //       }
-    //     })
-    //   } else {
-    //     console.error('用户拒绝授权或获取失败', e.detail)
-    //   };
-    //   this.setData({
-    //     login: 4
-    //   })
-    // },
 
     // 前端获取微信手机号快捷注册
     getPhoneNumber(e) {
@@ -184,6 +166,19 @@ ComponentWithStore({
         inSchool: inSchool
       })
     },
+    onSchoolChange(e) {
+      const selectedSchool = e.detail.school;
+      console.log('Selected school:', selectedSchool);
+      
+      this.setData({
+        inSchool: selectedSchool.id
+      });
+      this.setSchoolInfo(selectedSchool); // 更新store中的学校信息
+      setStorage('schoolInfo', selectedSchool); // 同步到本地存储
+      console.log('Updated inSchool:', this.data.inSchool);
+      console.log('Updated schoolInfo in store:', this.store.schoolInfo);
+    },
+
     grade(e) {
       const grade = e.detail.value;
       this.setData({
@@ -197,7 +192,6 @@ ComponentWithStore({
       })
     },
     async fastLogin() {
-      // await app.login()
       const code = (await wx.login()).code
       const res = await loginService(code);
       console.log(res);
@@ -213,7 +207,7 @@ ComponentWithStore({
     },
 
     async getUserInfo() {
-      const {data} = await getUserInfoService();
+      const { data } = await getUserInfoService();
 
       // 将用户信息存储到本地
       setStorage('userInfo', data);
@@ -230,30 +224,24 @@ ComponentWithStore({
       try {
         // 1. 注册逻辑
         if (!this.data.registed) {
-          const registerRes = await promisifyRequest({
-            url: `${app.globalData.baseUrl}/user/region`,
-            method: 'POST',
-            data: {
-              jsCode: (await wx.login()).code,
-              phone: userPhone,
-              nickname: userName,
-              email: userEmail,
-              school: inSchool,
-              grade: grade,
-              major: schoolMajor,
-            }
+          const res = await registService({
+            jsCode: (await wx.login()).code,
+            phone: userPhone,
+            nickname: userName,
+            email: userEmail,
+            school: inSchool,
+            grade: grade,
+            major: schoolMajor,
           });
-          if (registerRes.data.code === 200) {
-            this.setData({ registed: true }); // 同步更新状态
-            app.setToken(registerRes.data.data)
-            wx.showToast({ title: '注册成功', icon: 'success' });
-          } else {
-            throw new Error(registerRes.data.message || '注册失败');
+          console.log(res)
+          if (res.code !== 200) {
+            throw new Error(res.message || '注册失败，请稍后再试');
           }
+          wx.showToast({ title: '注册成功', icon: 'success' });
+          this.setData({ registed: true }); // 同步更新状态
         }
         // 2. 登录逻辑（注册成功后或已注册时执行）
         if (this.data.registed) {
-          // await app.login()
           this.fastLogin()
         }
       } catch (err) {
@@ -261,5 +249,11 @@ ComponentWithStore({
         wx.showToast({ title: err.message, icon: 'none' });
       }
     }
+  },
+  onSchoolChange(e) {
+    const selectedSchool = e.detail.school;
+    this.setData({
+      inSchool: selectedSchool
+    });
   }
 })

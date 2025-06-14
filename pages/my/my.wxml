@@ -12,7 +12,7 @@
     <view class="main1">
       <text class="nickname">{{ userInfo.nickname }}</text>
       <view class="schoolView">
-        <text class="school">{{ userInfo.school }}</text>
+        <text class="school">{{ schoolInfo.schoolname }}</text>
         <text bind:tap="schoolAccreditation">快速认证→</text>
       </view>
       <text>{{ userInfo.introduction || '简介：擅长吹牛，创新还不错，但是希望可以落地。'}}</text>
@@ -55,15 +55,6 @@
         <view>
           <image class="main3-image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/myTeam.png"></image>
           <text>我的组队</text>
-        </view>
-        <text>></text>
-      </view>
-
-      <view class="main3-item" bind:tap="myOrder">
-        <view>
-          <image class="main3-image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/myOrder.png"></image>
-           <!-- ！！！需要更换图片素材！！！ -->
-          <text>我的订单</text>
         </view>
         <text>></text>
       </view>

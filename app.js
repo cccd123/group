@@ -1,23 +1,22 @@
 // app.js
-import './utils/extendApi'
-export const promisifyRequest = (options) => {
-  return new Promise((resolve, reject) => {
-    wx.request({
-      ...options,
-      success: (res) => resolve(res),
-      fail: (err) => reject(err)
-    });
-  });
-};
-export const promisifyUploadFile = (options) => {
-  return new Promise((resolve, reject) => {
-    wx.uploadFile({
-      ...options,
-      success: (res) => resolve(res),
-      fail: (err) => reject(err)
-    });
-  });
-}
+// export const promisifyRequest = (options) => {
+//   return new Promise((resolve, reject) => {
+//     wx.request({
+//       ...options,
+//       success: (res) => resolve(res),
+//       fail: (err) => reject(err)
+//     });
+//   });
+// };
+// export const promisifyUploadFile = (options) => {
+//   return new Promise((resolve, reject) => {
+//     wx.uploadFile({
+//       ...options,
+//       success: (res) => resolve(res),
+//       fail: (err) => reject(err)
+//     });
+//   });
+// }
 App({
   onLaunch: function () {
     if (!wx.cloud) {
@@ -44,43 +43,27 @@ App({
 	token: null,
 	userOpenid: null
   },
-  setToken(token) {
-    this.globalData.token = token
-    wx.setStorageSync('token', token)
-  },
-  setUserInfo(info) {
-    this.globalData.userInfo = info
-    wx.setStorageSync('userInfo', info)
-    console.log('setUserInfo', info)
-  },
-  async refreshUserInfo() {
-    try {
-      const { data } = await promisifyRequest({
-        url: `${this.globalData.baseUrl}/user/getuserinfo`,
-        method: 'GET',
-        header: {
-          'Authorization': this.globalData.token
-        },
-      })
-      this.setUserInfo(data.data)
-    } catch (e) {
-      console.error('refreshUserInfo', e)
-    }
-  },
-  async login() {
-    const code = (await wx.login()).code
-    const { data } = await promisifyRequest({
-      url: `${this.globalData.baseUrl}/user/login`,
-      method: 'POST',
-      data: 'jsCode=' + code,  // 改为字符串格式
-      header: {
-        'content-type': 'application/x-www-form-urlencoded',
-      },
-    })
-    if (data.code === 200) {
-      this.setToken(data.data)
-      await this.refreshUserInfo()
-      wx.navigateBack()
-    }
-  }
+  // setToken(token) {
+  //   this.globalData.token = token
+  //   wx.setStorageSync('token', token)
+  // },
+  // setUserInfo(info) {
+  //   this.globalData.userInfo = info
+  //   wx.setStorageSync('userInfo', info)
+  //   console.log('setUserInfo', info)
+  // },
+  // async refreshUserInfo() {
+  //   try {
+  //     const { data } = await promisifyRequest({
+  //       url: `${this.globalData.baseUrl}/user/getuserinfo`,
+  //       method: 'GET',
+  //       header: {
+  //         'Authorization': this.globalData.token
+  //       },
+  //     })
+  //     this.setUserInfo(data.data)
+  //   } catch (e) {
+  //     console.error('refreshUserInfo', e)
+  //   }
+  // },
 });
