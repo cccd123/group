@@ -1,51 +1,114 @@
-<!-- pages/interested/interested.wxml -->
-<view class="content">
-  <block wx:for="{{projectList}}" wx:key="id" wx:for-index="index" wx:for-item="project">
-    <view class="body {{project.status === 'accept' ? 'accept' : 'refuse'}}">
-      <view class="body-header">
-        {{project.status === 'accept' ? '祝贺您，项目小队向您发出进一步了解的请求' : '已投递，暂无反馈'}}
+<!--pages/interested/interested.wxml-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">我投递的项目</text>
+  </view>
+
+  <!-- 项目列表 -->
+  <view class="project-list" wx:if="{{projectList.length > 0}}">
+    <view class="project-item" wx:for="{{projectList}}" wx:key="id">
+      <!-- 审核状态标签 -->
+      <view class="status-badge" style="background-color: {{item.statusColor}}">
+        {{item.statusText}}
       </view>
-      <view class="body-main">
-        <view>
-          <text>项目简要信息</text>
-          <text>{{project.schoolName || ''}}</text>
+      
+      <!-- 项目信息卡片 -->
+      <view class="project-card">
+        <!-- 项目标题 -->
+        <view class="project-header">
+          <text class="project-name">{{item.projectName || '项目名称'}}</text>
+          <text class="school-name">{{item.school || '学校'}}</text>
         </view>
         
-        <view>
-          <text>{{project.description || ''}}</text>
+        <!-- 项目描述 -->
+        <view class="project-info">
+          <text class="project-description">{{item.projectInfo || '项目描述'}}</text>
         </view>
         
-        <view>
-          <view>
-            <text>学校要求</text>
-            <text>{{project.educationRequirement || ''}}</text>
+        <!-- 项目详情 -->
+        <view class="project-details">
+          <view class="detail-row">
+            <view class="detail-item">
+              <text class="detail-label">学历要求</text>
+              <text class="detail-value">{{item.educationRequirement || '不限'}}</text>
+            </view>
+            <view class="detail-item">
+              <text class="detail-label">技能要求</text>
+              <text class="detail-value">{{item.skillSummary || '暂无'}}</text>
+            </view>
           </view>
-          <view>
-            <text>技能要求</text>
-            <text>{{project.skillRequirement || ''}}</text>
+          
+          <view class="detail-row">
+            <view class="detail-item">
+              <text class="detail-label">招募人数</text>
+              <text class="detail-value">{{item.memberCount || 0}}人</text>
+            </view>
+            <view class="detail-item">
+              <text class="detail-label">跨校合作</text>
+              <text class="detail-value">{{item.crossSchool ? '支持' : '不支持'}}</text>
+            </view>
           </view>
         </view>
         
-        <view>
+        <!-- 操作按钮区域 -->
+        <view class="action-buttons">
+          <!-- 查看审核结果按钮 -->
           <button 
-            bindtap="deleteProject" 
-            data-id="{{project.id}}" 
-            data-index="{{index}}">
-            删除
+            class="btn btn-info" 
+            data-item="{{item}}"
+            bindtap="viewApprovalDetail">
+            查看审核结果
           </button>
+          
+          <!-- 联系项目方按钮（仅当状态为已通过时显示） -->
           <button 
-            bindtap="nextStep" 
-            data-id="{{project.id}}" 
-            data-status="{{project.status}}">
-            下一步
+            wx:if="{{item.isApproved === 1}}" 
+            class="btn btn-success" 
+            data-item="{{item}}"
+            bindtap="contactCreator">
+            联系项目方
           </button>
+          
+          <!-- 已拒绝状态提示 -->
+          <view wx:if="{{item.isApproved === 2}}" class="rejected-tip">
+            <text>申请已被拒绝</text>
+          </view>
+          
+          <!-- 撤销按钮（仅待审核状态可撤销） -->
+          <button 
+            class="btn btn-danger" 
+            data-id="{{item.id}}"
+            data-index="{{index}}"
+            disabled="{{item.isApproved !== 0}}"
+            bindtap="withdrawApplication">
+            {{item.isApproved === 0 ? '撤销' : '已处理'}}
+          </button>
+        </view>
+        
+        <!-- 时间信息 -->
+        <view class="time-info">
+          <text class="time-text">申请时间: {{item.createdAt || '未知'}}</text>
+          <text class="time-text" wx:if="{{item.updatedAt}}">更新时间: {{item.updatedAt}}</text>
         </view>
       </view>
     </view>
-  </block>
-  
-  <!-- 空状态提示 -->
-  <view wx:if="{{projectList.length === 0}}" class="empty-state">
-    <text>暂无项目数据</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{projectList.length === 0 && !pageInfo.loading}}">
+    <image class="empty-icon" src="/images/empty-project.png" mode="aspectFit"></image>
+    <text class="empty-text">暂无投递的项目</text>
+    <text class="empty-tip">快去投递感兴趣的项目吧～</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-state" wx:if="{{pageInfo.loading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 加载更多提示 -->
+  <view class="load-more" wx:if="{{!pageInfo.hasMore && projectList.length > 0}}">
+    <text class="load-more-text">没有更多了</text>
   </view>
 </view>

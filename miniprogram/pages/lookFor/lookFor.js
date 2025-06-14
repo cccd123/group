@@ -19,7 +19,17 @@ Page({
     },
     
     // 用户学校信息
-    userSchool: '', // 从用户信息中获取或设置
+    userSchool: '', // 用户学校名称
+    userSchoolId: null, // 用户学校ID，改为数字类型
+    
+    // 学校ID到名称的映射
+    schoolNames: {
+      1: '泉州信息工程学院',
+      2: '华侨大学',
+      3: '福州大学',
+      4: '厦门大学',
+      // 可以根据实际情况添加更多学校
+    }
   },
 
   /**
@@ -32,10 +42,9 @@ Page({
     if (token) {
       return {
         'content-type': 'application/json',
-        'Authorization': token  // 直接使用token，不加Bearer前缀
+        'Authorization': token  
       };
     } else {
-      // 如果没有token，先尝试登录或提示用户登录
       this.checkLoginStatus();
       return {
         'content-type': 'application/json'
@@ -58,9 +67,8 @@ Page({
         confirmText: '去登录',
         success: (res) => {
           if (res.confirm) {
-            // 跳转到登录页面
             wx.navigateTo({
-              url: '/pages/login/login' // 根据你的登录页面路径调整
+              url: '/pages/login/login'
             });
           }
         }
@@ -68,6 +76,16 @@ Page({
       return false;
     }
     return true;
+  },
+
+  /**
+   * 根据学校ID获取学校名称
+   */
+  getSchoolNameById(schoolId) {
+    if (!schoolId && schoolId !== 0) return '未知学校';
+    // 确保 schoolId 是数字类型
+    let id = parseInt(schoolId);
+    return this.data.schoolNames[id] || `学校ID: ${id}`;
   },
 
   /**
@@ -88,8 +106,8 @@ Page({
     }
   },
 
-  /**
-   * 跳转到项目详情页面
+   /**
+   * 跳转到项目详情页面并增加阅读量
    */
   projectDetails(e) {
     const projectId = e.currentTarget.dataset.projectId;
@@ -104,9 +122,144 @@ Page({
       return;
     }
 
+    // 增加阅读量
+    this.increaseReadCount(projectId);
+
     wx.navigateTo({
       url: `/pages/projectDetails/projectDetails?projectId=${projectId}`,
     });
+  },
+
+  /**
+   * 增加项目阅读量
+   */
+  increaseReadCount(projectId) {
+    const token = wx.getStorageSync('token');
+    
+    if (!token || !projectId) {
+      return;
+    }
+    
+    wx.request({
+      url: `http://114.55.85.236:8080/project/lookproject/${projectId}`,
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'Authorization': token
+      },
+      data: {
+        projectId: projectId,
+        action: 'view'
+      },
+      success: (res) => {
+        console.log(`增加项目${projectId}阅读量成功：`, res);
+        // 更新本地数据中的阅读量
+        this.updateLocalReadCount(projectId);
+      },
+      fail: (err) => {
+        console.error(`增加项目${projectId}阅读量失败：`, err);
+      }
+    });
+  },
+
+  /**
+   * 更新本地阅读量数据
+   */
+  updateLocalReadCount(projectId) {
+    // 更新所有学校列表
+    const updatedAllProjects = this.data.allProjectList.map(project => {
+      if (project.id === projectId) {
+        return {
+          ...project,
+          readCount: (project.readCount || 0) + 1,
+          lookcount: (project.lookcount || 0) + 1
+        };
+      }
+      return project;
+    });
+    
+    // 更新本校列表
+    const updatedMySchoolProjects = this.data.mySchoolProjectList.map(project => {
+      if (project.id === projectId) {
+        return {
+          ...project,
+          readCount: (project.readCount || 0) + 1,
+          lookcount: (project.lookcount || 0) + 1
+        };
+      }
+      return project;
+    });
+    
+    this.setData({
+      allProjectList: updatedAllProjects,
+      mySchoolProjectList: updatedMySchoolProjects
+    });
+  },
+
+  /**
+   * 处理项目数据，添加格式化信息
+   */
+  processProjectData(projects) {
+    return projects.map(project => {
+      return {
+        ...project,
+        educationText: this.getEducationText(project.educationRequirement),
+        directionText: this.getDirectionText(project.direction),
+        crossSchoolText: this.getCrossSchoolText(project.crossSchool),
+        schoolDisplay: this.getSchoolNameById(project.school), // 显示实际学校名称
+        skillRequirement: this.getCrossSchoolText(project.crossSchool) // 改为显示跨校信息
+      };
+    });
+  },
+
+  /**
+   * 获取学历要求文本
+   */
+  getEducationText(educationRequirement) {
+    // 确保数值类型
+    const education = parseInt(educationRequirement);
+    switch(education) {
+      case 1:
+        return '大专';
+      case 2:
+        return '本科';
+      case 3:
+        return '研究生';
+      default:
+        return '不限';
+    }
+  },
+
+  /**
+   * 获取方向文本
+   */
+  getDirectionText(direction) {
+    const dir = parseInt(direction);
+    switch(dir) {
+      case 1:
+        return '落地';
+      case 2:
+        return '获奖';
+      case 3:
+        return '学习';
+      default:
+        return '其他';
+    }
+  },
+
+  /**
+   * 获取跨校文本
+   */
+  getCrossSchoolText(crossSchool) {
+    const cross = parseInt(crossSchool);
+    switch(cross) {
+      case 1:
+        return '接受跨校';
+      case 0:
+        return '仅接受本校';
+      default:
+        return '仅接受本校';
+    }
   },
 
   /**
@@ -130,7 +283,7 @@ Page({
     const requestData = {
       pageNum: pageInfo.pageNum.toString(),
       pageSize: pageInfo.pageSize.toString()
-      // ❌ 不传 school 参数
+      // 不传 school 参数，获取所有学校的项目
     };
   
     wx.request({
@@ -142,8 +295,11 @@ Page({
         console.log('加载所有项目响应:', res);
         if (res.statusCode === 200 && res.data) {
           const responseData = res.data.data || res.data;
-          const newProjects = responseData.items || [];
-          console.log('返回的第一条项目:', newProjects[0]);
+          const rawProjects = responseData.items || [];
+          console.log('返回的第一条项目:', rawProjects[0]);
+          
+          // 处理项目数据
+          const newProjects = this.processProjectData(rawProjects);
           const total = responseData.total || 0;
           const currentPage = pageInfo.pageNum;
           const totalPages = Math.ceil(total / pageInfo.pageSize);
@@ -170,6 +326,7 @@ Page({
       }
     });
   },
+
   /**
    * 加载本校项目（分页）
    * @param {boolean} refresh - 是否刷新（重置页码）
@@ -177,23 +334,29 @@ Page({
   loadMySchoolProjects(refresh = false) {
     const pageInfo = this.data.mySchoolPageInfo;
     
-    // 检查登录状态
     if (!this.checkLoginStatus()) {
       return;
     }
 
-    // 如果正在加载或没有更多数据，则返回
     if (pageInfo.loading || (!refresh && !pageInfo.hasMore)) {
       return;
     }
 
-    // 刷新时重置页码
+    // 确保有用户学校ID
+    if (!this.data.userSchoolId && this.data.userSchoolId !== 0) {
+      console.log('用户学校ID未获取，先获取用户信息');
+      this.getUserSchool().then(() => {
+        // 获取学校信息后再加载项目
+        this.loadMySchoolProjects(refresh);
+      });
+      return;
+    }
+
     if (refresh) {
       pageInfo.pageNum = 1;
       pageInfo.hasMore = true;
     }
 
-    // 设置加载状态
     this.setData({
       'mySchoolPageInfo.loading': true
     });
@@ -204,26 +367,26 @@ Page({
       data: {
         pageNum: pageInfo.pageNum.toString(),
         pageSize: pageInfo.pageSize.toString(),
-        school: '2' // 2表示仅看我校
+        school: this.data.userSchoolId // 直接传数字，不转换为字符串
       },
       header: this.getAuthHeader(),
       success: (res) => {
         console.log('加载本校项目响应:', res);
         
         if (res.statusCode === 200 && res.data) {
-          // 修复：根据实际API响应结构解析数据
           const responseData = res.data.data || res.data;
-          const newProjects = responseData.items || []; // 使用items字段
+          const rawProjects = responseData.items || [];
+          
+          // 处理项目数据
+          const newProjects = this.processProjectData(rawProjects);
           const total = responseData.total || 0;
           const currentPage = res.data.pageNum || pageInfo.pageNum;
           const totalPages = Math.ceil(total / pageInfo.pageSize);
           
           let updatedList;
           if (refresh) {
-            // 刷新时替换整个列表
             updatedList = newProjects;
           } else {
-            // 加载更多时追加到列表
             updatedList = [...this.data.mySchoolProjectList, ...newProjects];
           }
 
@@ -234,7 +397,6 @@ Page({
             'mySchoolPageInfo.loading': false
           });
 
-          // 刷新时停止下拉刷新
           if (refresh) {
             wx.stopPullDownRefresh();
           }
@@ -260,7 +422,6 @@ Page({
       'mySchoolPageInfo.loading': false
     });
     
-    // 清除可能已过期的token
     wx.removeStorageSync('token');
     
     wx.showModal({
@@ -270,7 +431,6 @@ Page({
       confirmText: '确定',
       success: (res) => {
         if (res.confirm) {
-          // 跳转到登录页面
           wx.navigateTo({
             url: '/pages/login/login'
           });
@@ -303,61 +463,79 @@ Page({
    * 获取用户学校信息
    */
   getUserSchool() {
-    // 检查登录状态
-    if (!this.checkLoginStatus()) {
-      return;
-    }
-    
-    // 方式1: 从本地缓存获取
-    const userSchool = wx.getStorageSync('userSchool');
-    
-    if (userSchool) {
-      this.setData({
-        userSchool: userSchool
-      });
-      return;
-    }
-
-    // 方式2: 从后端API获取用户信息
-    wx.request({
-      url: 'http://114.55.85.236:8080/user/getuserinfo',
-      method: 'GET',
-      header: this.getAuthHeader(),
-      success: (res) => {
-        console.log('获取用户信息响应:', res);
-        
-        if (res.statusCode === 200 && res.data) {
-          // 根据实际API响应结构调整
-          const school = res.data.school || res.data.schoolName;
-          
-          if (school) {
-            this.setData({
-              userSchool: school
-            });
-            // 缓存用户学校信息
-            wx.setStorageSync('userSchool', school);
-          } else {
-            // 如果获取失败，使用默认学校
-            this.setData({
-              userSchool: '泉州信息工程学院'
-            });
-          }
-        } else if (res.statusCode === 401) {
-          this.handleAuthError();
-        } else {
-          // 如果获取失败，使用默认学校
-          this.setData({
-            userSchool: '泉州信息工程学院'
-          });
-        }
-      },
-      fail: (err) => {
-        console.error('获取用户学校信息失败:', err);
-        // 使用默认学校
-        this.setData({
-          userSchool: '泉州信息工程学院'
-        });
+    return new Promise((resolve, reject) => {
+      if (!this.checkLoginStatus()) {
+        reject('未登录');
+        return;
       }
+      
+      wx.request({
+        url: 'http://114.55.85.236:8080/user/school',
+        method: 'GET',
+        header: this.getAuthHeader(),
+        success: (res) => {
+          console.log('获取用户学校信息响应:', res);
+          
+          if (res.statusCode === 200 && res.data) {
+            // 处理实际的API响应结构
+            let schoolId = null;
+            let schoolName = '';
+            
+            // 检查响应数据结构
+            if (res.data.data && Array.isArray(res.data.data) && res.data.data.length > 0) {
+              // 如果data是数组，取第一个元素
+              const userData = res.data.data[0];
+              schoolId = userData.schoolId || userData.school;
+            } else if (res.data.schoolId || res.data.school) {
+              // 如果直接在res.data中
+              schoolId = res.data.schoolId || res.data.school;
+            } else if (res.data.data && res.data.data.schoolId) {
+              // 如果在data对象中
+              schoolId = res.data.data.schoolId || res.data.data.school;
+            }
+            
+            // 确保 schoolId 是数字类型
+            if (schoolId !== null && schoolId !== undefined) {
+              schoolId = parseInt(schoolId);
+              schoolName = this.getSchoolNameById(schoolId);
+              
+              this.setData({
+                userSchoolId: schoolId,
+                userSchool: schoolName
+              });
+              
+              // 缓存用户学校信息
+              wx.setStorageSync('userSchoolId', schoolId);
+              wx.setStorageSync('userSchool', schoolName);
+              
+              console.log('用户学校信息设置成功:', { schoolId, schoolName });
+              resolve({ schoolId, schoolName });
+            } else {
+              // 如果无法获取学校ID，使用默认值
+              console.warn('无法从接口获取学校ID，使用默认值。接口返回:', res.data);
+              const defaultSchoolId = 1;
+              const defaultSchoolName = this.getSchoolNameById(defaultSchoolId);
+              
+              this.setData({
+                userSchoolId: defaultSchoolId,
+                userSchool: defaultSchoolName
+              });
+              
+              resolve({ schoolId: defaultSchoolId, schoolName: defaultSchoolName });
+            }
+          } else if (res.statusCode === 401) {
+            this.handleAuthError();
+            reject('认证失败');
+          } else {
+            console.warn('获取学校信息失败，响应状态:', res.statusCode);
+            reject('获取学校信息失败');
+          }
+        },
+        fail: (err) => {
+          console.error('获取用户学校信息失败:', err);
+          reject('网络请求失败');
+        }
+      });
     });
   },
 
@@ -365,27 +543,32 @@ Page({
    * 页面加载
    */
   onLoad(options) {
-    // 检查登录状态
     if (!this.checkLoginStatus()) {
       return;
     }
     
-    // 获取用户学校信息
-    this.getUserSchool();
-    
-    // 加载所有项目的第一页
-    this.loadAllProjects(true);
+    // 先获取用户学校信息，然后加载所有项目的第一页
+    this.getUserSchool().then(() => {
+      console.log('用户学校信息获取成功，开始加载项目列表');
+      this.loadAllProjects(true);
+    }).catch((err) => {
+      console.error('获取用户学校信息失败:', err);
+      // 即使获取学校信息失败，也要加载所有项目
+      this.loadAllProjects(true);
+    });
   },
 
   /**
    * 页面显示时
    */
   onShow() {
-    // 可以在这里刷新当前标签页的数据
-    // 检查是否有新的token（比如刚登录回来）
     const token = wx.getStorageSync('token');
     if (token && this.data.allProjectList.length === 0) {
-      this.loadAllProjects(true);
+      this.getUserSchool().then(() => {
+        this.loadAllProjects(true);
+      }).catch(() => {
+        this.loadAllProjects(true);
+      });
     }
   },
 
