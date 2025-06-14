@@ -10,37 +10,38 @@ ComponentWithStore({
   // 让页面和store对象建立联系
   storeBindings: {
     store: userStore,
-    fields: ['token','userInfo', 'isLogin']
+    fields: ['token', 'userInfo', 'isLogin']
   },
 
   methods: {
-    infoLookfor(e){
+    infoLookfor(e) {
       wx.navigateTo({
         url: '../lookFor/lookFor'
       })
     },
-  
-    infoIdea(e){
+
+    infoIdea(e) {
       wx.navigateTo({
         url: '../idea/idea',
       })
     },
-  
-    cancelLogin(){
+
+    cancelLogin() {
       this.setData({
         userInfo: false
       })
     },
-  
-    infoLogin(){
+
+    infoLogin() {
       wx.navigateTo({
         url: '../login/login',
       })
     },
-    
+
+    Email_Marketing(e) {
+      wx.navigateTo({
+        url: '../emailMarketing/emailMarketing',
+      })
+    },
   }
-  
-
-  
-
 })

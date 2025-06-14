@@ -280,10 +280,21 @@ Page({
             success: () => {
               // 延迟跳转，让用户看到成功提示
               setTimeout(() => {
-                // 根据你的业务逻辑跳转到相应页面
-                wx.navigateBack({
-                  delta: 1
-                });
+				// 根据你的业务逻辑跳转到相应页面
+				if (!requestData.emailPromotion)
+				{
+					wx.navigateBack({
+						delta: 1
+					});
+				}
+				else if(requestData.emailPromotion === true)
+				{
+					wx.redirectTo({			// ！！！等待后端接口修改 处理正确处理projectId！！！
+					//   url: `../emailMarketing/emailMarketing?projectid=${projectId}`,
+					  url: `../emailMarketing/emailMarketing?projectid=${14}`,
+					})
+				}
+                
                 // 或者跳转到项目列表页面
                 // wx.redirectTo({
                 //   url: '/pages/project-list/project-list'

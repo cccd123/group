@@ -1,0 +1,123 @@
+<!--pages/emailMarketing/emailMarketing.wxml-->
+<view class="container">
+	<view style="font-weight: bold; font-size: larger;">项目信息</view>
+	<button wx:if="{{!selectProject}}" bindtap="onSelectProject" class="project-select-btn">选择项目</button>
+	<view wx:elif="{{selectProject === 1}}" class="chosen-info-card">
+		<view class="project-info-card-header">已选项目</view>
+		<view class="project-info-card-body">
+			<view class="project-info-card-field">
+				<view class="project-info-card-label">项目ID：</view>
+				<view class="project-info-card-value">{{selectedProject.id}}</view>
+			</view>
+			<view class="project-info-card-field">
+				<view class="project-info-card-label">项目名称：</view>
+				<view class="project-info-card-value">{{selectedProject.name}}</view>
+			</view>
+			<view class="project-info-card-field">
+				<view class="project-info-card-label">项目详情：</view>
+				<view class="project-info-card-value project-info">{{selectedProject.info}}</view>
+			</view>
+		</view>
+	</view>
+	<button wx:if="{{selectProject === 1}}" bindtap="onResetSelect" class="reset-btn">重新选择</button>
+	
+</view>
+
+<!-- 半透明遮罩 -->
+<view
+  wx:if="{{maskVisible}}"
+  class="mask"
+  animation="{{maskAnimation}}"
+  bindtap="hideProjectPanel"
+/>
+
+<!-- 底部滑出面板 -->
+<view class="panel" animation="{{panelAnimation}}"
+  style="transform-origin: center bottom;">
+	<view class="panel-header">
+    	<view class="panel-title">请选择项目</view>
+    	<button class="panel-close" bindtap="hideProjectPanel">×</button>
+		<!-- ！！！修改关闭按钮的位置！！！ -->
+  	</view>
+
+  	<scroll-view class="panel-body" scroll-y="true">
+    <view wx:for="{{filteredProjects}}" wx:key="id" class="project-card">
+		<!-- 学校名称 - 右上角 -->
+		<view class="project-school">{{item.school}}</view>
+
+		<!-- 项目标题 -->
+		<view class="project-title">{{item.projectName}}</view>
+
+		<!-- 项目描述 -->
+		<view class="project-desc">{{item.projectInfo}}</view>
+
+		<!-- 底部信息区域 -->
+		<view class="project-info-section">
+			<view class="info-item">
+			<view class="info-label">学校要求</view>
+			<view class="info-value">{{item.schoolRequirement || '不限'}}</view>
+			</view>
+			<view class="info-item">
+			<view class="info-label">技能要求</view>
+			<view class="info-value">{{item.skillSummary || '暂无'}}</view>
+			</view>
+		</view>
+
+		<!-- 选择项目按钮 -->
+		<button class="select-item-btn" bindtap="chooseProject"
+			data-id="{{item.id}}"
+			data-name="{{item.projectName}}"
+			data-info="{{item.projectInfo}}"
+		>选择项目</button>
+	</view>
+  </scroll-view>
+</view>
+
+<!-- 邮件推广细节选择 -->
+<view class="container">
+	<!-- 目标学校选择 -->
+	<view class="latter-label" bindtap="onSelectSchool">
+		<view style="font-weight: bold; font-size: larger;">目标学校</view>
+		<view class="selected">
+			{{selected.school.name}}（注册人数：{{selected.school.count}}）
+		</view>
+  	</view>
+
+	<!-- 目标专业选择 -->
+	<view class="latter-label" bindtap="onSelectMajor">
+		<view style="font-weight: bold; font-size: larger;">目标专业</view>
+		<view class="selected">
+			{{selected.major.name}}（注册人数：{{selected.major.count}}）
+		</view>
+	</view>
+</view>
+
+<button class="button_1" hover-class="button_hover_1" bind:tap="onSubmit">一键推广</button>
+
+<!-- Picker View: 学校 -->
+<picker-view wx:if="{{showPicker.school}}" 
+bindchange="onPickerSchoolChange" class="picker-view">
+	<picker-view-column>
+		<view wx:for="{{schoolList}}" wx:key="index" class="picker-item">
+			<text>{{item.name}}</text>
+			<text class="count">注册人数：{{item.count}}</text>
+		</view>
+	</picker-view-column>
+	<view class="picker-header">
+    	<button bindtap="onPickerConfirm" class="picker-btn">完成</button>
+    </view>
+</picker-view>
+
+<!-- Picker View: 专业 -->
+<picker-view wx:if="{{showPicker.major}}" 
+bindchange="onPickerMajorChange" class="picker-view">
+	<picker-view-column>
+		<view wx:for="{{majorList}}" wx:key="index" class="picker-item">
+			<text>{{item.name}}</text>
+			<text class="count">注册人数：{{item.count}}</text>
+		</view>
+	</picker-view-column>
+	<view class="picker-header">
+    	<button bindtap="onPickerConfirm" class="picker-btn">完成</button>
+    </view>
+</picker-view>

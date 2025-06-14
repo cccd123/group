@@ -32,15 +32,17 @@ App({
         traceUser: true,
       });
     }
-    this.globalData.userInfo = wx.getStorageSync('userInfo')
-    this.globalData.token = wx.getStorageSync('token')
+	this.globalData.userInfo = wx.getStorageSync('userInfo')
+	// console.log(this.globalData.userInfo)							// test
+	this.globalData.token = wx.getStorageSync('token')
+	this.globalData.userOpenid = this.globalData.userInfo.openid
+	// console.log(this.globalData.userOpenid)
   },
   globalData: {
-    baseUrl: 'http://localhost:8080',
-    // baseUrl: 'http://localhost:8080',
-    // storeUrl: 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img',
+    baseUrl: 'http://114.55.85.236:8080',
     userInfo: null,
-    token: null
+	token: null,
+	userOpenid: null
   },
   setToken(token) {
     this.globalData.token = token

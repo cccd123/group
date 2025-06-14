@@ -15,7 +15,7 @@ ComponentWithStore({
   storeBindings: {
     store: userStore,
     fields: ['token', 'userInfo'],
-    actions: ['setToken','setUserInfo','setIsLogin']
+    actions: ['setToken', 'setUserInfo', 'setIsLogin']
   },
 
   methods: {
@@ -25,64 +25,71 @@ ComponentWithStore({
         showOverlay: true
       });
     },
-  
+    myOrder() {
+      wx.navigateTo({
+        url: '../myOrder/myOrder',
+      })
+    },
+
     //表单反馈
     onFeedback() {
       wx.navigateTo({
         url: '../formFeedback/formFeedback',
       })
     },
-  
+
     // 人工投诉
     onComplain() {
       this.setData({
         manualComplaint: true,
       });
     },
-  
+
     onCancel() {
       this.setData({
         showModal: false,
         showOverlay: false
       });
     },
-  
+
     cancelComplaint() {
       this.setData({
         manualComplaint: false,
       });
     },
-  
+
     myTeam() {
       wx.navigateTo({
         url: '../myTeam/myTeam'
       })
     },
-  
+
     interested() {
       wx.navigateTo({
         url: '../interested/interested',
       })
+
+
     },
-  
+
     servicePeople() {
       wx.navigateTo({
         url: '../servicePeople/servicePeople',
       })
     },
-  
+
     myRedact() {
       wx.navigateTo({
         url: '../myRedact/myRedact',
       })
     },
-  
+
     schoolAccreditation() {
       wx.navigateTo({
         url: '../schoolAccreditation/schoolAccreditation',
       })
     },
-  
+
     logout() {
       clearStorage()
       this.setToken('')
@@ -91,9 +98,14 @@ ComponentWithStore({
       // app.globalData.token = ''
       // app.globalData.userInfo = ''
 
+      // ！！！是否需要做一些什么提示或者弹窗 来告知用户已经退出登录！！！
+      // wx.navigateTo({
+      //   url: '../login/login',
+      // })
+ 
       // 跳转首页
     }
   }
 
-  
+
 })
