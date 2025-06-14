@@ -37,7 +37,6 @@ Page({
       mask: true
     });
 
-
     const apiEndpoints = [
       'http://114.55.85.236:8080/project/projectinfo',
     ];
@@ -84,6 +83,7 @@ Page({
                 statusText: this.getStatusText(project.status),
                 educationText: this.getEducationText(project.educationRequirement),
                 directionText: this.getDirectionText(project.direction),
+                crossSchoolText: this.getCrossSchoolText(project.crossSchool),
                 isActive: project.status === 1 || project.status === undefined // 默认为活跃状态
               };
             });
@@ -91,6 +91,9 @@ Page({
             this.setData({
               projectList: processedProjects
             });
+            
+            // 获取每个项目的统计数据
+            this.getProjectStatistics(processedProjects);
             
             console.log('设置的项目列表：', processedProjects);
           } else {
@@ -121,75 +124,117 @@ Page({
     });
   },
 
-  // 尝试其他API端点
-  tryAlternativeEndpoints(endpoints, token) {
-    if (endpoints.length === 0) {
-      wx.showToast({
-        title: '所有API端点都失败了',
-        icon: 'none'
-      });
-      return;
-    }
+  // 获取项目统计数据（阅读量和投递量）
+  getProjectStatistics(projects) {
+    const token = wx.getStorageSync('token');
+    
+    projects.forEach((project, index) => {
+      // 获取项目的投递量（申请人数量）
+      this.getApplicationCount(project.id, index, token);
+      // 获取项目的阅读量（点击量）
+      this.getReadCount(project.id, index, token);
+    });
+  },
 
-    const currentEndpoint = endpoints[0];
-    console.log('尝试备用API端点：', currentEndpoint);
-
+  // 获取申请人数量（投递量）
+  getApplicationCount(projectId, projectIndex, token) {
     wx.request({
-      url: currentEndpoint,
+      url: `http://114.55.85.236:8080/project/projectjoin/${projectId}`,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json',
+        'Authorization': token
+      },
+      data: {
+        projectid: projectId,
+        id: projectId,
+        status: 'all' // 获取所有状态的申请人
+      },
+      success: (res) => {
+        if (res.statusCode === 200 && res.data) {
+          const applicationCount = res.data.data ? res.data.data.length : 0;
+          
+          // 更新项目列表中的投递量
+          const updatedProjects = [...this.data.projectList];
+          if (updatedProjects[projectIndex]) {
+            updatedProjects[projectIndex].applicationCount = applicationCount;
+            this.setData({
+              projectList: updatedProjects
+            });
+          }
+        }
+      },
+      fail: (err) => {
+        console.error('获取申请人数量失败：', err);
+      }
+    });
+  },
+
+  // 获取阅读量（浏览量）
+  getReadCount(projectId, projectIndex, token) {
+    wx.request({
+      url: `http://114.55.85.236:8080/project/lookproject/${projectId}`,
       method: 'GET',
       header: {
         'content-type': 'application/json',
         'Authorization': token
       },
       success: (res) => {
-        console.log(`备用API ${currentEndpoint} 响应：`, res);
-        // 使用相同的处理逻辑
-        this.handleProjectResponse(res);
+        console.log(`项目${projectId}阅读量API响应：`, res);
+        
+        if (res.statusCode === 200 && res.data) {
+          // 处理不同的响应格式，查找浏览量字段
+          let readCount = 0;
+          
+          if (res.data.lookcount !== undefined) {
+            readCount = res.data.lookcount;
+          } else if (res.data.data && res.data.data.lookcount !== undefined) {
+            readCount = res.data.data.lookcount;
+          } else if (res.data.readCount !== undefined) {
+            readCount = res.data.readCount;
+          } else if (res.data.clickCount !== undefined) {
+            readCount = res.data.clickCount;
+          } else if (res.data.viewCount !== undefined) {
+            readCount = res.data.viewCount;
+          }
+          
+          console.log(`项目${projectId}的浏览量：`, readCount);
+          
+          // 更新项目列表中的阅读量
+          const updatedProjects = [...this.data.projectList];
+          if (updatedProjects[projectIndex]) {
+            updatedProjects[projectIndex].readCount = readCount;
+            updatedProjects[projectIndex].lookcount = readCount;
+            this.setData({
+              projectList: updatedProjects
+            });
+          }
+        }
       },
       fail: (err) => {
-        console.error(`备用API ${currentEndpoint} 失败：`, err);
-        // 尝试下一个端点
-        this.tryAlternativeEndpoints(endpoints.slice(1), token);
+        console.error(`获取项目${projectId}阅读量失败：`, err);
+        // 如果API失败，设置默认值
+        const updatedProjects = [...this.data.projectList];
+        if (updatedProjects[projectIndex]) {
+          updatedProjects[projectIndex].readCount = 0;
+          updatedProjects[projectIndex].lookcount = 0;
+          this.setData({
+            projectList: updatedProjects
+          });
+        }
       }
     });
-  },
-
-  // 处理项目响应的通用方法
-  handleProjectResponse(res) {
-    if (res.statusCode === 200 && res.data) {
-      let projectData = [];
-      
-      if (res.data.success && res.data.data) {
-        projectData = res.data.data;
-      } else if (Array.isArray(res.data)) {
-        projectData = res.data;
-      }
-      
-      if (Array.isArray(projectData)) {
-        const processedProjects = projectData.map(project => ({
-          ...project,
-          statusText: this.getStatusText(project.status),
-          educationText: this.getEducationText(project.educationRequirement),
-          directionText: this.getDirectionText(project.direction),
-          isActive: project.status === 1 || project.status === undefined
-        }));
-        
-        this.setData({
-          projectList: processedProjects
-        });
-      }
-    }
   },
 
   // 获取状态文本
   getStatusText(status) {
     switch(status) {
       case 1:
-        return '推送中';
+        return '上线中';
       case 0:
         return '已下架';
       default:
-        return '未知状态';
+        return '上线中'; // 默认显示上线中
     }
   },
 
@@ -221,18 +266,111 @@ Page({
     }
   },
 
-  // 下架项目
-  takeDownProject(e) {
+  // 获取跨校要求文本
+  getCrossSchoolText(crossSchool) {
+    switch(crossSchool) {
+      case 1:
+        return '接受跨校';
+      case 0:
+        return '仅接受本校';
+      default:
+        return '仅接受本校';
+    }
+  },
+
+  // 删除项目（原下架功能）
+  performDeleteProject(e) {
     const projectId = e.currentTarget.dataset.projectId;
     const projectIndex = e.currentTarget.dataset.index;
     
     wx.showModal({
-      title: '确认下架',
-      content: '确定要下架这个项目吗？',
+      title: '确认删除',
+      content: '确定要删除这个项目吗？删除后无法恢复！',
+      confirmColor: '#fa5151',
       success: (res) => {
         if (res.confirm) {
-          this.updateProjectStatus(projectId, 0, projectIndex);
+          this.executeDeleteProject(projectId, projectIndex);
         }
+      }
+    });
+  },
+
+  // 执行删除项目操作
+  executeDeleteProject(projectId, projectIndex) {
+    const token = wx.getStorageSync('token');
+    
+    wx.showLoading({
+      title: '删除中...',
+      mask: true
+    });
+
+    wx.request({
+      url: `http://114.55.85.236:8080/project/delectproject/${projectId}`,
+      method: 'DELETE',
+      header: {
+        'content-type': 'application/json',
+        'Authorization': token
+      },
+      data: {
+        projectId: projectId
+      },
+      success: (res) => {
+        console.log('删除项目响应：', res);
+        
+        if (res.statusCode === 200) {
+          // 检查不同的成功响应格式
+          let isSuccess = false;
+          
+          if (res.data) {
+            if (res.data.success === true) {
+              isSuccess = true;
+            } else if (res.data.code === 200) {
+              isSuccess = true;
+            } else if (res.data.status === 'success') {
+              isSuccess = true;
+            } else if (res.data.message && res.data.message.includes('成功')) {
+              isSuccess = true;
+            }
+          } else {
+            // 如果只返回状态码200，没有data，也认为成功
+            isSuccess = true;
+          }
+          
+          if (isSuccess) {
+            // 从本地列表中移除已删除的项目
+            const updatedProjects = [...this.data.projectList];
+            updatedProjects.splice(projectIndex, 1);
+            
+            this.setData({
+              projectList: updatedProjects
+            });
+            
+            wx.showToast({
+              title: '删除成功',
+              icon: 'success'
+            });
+          } else {
+            wx.showToast({
+              title: res.data?.message || '删除失败',
+              icon: 'none'
+            });
+          }
+        } else {
+          wx.showToast({
+            title: `删除失败: ${res.statusCode}`,
+            icon: 'none'
+          });
+        }
+      },
+      fail: (err) => {
+        console.error('删除项目失败：', err);
+        wx.showToast({
+          title: '网络异常，请重试',
+          icon: 'none'
+        });
+      },
+      complete: () => {
+        wx.hideLoading();
       }
     });
   },
@@ -263,37 +401,62 @@ Page({
     });
 
     wx.request({
-      url: `http://114.55.85.236:8080/project/update-status`, // 根据您的实际API调整
-      method: 'POST',
+      url: `http://114.55.85.236:8080/project/status/${projectId}`,
+      method: 'PUT',
       header: {
         'content-type': 'application/json',
         'Authorization': token
       },
       data: {
         projectId: projectId,
-        status: status
+        status: status,
+        id: projectId
       },
       success: (res) => {
-        console.log('更新状态成功：', res);
+        console.log('更新状态响应：', res);
         
-        if (res.statusCode === 200 && res.data.success) {
-          // 本地更新数据
-          const updatedProjects = [...this.data.projectList];
-          updatedProjects[projectIndex].status = status;
-          updatedProjects[projectIndex].statusText = this.getStatusText(status);
-          updatedProjects[projectIndex].isActive = status === 1;
+        if (res.statusCode === 200) {
+          let isSuccess = false;
           
-          this.setData({
-            projectList: updatedProjects
-          });
+          if (res.data) {
+            if (res.data.success === true) {
+              isSuccess = true;
+            } else if (res.data.code === 200) {
+              isSuccess = true;
+            } else if (res.data.status === 'success') {
+              isSuccess = true;
+            } else if (!res.data.error && !res.data.message) {
+              isSuccess = true;
+            }
+          } else {
+            isSuccess = true;
+          }
           
-          wx.showToast({
-            title: status === 1 ? '上架成功' : '下架成功',
-            icon: 'success'
-          });
+          if (isSuccess) {
+            const updatedProjects = [...this.data.projectList];
+            if (updatedProjects[projectIndex]) {
+              updatedProjects[projectIndex].status = status;
+              updatedProjects[projectIndex].statusText = this.getStatusText(status);
+              updatedProjects[projectIndex].isActive = status === 1;
+              
+              this.setData({
+                projectList: updatedProjects
+              });
+            }
+            
+            wx.showToast({
+              title: status === 1 ? '上架成功' : '下架成功',
+              icon: 'success'
+            });
+          } else {
+            wx.showToast({
+              title: res.data?.message || '操作失败',
+              icon: 'none'
+            });
+          }
         } else {
           wx.showToast({
-            title: res.data.message || '操作失败',
+            title: `请求失败: ${res.statusCode}`,
             icon: 'none'
           });
         }

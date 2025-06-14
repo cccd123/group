@@ -1,82 +1,280 @@
-.content {
-  display: flex;
-  flex-direction: column;
-  padding: 20rpx 30rpx;
+.container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20rpx;
 }
 
-/* header */
-.header {
+/* 标签页头部 */
+.tab-header {
+  display: flex;
+  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+  border-radius: 20rpx 20rpx 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-item {
+  flex: 1;
+  padding: 30rpx 20rpx;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  font-size: 28rpx;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tab-item.active {
+  color: #ffffff;
+  transform: translateY(-4rpx);
+}
+
+.tab-icon {
+  font-size: 32rpx;
+  margin-bottom: 8rpx;
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  height: 8rpx;
+  width: 33.33%;
+  background: linear-gradient(90deg, #ff6b6b, #feca57);
+  border-radius: 4rpx 4rpx 0 0;
+  transition: left 0.3s ease;
+  z-index: 1;
+}
+
+/* 内容区域 */
+.content {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 0 0 20rpx 20rpx;
+  padding: 40rpx;
+  min-height: 800rpx;
+}
+
+/* 统计卡片 */
+.stats-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 40rpx;
+  border-radius: 20rpx;
+  margin-bottom: 30rpx;
+  text-align: center;
+  box-shadow: 0 16rpx 50rpx rgba(102, 126, 234, 0.3);
+}
+
+.stats-number {
+  font-size: 64rpx;
+  font-weight: bold;
+  margin-bottom: 16rpx;
+}
+
+.stats-label {
+  font-size: 28rpx;
+  opacity: 0.9;
+}
+
+/* 提示卡片 */
+.tip-card {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  padding: 30rpx;
+  border-radius: 20rpx;
+  margin-bottom: 30rpx;
+  text-align: center;
+  color: #2c3e50;
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+/* 申请人卡片 */
+.applicant-card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 8rpx 40rpx rgba(0, 0, 0, 0.08);
+  border: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.applicant-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  border: 6rpx solid #f0f0f0;
+}
+
+.applicant-info {
+  flex: 1;
+}
+
+.applicant-name {
+  font-size: 32rpx;
+  color: #2c3e50;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.applicant-school {
+  color: #7f8c8d;
+  font-size: 26rpx;
+}
+
+/* 状态标签 */
+.status-badge {
+  padding: 12rpx 24rpx;
+  border-radius: 40rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-approved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* 操作按钮 */
+.action-buttons {
+  display: flex;
+  gap: 20rpx;
+  justify-content: flex-end;
+  margin-top: 20rpx;
+  align-items: center;
+}
+
+.btn {
+  padding: 16rpx 32rpx;
+  border: none;
+  border-radius: 50rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.btn::after {
+  border: none;
+}
+
+.btn-view {
+  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+}
+
+.btn-approve {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.btn-reject {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+}
+
+.btn:active {
+  transform: translateY(2rpx);
+  opacity: 0.8;
+}
+
+/* 状态文本 */
+.approved-text {
+  color: #155724;
+  font-size: 26rpx;
+  font-weight: 600;
+  padding: 16rpx 32rpx;
+  background: #d4edda;
+  border-radius: 50rpx;
+}
+
+.rejected-text {
+  color: #721c24;
+  font-size: 26rpx;
+  font-weight: 600;
+  padding: 16rpx 32rpx;
+  background: #f8d7da;
+  border-radius: 50rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 120rpx 40rpx;
+  color: #7f8c8d;
+}
+
+.empty-icon {
+  font-size: 128rpx;
+  margin-bottom: 40rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 36rpx;
+  margin-bottom: 20rpx;
+  font-weight: 600;
+}
+
+.empty-subtext {
+  font-size: 28rpx;
+  opacity: 0.7;
+}
+
+/* 加载状态 */
+.loading {
   display: flex;
   justify-content: center;
   align-items: center;
-  line-height: 40rpx;
+  padding: 120rpx;
+  flex-direction: column;
+  color: #7f8c8d;
 }
 
-.header-title {
-  display: flex;
-  width: 80%;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 30rpx;
-  padding: 0; /* 移除内边距 */
-	color: #585858;
-	border: 1rpx solid #000;
+.spinner {
+  width: 80rpx;
+  height: 80rpx;
+  border: 8rpx solid #f3f3f3;
+  border-top: 8rpx solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 40rpx;
 }
 
-.header-title-name {
-  flex: 1; /* 每个选项占据父容器的一半宽度 */
-  text-align: center; /* 文字居中 */
-  padding: 10rpx 0; /* 增加内边距 */
-  border-radius: 30rpx; /* 添加圆角 */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-.active {
-  color: #000;
-  background-color: #cbcdcf;
-  border-radius: 30rpx; /* 确保圆角与父容器一致 */
-}
-
-/* body */
-.body{
-	display: flex;
-	flex-direction: column;
-	margin-top: 30rpx;
-}
-
-.body > view {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 20rpx;
-	align-items: center;
-	padding-bottom: 25rpx;
-	border-bottom: 1rpx solid rgb(65, 64, 64);
-}
-
-.body > view > view > image{
-	width: 100rpx;
-	height: 100rpx;
-	border-radius: 50%;
-}
-.body > view > view:nth-child(1) {
-	width: 50%;
-	display: flex;
-	align-items: center;
-}
-.body > view > view:nth-child(2) {
-	font-size: 35rpx;
-	color: rgb(117, 117, 117);
-}
-.body > view > view:nth-child(1) > text{
-	margin: 0 auto;
-	font-size: 45rpx;
-	font-weight: bold;
-}
-
-.pass{
-	border: 1rpx solid #000;
-	padding: 20rpx 25rpx;
-	text-align: center;
-	border-radius: 30rpx;
-	color: rgb(78, 78, 78);
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 16rpx;
+  }
+  
+  .approved-text, .rejected-text {
+    width: 100%;
+    text-align: center;
+  }
 }

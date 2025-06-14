@@ -12,7 +12,7 @@
 <view wx:if="{{currentTab == 'all'}}" class="tab-content">
   <view wx:for="{{allProjectList}}" wx:key="id" class="project-card">
     <!-- 学校名称 - 右上角 -->
-    <view class="project-school">{{item.school}}</view>
+    <view class="project-school">{{item.schoolDisplay}}</view>
     
     <!-- 项目标题 -->
     <view class="project-title">{{item.projectName}}</view>
@@ -23,12 +23,12 @@
     <!-- 底部信息区域 -->
     <view class="project-info-section">
       <view class="info-item">
-        <view class="info-label">学校要求</view>
-        <view class="info-value">{{item.schoolRequirement || '不限'}}</view>
+        <view class="info-label">学历要求</view>
+        <view class="info-value">{{item.educationText}}</view>
       </view>
       <view class="info-item">
-        <view class="info-label">技能要求</view>
-        <view class="info-value">{{item.skillSummary || '暂无'}}</view>
+        <view class="info-label">跨校信息</view>
+        <view class="info-value">{{item.crossSchoolText}}</view>
       </view>
     </view>
 
@@ -51,7 +51,7 @@
 <view wx:if="{{currentTab == 'mySchool'}}" class="tab-content">
   <view wx:for="{{mySchoolProjectList}}" wx:key="id" class="project-card">
     <!-- 学校名称 - 右上角 -->
-    <view class="project-school">{{item.school}}</view>
+    <view class="project-school">{{item.schoolDisplay}}</view>
     
     <!-- 项目标题 -->
     <view class="project-title">{{item.projectName}}</view>
@@ -62,12 +62,12 @@
     <!-- 底部信息区域 -->
     <view class="project-info-section">
       <view class="info-item">
-        <view class="info-label">学校要求</view>
-        <view class="info-value">{{item.schoolRequirement || '不限'}}</view>
+        <view class="info-label">学历要求</view>
+        <view class="info-value">{{item.educationText}}</view>
       </view>
       <view class="info-item">
-        <view class="info-label">技能要求</view>
-        <view class="info-value">{{item.skillSummary || '暂无'}}</view>
+        <view class="info-label">跨校信息</view>
+        <view class="info-value">{{item.crossSchoolText}}</view>
       </view>
     </view>
 
