@@ -69,38 +69,38 @@ ComponentWithStore({
 
     // 前端获取微信手机号快捷注册
     getPhoneNumber(e) {
-      // const code = e.detail.code;
-      // wx.request({
-      //   url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b',
-      //   success: (res) => {
-      //     const access_token = res.data.access_token;
-      //     this.setData({
-      //       access_token: access_token
-      //     });
-      //     // 在获取 access_token 成功后发起第二个请求
-      //     wx.request({
-      //       url: `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${access_token}`,
-      //       method: 'POST', // 指定为 POST 方法
-      //       data: {
-      //         code: code // 将 code 作为请求体传递
-      //       },
-      //       success: (res) => {
-      //         console.log(res)
-      //         const phoneNumber = res.data.phone_info.phoneNumber
-      //         console.log(phoneNumber)
-      //         this.setData({
-      //           userPhone: phoneNumber
-      //         })
-      //       },
-      //       fail: (err) => {
-      //         console.error('获取用户手机号失败', err);
-      //       }
-      //     });
-      //   },
-      //   fail: (err) => {
-      //     console.error('获取 access_token 失败', err);
-      //   }
-      // });
+      const code = e.detail.code;
+      wx.request({
+        url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b',
+        success: (res) => {
+          const access_token = res.data.access_token;
+          this.setData({
+            access_token: access_token
+          });
+          // 在获取 access_token 成功后发起第二个请求
+          wx.request({
+            url: `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${access_token}`,
+            method: 'POST', // 指定为 POST 方法
+            data: {
+              code: code // 将 code 作为请求体传递
+            },
+            success: (res) => {
+              console.log(res)
+              const phoneNumber = res.data.phone_info.phoneNumber
+              console.log(phoneNumber)
+              this.setData({
+                userPhone: phoneNumber
+              })
+            },
+            fail: (err) => {
+              console.error('获取用户手机号失败', err);
+            }
+          });
+        },
+        fail: (err) => {
+          console.error('获取 access_token 失败', err);
+        }
+      });
       this.setData({
         login: 4
       });
@@ -108,39 +108,39 @@ ComponentWithStore({
 
     // 手机号验证码注册
     getrealtimephonenumber(e) {
-      // console.log(e.detail.code)
-      // const code = e.detail.code;
-      // wx.request({
-      //   url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b',
-      //   success: (res) => {
-      //     const access_token = res.data.access_token;
-      //     this.setData({
-      //       access_token: access_token
-      //     });
-      //     // 在获取 access_token 成功后发起第二个请求
-      //     wx.request({
-      //       url: `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${access_token}`,
-      //       method: 'POST', // 指定为 POST 方法
-      //       data: {
-      //         code: code // 将 code 作为请求体传递
-      //       },
-      //       success: (res) => {
-      //         console.log(res)
-      //         const phoneNumber = res.data.phone_info.phoneNumber
-      //         console.log(phoneNumber)
-      //         this.setData({
-      //           userPhone: phoneNumber
-      //         })
-      //       },
-      //       fail: (err) => {
-      //         console.error('获取用户手机号失败', err);
-      //       }
-      //     });
-      //   },
-      //   fail: (err) => {
-      //     console.error('获取 access_token 失败', err);
-      //   }
-      // });
+      console.log(e.detail.code)
+      const code = e.detail.code;
+      wx.request({
+        url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b',
+        success: (res) => {
+          const access_token = res.data.access_token;
+          this.setData({
+            access_token: access_token
+          });
+          // 在获取 access_token 成功后发起第二个请求
+          wx.request({
+            url: `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${access_token}`,
+            method: 'POST', // 指定为 POST 方法
+            data: {
+              code: code // 将 code 作为请求体传递
+            },
+            success: (res) => {
+              console.log(res)
+              const phoneNumber = res.data.phone_info.phoneNumber
+              console.log(phoneNumber)
+              this.setData({
+                userPhone: phoneNumber
+              })
+            },
+            fail: (err) => {
+              console.error('获取用户手机号失败', err);
+            }
+          });
+        },
+        fail: (err) => {
+          console.error('获取 access_token 失败', err);
+        }
+      });
       this.setData({
         login: 4
       });
