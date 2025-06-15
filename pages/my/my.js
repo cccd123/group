@@ -31,27 +31,24 @@ ComponentWithStore({
         url: '../formFeedback/formFeedback',
       })
     },
-
     // 人工投诉
     onComplain() {
       this.setData({
         manualComplaint: true,
       });
     },
-
     onCancel() {
       this.setData({
         showModal: false,
         showOverlay: false
       });
     },
-
     cancelComplaint() {
       this.setData({
         manualComplaint: false,
       });
-    },
-
+	},
+	
     myTeam() {
       wx.navigateTo({
         url: '../myTeam/myTeam'
@@ -62,26 +59,26 @@ ComponentWithStore({
       wx.navigateTo({
         url: '../interested/interested',
       })
-    },
-
+	},
+	
     servicePeople() {
       wx.navigateTo({
         url: '../servicePeople/servicePeople',
       })
-    },
-
+	},
+	
     myRedact() {
       wx.navigateTo({
         url: '../myRedact/myRedact',
       })
-    },
-
+	},
+	
     schoolAccreditation() {
       wx.navigateTo({
         url: '../schoolAccreditation/schoolAccreditation',
       })
-    },
-
+	},
+	
     logout() {
       clearStorage()
       this.setToken('')
@@ -93,10 +90,7 @@ ComponentWithStore({
       // wx.navigateTo({
       //   url: '../login/login',
       // })
-
       // 跳转首页
     }
   }
-
-
 })

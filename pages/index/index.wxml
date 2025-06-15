@@ -4,8 +4,7 @@
       <text>找个队</text>
       <text>注册成为人才，持续探索优秀项目小组。</text>
     </view>
-    <image class="image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/search.jpg">
-    </image>
+    <image class="image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/search.jpg"></image>
   </view>
   <view class="footer" bind:tap="infoIdea">
     <view class="container_1">
@@ -13,12 +12,12 @@
         <text>组个队</text>
         <text>我有优秀创意，召集优秀人才小组。</text>
       </view>
-      <button class="buttonStyle_1" hover-class="button_hover_1" bind:tap="Email_Marketing">邮件推广</button>
+      <button class="buttonStyle_1" hover-class="button_hover_1" bind:tap="Email_Marketing">
+        邮件推广
+      </button>
     </view>
-    <image class="image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/idea.jpg">
-    </image>
+    <image class="image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/idea.jpg"></image>
   </view>
-
   <view class="login-container" wx:if="{{!isLogin}}">
     <view class="login">
       <view>
@@ -32,5 +31,4 @@
       </view>
     </view>
   </view>
-
 </view>

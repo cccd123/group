@@ -169,7 +169,7 @@ ComponentWithStore({
     onSchoolChange(e) {
       const selectedSchool = e.detail.school;
       console.log('Selected school:', selectedSchool);
-      
+
       this.setData({
         inSchool: selectedSchool.id
       });
@@ -195,6 +195,7 @@ ComponentWithStore({
       const code = (await wx.login()).code
       const res = await loginService(code);
       console.log(res);
+      wx.showToast({ title: '登陆成功', icon: 'success' });
 
       setStorage('token', res.data)
       app.globalData.token = res.data
@@ -203,7 +204,9 @@ ComponentWithStore({
       this.getUserInfo();
       this.setIsLogin(true);
 
-      wx.navigateBack()
+      setTimeout(() => {
+        wx.navigateBack();
+      }, 1500);
     },
 
     async getUserInfo() {
@@ -235,6 +238,7 @@ ComponentWithStore({
           });
           console.log(res)
           if (res.code !== 200) {
+            wx.showToast({ title: '注册失败', icon: 'error' });
             throw new Error(res.message || '注册失败，请稍后再试');
           }
           wx.showToast({ title: '注册成功', icon: 'success' });
@@ -242,6 +246,7 @@ ComponentWithStore({
         }
         // 2. 登录逻辑（注册成功后或已注册时执行）
         if (this.data.registed) {
+          // 登录并获取用户信息，token等
           this.fastLogin()
         }
       } catch (err) {

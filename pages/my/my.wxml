@@ -59,6 +59,15 @@
         <text>></text>
       </view>
 
+      <view class="main3-item" bind:tap="myOrder">
+        <view>
+          <image class="main3-image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/myOrder.png"></image>
+           <!-- ！！！需要更换图片素材！！！ -->
+          <text>我的订单</text>
+        </view>
+        <text>></text>
+      </view>
+
       <view class="main3-item" bind:tap="interested">
         <view>
           <image class="main3-image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/interested.png"></image>

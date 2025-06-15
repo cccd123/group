@@ -95,7 +95,7 @@ checkLoginStatus() {
  * 一次性读取完所有项目
  * 并过滤出当前用户发布的组队信息
  */
-fetchAllProjectsAll() {
+async fetchAllProjectsAll() {
 	let allItems = [];
 	let pageNum = 1;
 	const pageSize = this.data.allPageInfo.pageSize;
@@ -135,15 +135,13 @@ fetchAllProjectsAll() {
 	};
   
 	// 返回这个 Promise，链式到 then 里
-	return loadPage().then(() => {
-	  // 把数据写入 data
-	  this.setData({ allProjectList: allItems });
-	  const userOpenid = getApp().globalData.userOpenid;
-	  const filtered = allItems.filter(item => item.creatorOpenid === userOpenid);
-	  // 返回一个 Promise，确保 filteredProjects 写完再继续
-	  return new Promise(resolve => {
-		this.setData({ filteredProjects: filtered }, resolve);
-	  });
+	await loadPage();
+	// 把数据写入 data
+	this.setData({ allProjectList: allItems });
+	const userOpenid = getApp().globalData.userOpenid;
+	const filtered = allItems.filter(item => item.creatorOpenid === userOpenid);
+	return await new Promise(resolve_1 => {
+		this.setData({ filteredProjects: filtered }, resolve_1);
 	});
   },
 
