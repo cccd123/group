@@ -71,13 +71,14 @@ ComponentWithStore({
     getPhoneNumber(e) {
       const code = e.detail.code;
       wx.request({
-        url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=2802051377f7c9166c7f27e4cae70a9b',
+        url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx1cb9eddd2bef98d5&secret=9c29f450724e1fe2a7c37e10608a1510',
         success: (res) => {
+          console.log(res)
           const access_token = res.data.access_token;
           this.setData({
             access_token: access_token
           });
-          // 在获取 access_token 成功后发起第二个请求
+          // // 在获取 access_token 成功后发起第二个请求
           wx.request({
             url: `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${access_token}`,
             method: 'POST', // 指定为 POST 方法
