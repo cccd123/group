@@ -38,7 +38,7 @@ App({
 	// console.log(this.globalData.userOpenid)
   },
   globalData: {
-    baseUrl: 'http://114.55.85.236:8080',
+    baseUrl: 'https://zhaoxiaokai.xyz',
     userInfo: null,
 	token: null,
 	userOpenid: null

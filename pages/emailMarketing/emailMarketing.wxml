@@ -11,11 +11,11 @@
 			</view>
 			<view class="project-info-card-field">
 				<view class="project-info-card-label">项目名称：</view>
-				<view class="project-info-card-value">{{selectedProject.name}}</view>
+				<view class="project-info-card-value">{{Project.projectName}}</view>
 			</view>
 			<view class="project-info-card-field">
 				<view class="project-info-card-label">项目详情：</view>
-				<view class="project-info-card-value project-info">{{selectedProject.info}}</view>
+				<view class="project-info-card-value project-info">{{Project.projectInfo}}</view>
 			</view>
 		</view>
 	</view>
@@ -79,17 +79,17 @@
 	<view class="latter-label" bindtap="onSelectSchool">
 		<view style="font-weight: bold; font-size: larger;">目标学校</view>
 		<view class="selected">
-			{{selected.school.name}}（注册人数：{{selected.school.count}}）
+			{{selected.school.schoolname}}（注册人数：{{selected.school.userCount}}）
 		</view>
   	</view>
 
 	<!-- 目标专业选择 -->
-	<view class="latter-label" bindtap="onSelectMajor">
+	<!-- <view class="latter-label" bindtap="onSelectMajor">
 		<view style="font-weight: bold; font-size: larger;">目标专业</view>
 		<view class="selected">
 			{{selected.major.name}}（注册人数：{{selected.major.count}}）
 		</view>
-	</view>
+	</view> -->
 </view>
 
 <button class="button_1" hover-class="button_hover_1" bind:tap="onSubmit">一键推广</button>
@@ -99,8 +99,8 @@
 bindchange="onPickerSchoolChange" class="picker-view">
 	<picker-view-column>
 		<view wx:for="{{schoolList}}" wx:key="index" class="picker-item">
-			<text>{{item.name}}</text>
-			<text class="count">注册人数：{{item.count}}</text>
+			<text>{{item.schoolname}}</text>
+			<text class="count">注册人数：{{item.userCount}}</text>
 		</view>
 	</picker-view-column>
 	<view class="picker-header">

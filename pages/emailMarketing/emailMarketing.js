@@ -1,5 +1,6 @@
 // pages/emailMarketing/emailMarketing.js
 const app = getApp();
+import http from '../../utils/http'
 Page({
 
   /**
@@ -7,7 +8,7 @@ Page({
    */
   data: {
 	selectProject: 0,
-	allProjectList: [],      // 所有组队项目
+	Project: {},      // 所有组队项目
     filteredProjects: [],    // 当前用户发布的所有组队
 	selectedProject: {
 		id: '-1',
@@ -103,7 +104,7 @@ async fetchAllProjectsAll() {
 	const loadPage = () => {
 	  return new Promise((resolve, reject) => {
 		wx.request({
-		  url: 'http://114.55.85.236:8080/project/allproject',
+		  url: 'https://zhaoxiaokai.xyz/project/allproject',
 		  method: 'GET',
 		  data: {
 			pageNum: pageNum.toString(),
@@ -149,24 +150,44 @@ async fetchAllProjectsAll() {
  * 根据传入的项目 ID，在 allProjectList 中查找对应项目，
  * 并把它的 projectName、projectInfo 更新到 selectedProject 中。
  * @param {number} targetId 要查找的组队信息的ID
+ * TODO 服务器有根据id查询项目
  */
 findProjectWithId(targetId) {
-	const matches = this.data.allProjectList.filter(item => item.id === targetId);
-    if (matches.length > 0) {
-      const match = matches[0];
-      this.setData({
-        'selectedProject.id': match.id,
-        'selectedProject.name': match.projectName,
-        'selectedProject.info': match.projectInfo
-      });
-    } else {
-		console.error(`未找到 ID 为 ${targetId} 的项目`)
-		console.log('在findProjectWithId中，allProjectList为', this.data.allProjectList)
-      wx.showToast({
-        title: `未找到 ID 为 ${targetId} 的项目`,
-        icon: 'none'
-      });
-    }
+  const matches = this.data.allProjectList.filter(item => item.id === targetId);
+  //根据id去服务器获取项目信息
+  http.get('/project/projectById/'+targetId).then(res=>{
+    this.setData({
+      Project:res.data
+     })
+  })
+//   wx.request({
+//     url: 'https://zhaoxiaokai.xyz/project/projectById/'+targetId,
+//     method: 'GET',
+//     header: this.getAuthHeader(),
+//     success: (res) => {
+//       //指定id的项目信息
+//  console.log(res);
+//  this.setData({
+//   Project:res.data.data
+//  })
+//     },
+//     fail: (err) => reject(err)
+//   });
+    // if (matches.length > 0) {
+    //   const match = matches[0];
+    //   this.setData({
+    //     'selectedProject.id': match.id,
+    //     'selectedProject.name': match.projectName,
+    //     'selectedProject.info': match.projectInfo
+    //   });
+    // } else {
+		// console.error(`未找到 ID 为 ${targetId} 的项目`)
+		// console.log('在findProjectWithId中，allProjectList为', this.data.allProjectList)
+    //   wx.showToast({
+    //     title: `未找到 ID 为 ${targetId} 的项目`,
+    //     icon: 'none'
+    //   });
+    // }
 },
 
 // 选择项目 按钮的点击事件
@@ -333,19 +354,11 @@ onSubmit()
 	// 获取token
 	const token = wx.getStorageSync('token');
 	  
-	// 发送请求到后端
-	wx.request({
-		url: 'http://114.55.85.236:8080/email/promotion',
-		method: 'POST',
-		header: {
-		  'content-type': 'application/json',
-		  'Authorization': token // 添加token到请求头
-		},
-		data: requestData,
-		success: (res) => {
+  // 发送请求到后端
+  http.post('/email/promotion',requestData).then(res=>{
+    // success: (res) => {
 		  wx.hideLoading();
 		  console.log('订单发送成功：', res);
-		  
 		  if (res.statusCode === 200) {
 			wx.showToast({
 			  title: '订单发送成功',
@@ -367,21 +380,56 @@ onSubmit()
 			  icon: 'none'
 			});
 		  }
-		},
-		fail: (err) => {
-		  wx.hideLoading();
-		  console.error('订单发送失败：', err);
-		  wx.showToast({
-			title: '网络异常，请重试',
-			icon: 'none'
-		  });
-		},
-		complete: () => {
-		  this.setData({
-			isSubmitting: false
-		  });
-		}
-	});
+		// },
+  })
+	// wx.request({
+	// 	url: 'https://zhaoxiaokai.xyz/email/promotion',
+	// 	method: 'POST',
+	// 	header: {
+	// 	  'content-type': 'application/json',
+	// 	  'Authorization': token // 添加token到请求头
+	// 	},
+	// 	data: requestData,
+	// 	success: (res) => {
+	// 	  wx.hideLoading();
+	// 	  console.log('订单发送成功：', res);
+		  
+	// 	  if (res.statusCode === 200) {
+	// 		wx.showToast({
+	// 		  title: '订单发送成功',
+	// 		  icon: 'success',
+	// 		  duration: 2000,
+	// 		  success: () => {
+	// 			// 延迟跳转，让用户看到成功提示
+	// 			setTimeout(() => {
+	// 			  // 根据你的业务逻辑跳转到相应页面
+	// 			  wx.redirectTo({
+	// 				url: '../myOrder/myOrder',
+	// 			  })
+	// 			}, 1500);
+	// 		  }
+	// 		});
+	// 	  } else {
+	// 		wx.showToast({
+	// 		  title: res.data.message || '订单发送失败',
+	// 		  icon: 'none'
+	// 		});
+	// 	  }
+	// 	},
+	// 	fail: (err) => {
+	// 	  wx.hideLoading();
+	// 	  console.error('订单发送失败：', err);
+	// 	  wx.showToast({
+	// 		title: '网络异常，请重试',
+	// 		icon: 'none'
+	// 	  });
+	// 	},
+	// 	complete: () => {
+	// 	  this.setData({
+	// 		isSubmitting: false
+	// 	  });
+	// 	}
+	// });
 },
 
   /**
@@ -416,7 +464,14 @@ onSubmit()
 		this.panelAnim = wx.createAnimation({ duration: 300, timingFunction: 'ease' });
 	  }).catch(err => {
 		console.error('加载项目出错：', err);
-	});
+  });
+  // 选择目标学校
+ http.get('/school/getSchoolRegisterCount').then(res=>{
+  console.log(res);
+        this.setData({
+        schoolList:res.data
+      })
+})
   },
 
   /**

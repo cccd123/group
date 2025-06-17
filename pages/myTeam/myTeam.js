@@ -38,7 +38,7 @@ Page({
     });
 
     const apiEndpoints = [
-      'http://114.55.85.236:8080/project/projectinfo',
+      'https://zhaoxiaokai.xyz/project/projectinfo',
     ];
 
     wx.request({
@@ -52,7 +52,7 @@ Page({
         console.log('API响应完整数据：', res);
         console.log('响应状态码：', res.statusCode);
         console.log('响应数据：', res.data);
-        
+        console.log("================================>",res);
         // 更灵活的成功判断
         if (res.statusCode === 200) {
           let projectData = [];
@@ -139,7 +139,7 @@ Page({
   // 获取申请人数量（投递量）
   getApplicationCount(projectId, projectIndex, token) {
     wx.request({
-      url: `http://114.55.85.236:8080/project/projectjoin/${projectId}`,
+      url: `https://zhaoxiaokai.xyz/project/projectjoin/${projectId}`,
       method: 'GET',
       header: {
         'content-type': 'application/json',
@@ -172,58 +172,59 @@ Page({
 
   // 获取阅读量（浏览量）
   getReadCount(projectId, projectIndex, token) {
-    wx.request({
-      url: `http://114.55.85.236:8080/project/lookproject/${projectId}`,
-      method: 'GET',
-      header: {
-        'content-type': 'application/json',
-        'Authorization': token
-      },
-      success: (res) => {
-        console.log(`项目${projectId}阅读量API响应：`, res);
+
+    // wx.request({
+    //   url: `https://zhaoxiaokai.xyz/project/lookproject/${projectId}`,
+    //   method: 'GET',
+    //   header: {
+    //     'content-type': 'application/json',
+    //     'Authorization': token
+    //   },
+    //   success: (res) => {
+    //     console.log(`项目${projectId}阅读量API响应：`, res);
         
-        if (res.statusCode === 200 && res.data) {
-          // 处理不同的响应格式，查找浏览量字段
-          let readCount = 0;
+    //     if (res.statusCode === 200 && res.data) {
+    //       // 处理不同的响应格式，查找浏览量字段
+    //       let readCount = 0;
           
-          if (res.data.lookcount !== undefined) {
-            readCount = res.data.lookcount;
-          } else if (res.data.data && res.data.data.lookcount !== undefined) {
-            readCount = res.data.data.lookcount;
-          } else if (res.data.readCount !== undefined) {
-            readCount = res.data.readCount;
-          } else if (res.data.clickCount !== undefined) {
-            readCount = res.data.clickCount;
-          } else if (res.data.viewCount !== undefined) {
-            readCount = res.data.viewCount;
-          }
+    //       if (res.data.lookcount !== undefined) {
+    //         readCount = res.data.lookcount;
+    //       } else if (res.data.data && res.data.data.lookcount !== undefined) {
+    //         readCount = res.data.data.lookcount;
+    //       } else if (res.data.readCount !== undefined) {
+    //         readCount = res.data.readCount;
+    //       } else if (res.data.clickCount !== undefined) {
+    //         readCount = res.data.clickCount;
+    //       } else if (res.data.viewCount !== undefined) {
+    //         readCount = res.data.viewCount;
+    //       }
           
-          console.log(`项目${projectId}的浏览量：`, readCount);
+    //       console.log(`项目${projectId}的浏览量：`, readCount);
           
-          // 更新项目列表中的阅读量
-          const updatedProjects = [...this.data.projectList];
-          if (updatedProjects[projectIndex]) {
-            updatedProjects[projectIndex].readCount = readCount;
-            updatedProjects[projectIndex].lookcount = readCount;
-            this.setData({
-              projectList: updatedProjects
-            });
-          }
-        }
-      },
-      fail: (err) => {
-        console.error(`获取项目${projectId}阅读量失败：`, err);
-        // 如果API失败，设置默认值
-        const updatedProjects = [...this.data.projectList];
-        if (updatedProjects[projectIndex]) {
-          updatedProjects[projectIndex].readCount = 0;
-          updatedProjects[projectIndex].lookcount = 0;
-          this.setData({
-            projectList: updatedProjects
-          });
-        }
-      }
-    });
+    //       // 更新项目列表中的阅读量
+    //       const updatedProjects = [...this.data.projectList];
+    //       if (updatedProjects[projectIndex]) {
+    //         updatedProjects[projectIndex].readCount = readCount;
+    //         updatedProjects[projectIndex].lookcount = readCount;
+    //         this.setData({
+    //           projectList: updatedProjects
+    //         });
+    //       }
+    //     }
+    //   },
+    //   fail: (err) => {
+    //     console.error(`获取项目${projectId}阅读量失败：`, err);
+    //     // 如果API失败，设置默认值
+    //     const updatedProjects = [...this.data.projectList];
+    //     if (updatedProjects[projectIndex]) {
+    //       updatedProjects[projectIndex].readCount = 0;
+    //       updatedProjects[projectIndex].lookcount = 0;
+    //       this.setData({
+    //         projectList: updatedProjects
+    //       });
+    //     }
+    //   }
+    // });
   },
 
   // 获取状态文本
@@ -305,8 +306,8 @@ Page({
     });
 
     wx.request({
-      url: `http://114.55.85.236:8080/project/delectproject/${projectId}`,
-      method: 'DELETE',
+      url: `https://zhaoxiaokai.xyz/project/delectproject/${projectId}`,
+      method: 'POSt',
       header: {
         'content-type': 'application/json',
         'Authorization': token
@@ -401,7 +402,7 @@ Page({
     });
 
     wx.request({
-      url: `http://114.55.85.236:8080/project/status/${projectId}`,
+      url: `https://zhaoxiaokai.xyz/project/status/${projectId}`,
       method: 'PUT',
       header: {
         'content-type': 'application/json',

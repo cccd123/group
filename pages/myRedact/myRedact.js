@@ -1,7 +1,18 @@
-import { promisifyUploadFile } from "../../app";
-import { userBehavior } from './behavior'
-import { uploadAvatarService, uploadCoverService, updateUserInfoService, getUserInfoService } from '../../api/user'
-import { setStorage } from '../../utils/storage'
+import {
+  promisifyUploadFile
+} from "../../app";
+import {
+  userBehavior
+} from './behavior'
+import {
+  uploadAvatarService,
+  uploadCoverService,
+  updateUserInfoService,
+  getUserInfoService
+} from '../../api/user'
+import {
+  setStorage
+} from '../../utils/storage'
 
 // pages/myRedact/myRedact.js
 const app = getApp()
@@ -28,7 +39,9 @@ Page({
   },
   // 统一处理所有输入变化
   onInputChange(e) {
-    const { name } = e.currentTarget.dataset;
+    const {
+      name
+    } = e.currentTarget.dataset;
     this.setData({
       [`formData.${name}`]: e.detail.value
     });
@@ -51,7 +64,10 @@ Page({
 
   // 统一处理所有维度的选择
   handleTraitSelect(e) {
-    const { index, trait } = e.currentTarget.dataset;
+    const {
+      index,
+      trait
+    } = e.currentTarget.dataset;
     const key = `traits[${index}]`;
 
     this.setData({
@@ -84,17 +100,21 @@ Page({
     //   }
     // })
     console.log(evt)
-    const {avatarUrl} = evt.detail;
+    const {
+      avatarUrl
+    } = evt.detail;
     const res = await uploadAvatarService(avatarUrl, 'file')
     console.log(res)
-    const {data} = res
+    const {
+      data
+    } = res
     this.setData({
       'userInfo.avatarUrl': data
     })
     console.log(this.data.userInfo)
     // 用户信息更新成功以后，需要将最新的用户信息存储到本地
     setStorage('userInfo', this.data.userInfo)
-      
+
     // 用户信息更新成功以后，同时同步到store
     this.setUserInfo(this.data.userInfo)
   },
@@ -111,13 +131,15 @@ Page({
         // that.uploadCover(tempFilePaths);
         const result = await uploadCoverService(tempFilePaths, 'file')
         console.log("背景图片上传", result)
-        const {data} = result
+        const {
+          data
+        } = result
         that.setData({
           'userInfo.coverImage': data
         })
         // 用户信息更新成功以后，需要将最新的用户信息存储到本地
         setStorage('userInfo', this.data.userInfo)
-          
+
         // 用户信息更新成功以后，同时同步到store
         this.setUserInfo(this.data.userInfo)
       }
@@ -211,7 +233,9 @@ Page({
     console.log("修改个人信息结果：", res)
     if (res.code === 200) {
       // 获取用户信息
-      const {data} = await getUserInfoService();
+      const {
+        data
+      } = await getUserInfoService();
       console.log(data)
       // 将用户信息存储到本地
       setStorage('userInfo', data);
@@ -220,8 +244,10 @@ Page({
       this.setUserInfo(data);
 
       app.globalData.userInfo = data
-      
-      wx.toast({ title: '用户信息更新成功' })
+
+      wx.toast({
+        title: '用户信息更新成功'
+      })
     }
     // wx.request({
     //   url: `${app.globalData.baseUrl}/user/update`,
@@ -246,19 +272,40 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
-    // const userInfo = app.globalData.userInfo
-    this.setData({
-      traits: this.formatMBTI(this.data.userInfo.mbti),
-      formData: {
-        nickname: this.data.userInfo.nickname,
-        school: this.data.userInfo.school,
-        major: this.data.userInfo.major,
-        persona: this.data.userInfo.persona, // 人设
-        introduction: this.data.userInfo.introduction,
+  async onLoad(options) {
+    let obj = {
+      id: this.data.userInfo.school
+    }
+    let sc 
+    //获取学校名称
+    wx.request({
+      url: `${app.globalData.baseUrl}/school/getSchoolById`,
+      method: 'GET',
+      header: {
+        'Authorization': app.globalData.token
       },
-      grade: this.data.userInfo.grade,
-      projectOrientation: this.data.userInfo.projectOrientation,
+      data:obj,
+      success: res => {
+        sc=res.data.data.schoolname
+  // const userInfo = app.globalData.userInfo
+  this.setData({
+    traits: this.formatMBTI(this.data.userInfo.mbti),
+    formData: {
+      nickname: this.data.userInfo.nickname,
+      // school: this.data.userInfo.school,
+      school: sc,
+      major: this.data.userInfo.major,
+      persona: this.data.userInfo.persona, // 人设
+      introduction: this.data.userInfo.introduction,
+    },
+    grade: this.data.userInfo.grade,
+    projectOrientation: this.data.userInfo.projectOrientation,
+  })
+        console.log(sc);
+      },
+      fail(err) {
+        console.error(err)
+      }
     })
   },
 
@@ -266,6 +313,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
+    //发送请求获取学校数据
 
   },
 

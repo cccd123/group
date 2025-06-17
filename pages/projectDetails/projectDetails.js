@@ -91,7 +91,7 @@ Page({
 
     // 方法1: 尝试直接调用项目列表API，不传school参数
     wx.request({
-      url: 'http://114.55.85.236:8080/project/allproject',
+      url: 'https://zhaoxiaokai.xyz/project/allproject',
       method: 'GET',
       header: this.getAuthHeader(),
       data: {
@@ -138,7 +138,7 @@ Page({
     
     // 尝试完全不传参数的请求
     wx.request({
-      url: 'http://114.55.85.236:8080/project/allproject',
+      url: 'https://zhaoxiaokai.xyz/project/allproject',
       method: 'GET',
       header: this.getAuthHeader(),
       // 不传任何参数
@@ -377,7 +377,7 @@ Page({
 
     // 根据API文档，使用Query参数传递id
     wx.request({
-      url: `http://114.55.85.236:8080/project/join?id=${this.data.projectId}`,
+      url: `https://zhaoxiaokai.xyz/project/join?id=${this.data.projectId}`,
       method: 'POST',
       header: this.getAuthHeader(),
       // 根据API文档，可能需要form-data格式的body参数
@@ -449,7 +449,7 @@ Page({
     }
 
     wx.request({
-      url: `http://114.55.85.236:8080/project/checkJoin/${this.data.projectId}`,
+      url: `https://zhaoxiaokai.xyz/project/checkJoin/${this.data.projectId}`,
       method: 'GET',
       header: this.getAuthHeader(),
       success: (res) => {
@@ -515,6 +515,11 @@ Page({
     if (this.data.projectId && !this.data.projectDetails) {
       this.getProjectDetails();
     }
+    //查看当前的项目id是否存在
+    console.log("----------------------------------------------------------------------");
+    console.log(this.data);
+        //查看当前的项目id是否存在
+        console.log("----------------------------------------------------------------------");
   },
 
   /**

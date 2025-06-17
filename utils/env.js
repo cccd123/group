@@ -10,7 +10,9 @@ const { envVersion } = miniProgram
 
 let env = {
   // baseURL: 'http://localhost:8080',
-  baseURL: 'http://114.55.85.236:8080'
+  // baseURL: 'http://114.55.85.236:8080'
+  baseURL: 'https://zhaoxiaokai.xyz'
+  
 }
 
 // switch (envVersion) {
