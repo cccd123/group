@@ -2,33 +2,36 @@
 	<view>
 		<view class="content-body">
 			<text>项目简要信息</text>
-			<text>{{projectDetails.projectDescription || '暂无项目描述'}}</text>
+			<text>{{project.projectName || '暂无项目描述'}}</text>
 		</view>
 		<view class="content-body">
 			<text>项目详情</text>
-			<text>{{projectDetails.projectDetail || '暂无详细信息'}}</text>
+			<text>{{project.projectInfo || '暂无详细信息'}}</text>
 		</view>
 
 		<view class="content-main">
 			<view>
 				<text>队伍预计规模</text>
-				<text>{{projectDetails.teamSize || '未知'}}人</text>
+				<text>{{project.memberCount || '未知'}}人</text>
 			</view>
 			<view>
 				<text>是否接受跨校</text>
-				<text>{{projectDetails.crossSchool || '未知'}}</text>
+        <text wx:if="project.crossSchool==1">接受</text>
+        <text wx:elif="project.crossSchool==0">拒绝</text>
+        <text wx:else>未知</text>
+				<!-- <text>{{project.crossSchool==1?'接受':project. || '未知'}}</text> -->
 			</view>
 		</view>
 
 		<view class="content-school">
 			<text>项目发起校</text>
-			<text>{{projectDetails.school || '未知学校'}}</text>
+			<text>{{project.schoolname || '未知学校'}}</text>
 		</view>
 
 		<view class="content-main">
 			<view>
 				<text>学校要求</text>
-				<text>{{projectDetails.requirement || '未知'}}</text>
+				<text>{{project.educationRequirement || '未知'}}</text>
 			</view>
 			<view>
 				<text>项目偏向</text>
@@ -45,12 +48,12 @@
 		<view class="content-body">
 			<view class="requirement">
 				<text>详细要求</text>
-				<text>{{projectDetails.detailRequirement || '暂无详细要求'}}</text>
+				<text>{{project.skillDetails || '暂无详细要求'}}</text>
 			</view>
 			<view class="other">
 				<radio-group>
 				<label>
-					<radio class="bg" checked="{{projectDetails.flexible || false}}">学习能力强，积极热情亦可参与</radio>
+					<radio class="bg" checked="{{project.flexible || false}}">学习能力强，积极热情亦可参与</radio>
 				</label>
 				</radio-group>
 			</view>
