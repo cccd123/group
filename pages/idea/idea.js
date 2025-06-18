@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    user:{},
     brief:'',
     inDetail:'',
     simplenessSkill:'',
@@ -178,7 +179,6 @@ Page({
     // 获取选中的学历要求
     const selectedEducation = this.data.items.find(item => item.checked);
     let educationRequirement = 2; // 默认本科
-    
     if (selectedEducation) {
       switch(selectedEducation.value) {
         case '大专':
@@ -210,13 +210,14 @@ Page({
     return {
       projectName: this.data.brief,
       projectInfo: this.data.inDetail,
-      school: '默认学校', // 使用默认值或根据需要设置
+      school: this.data.user.school, // 使用默认值或根据需要设置
       direction: directionValue,
       crossSchool: this.data.crossSchool ? 1 : 0,
       educationRequirement: educationRequirement,
       skillSummary: skillSummary,
       skillDetails: skillDetails,
-      emailPromotion: this.data.promotionChecked
+      emailPromotion: this.data.promotionChecked,
+      memberCount: this.data.number//设置默认的队伍人数
     };
   },
 
@@ -258,10 +259,11 @@ Page({
     
     // 获取token
     const token = wx.getStorageSync('token');
-    
+    console.log(requestData);
+    debugger
     // 发送请求到后端
     wx.request({
-      url: 'http://114.55.85.236:8080/project/create',
+      url: 'https://zhaoxiaokai.xyz/project/create',
       method: 'POST',
       header: {
         'content-type': 'application/json',
@@ -271,7 +273,11 @@ Page({
       success: (res) => {
         wx.hideLoading();
         console.log('创建成功：', res);
-        
+        if(res.data.code==500){
+          //TODO 项目创建失败
+          console.log("项目创建失败");
+          return
+        }
         if (res.statusCode === 200) {
           wx.showToast({
             title: '项目创建成功',
@@ -280,10 +286,21 @@ Page({
             success: () => {
               // 延迟跳转，让用户看到成功提示
               setTimeout(() => {
-                // 根据你的业务逻辑跳转到相应页面
-                wx.navigateBack({
-                  delta: 1
-                });
+				// 根据你的业务逻辑跳转到相应页面
+				if (!requestData.emailPromotion)
+				{
+					wx.navigateBack({
+						delta: 1
+					});
+				}
+				else if(requestData.emailPromotion === true)
+				{
+					wx.redirectTo({			// ！！！等待后端接口修改 处理正确处理projectId！！！
+					//   url: `../emailMarketing/emailMarketing?projectid=${projectId}`,
+					  url: `../emailMarketing/emailMarketing?projectid=${res.data.data.id}`,
+					})
+				}
+                
                 // 或者跳转到项目列表页面
                 // wx.redirectTo({
                 //   url: '/pages/project-list/project-list'
@@ -318,7 +335,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    
+    const token = wx.getStorageSync('token')
+    // 获取用户的信息
+    wx.request({
+      url: 'https://zhaoxiaokai.xyz/user/getuserinfo',
+      method: 'GET',
+      header: {
+        'content-type': 'application/json',
+        'Authorization': token // 添加token到请求头
+      },
+      success: (res) => {
+       console.log(res);
+       //设置成用户默认的学校
+       this.setData({
+         user:res.data.data
+       })
+      }})
+      
   },
 
   /**

@@ -1,6 +1,6 @@
 {
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": true,
     "enhance": true,
     "postcss": true,
@@ -42,24 +42,12 @@
     ]
   },
   "condition": {
-    "search": {
-      "list": []
-    },
-    "conversation": {
-      "list": []
-    },
-    "plugin": {
-      "list": []
-    },
-    "game": {
-      "list": []
-    },
     "miniprogram": {
       "list": [
         {
-          "id": -1,
           "name": "db guide",
-          "pathName": "pages/databaseGuide/databaseGuide"
+          "pathName": "pages/databaseGuide/databaseGuide",
+          "query": ""
         }
       ]
     }
@@ -73,5 +61,7 @@
     "ignore": [],
     "include": []
   },
-  "appid": "wx1cb9eddd2bef98d5"
+  "appid": "wx1cb9eddd2bef98d5",
+  "projectname": "quickmatch_hlh",
+  "libVersion": "3.8.8"
 }

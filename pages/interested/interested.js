@@ -121,7 +121,7 @@ Page({
     console.log('========================');
 
     wx.request({
-      url: 'http://114.55.85.236:8080/project/queryApplicationProject',
+      url: 'https://zhaoxiaokai.xyz/project/queryApplicationProject',
       method: 'GET',
       data: requestData,
       header: this.getAuthHeader(),
@@ -434,7 +434,7 @@ Page({
           });
 
           wx.request({
-            url: `http://114.55.85.236:8080/project/projectjoin/${projectId}`,
+            url: `https://zhaoxiaokai.xyz/project/projectjoin/${projectId}`,
             method: 'DELETE',
             header: this.getAuthHeader(),
             success: (res) => {
@@ -540,7 +540,7 @@ Page({
     
     // 简单的ping测试
     wx.request({
-      url: 'http://114.55.85.236:8080/',  // 测试根路径
+      url: 'https://zhaoxiaokai.xyz/',  // 测试根路径
       method: 'GET',
       success: (res) => {
         console.log('根路径测试结果:', res);

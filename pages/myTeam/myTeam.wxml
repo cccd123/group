@@ -44,7 +44,7 @@
           <view>
             <image class="body-image1" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/read.png"></image>
             <text>阅读量</text>
-            <text>{{item.readCount || 0}}</text>
+            <text>{{item.lookcount || 0}}</text>
           </view>
           <view>
             <image class="body-image2" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/file.png"></image>

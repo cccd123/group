@@ -141,8 +141,8 @@ Page({
     }
     
     wx.request({
-      url: `http://114.55.85.236:8080/project/lookproject/${projectId}`,
-      method: 'POST',
+      url: `https://zhaoxiaokai.xyz/project/lookproject/${projectId}`,
+      method: 'GET',
       header: {
         'content-type': 'application/json',
         'Authorization': token
@@ -287,7 +287,7 @@ Page({
     };
   
     wx.request({
-      url: 'http://114.55.85.236:8080/project/allproject',
+      url: 'https://zhaoxiaokai.xyz/project/allproject',
       method: 'GET',
       data: requestData,
       header: this.getAuthHeader(),
@@ -362,7 +362,7 @@ Page({
     });
 
     wx.request({
-      url: 'http://114.55.85.236:8080/project/allproject',
+      url: 'https://zhaoxiaokai.xyz/project/allproject',
       method: 'GET',
       data: {
         pageNum: pageInfo.pageNum.toString(),
@@ -470,7 +470,7 @@ Page({
       }
       
       wx.request({
-        url: 'http://114.55.85.236:8080/user/school',
+        url: 'https://zhaoxiaokai.xyz/user/school',
         method: 'GET',
         header: this.getAuthHeader(),
         success: (res) => {

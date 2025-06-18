@@ -1,0 +1,284 @@
+/* pages/emailMarketing/emailMarketing.wxss */
+.container {
+	width: 90%;
+	padding: 40rpx 40rpx 10rpx 40rpx;
+	margin-top: 15rpx;
+	margin-bottom: 40rpx;
+	background-color: #fff;
+	border-radius: 25rpx;
+	box-shadow: 0 8rpx 12rpx rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+}
+
+.select-btn {
+	margin-top: 20rpx;
+	padding: 12rpx 20rpx;
+	background-color: #1AAD19; /* 微信绿色 */
+	color: #fff;
+	border-radius: 8rpx;
+}
+
+/* 选择项目界面中的选择按钮 */
+.project-select-btn
+{
+	width: 100%;
+	background-color: #007AFF;
+	color: #ffffff;
+	border: none;
+	border-radius: 16rpx;
+	padding: 28rpx 0;
+	font-size: 30rpx;
+	font-weight: 600;
+	margin-top: 20rpx;
+	transition: all 0.2s ease;
+}
+
+/* 已选项目卡片 */
+.chosen-info-card {
+	margin: 20rpx;
+	background-color: #fff;
+	border-radius: 8rpx;
+	box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	border: 5rpx solid #e0e0e0;
+}
+  
+.project-info-card-header {
+	background-color: #1AAD19;
+	color: #fff;
+	font-size: 30rpx;
+	font-weight: bold;
+	padding: 20rpx;
+}
+  
+.project-info-card-body {
+	padding: 20rpx;
+}
+  
+.project-info-card-field {
+	display: flex;
+	margin-bottom: 12rpx;
+}
+  
+.project-info-card-label {
+	width: 200rpx;
+	font-size: 25rpx;
+	color: #666;
+}
+  
+.project-info-card-value {
+	flex: 1;
+	font-size: 25rpx;
+	color: #333;
+}
+  
+.project-info {
+	white-space: normal;
+	line-height: 1.6;
+	font-size: 25rpx;
+}  
+
+.reset-btn {
+	margin-left: 20rpx;
+	padding: 8rpx 16rpx;
+	background-color: #ffa500;
+	color: #fff;
+	border-radius: 6rpx;
+}  
+
+/* 遮罩 */
+.mask {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+}
+
+/* 底部选择面板 */
+.panel {
+	position: fixed;
+	bottom: -100%; /* 初始在屏幕外 */
+	left: 0;
+	width: 100%;
+	height: 70%;  /* 面板高度 */
+	background-color: #fff;
+	border-top-left-radius: 12rpx;
+	border-top-right-radius: 12rpx;
+	box-shadow: 0 -4rpx 12rpx rgba(0, 0, 0, 0.1);
+	z-index: 1001;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+
+/* 面板内的主体滚动区域 */
+.panel-body {
+	flex: 1; /* 确保滚动区域占满剩余空间 */
+	padding: 10rpx;
+	overflow-y: auto; /* 启用垂直滚动 */
+}
+
+/* 选择面板的面板头 */
+.panel-header {
+	width: 100%;               /* 撑满父容器 */
+	box-sizing: border-box;    /* padding 不影响总宽度 */
+	display: flex;
+	justify-content: space-between;  /* 两端对齐 */
+	align-items: center;
+	padding: 20rpx;
+	border-bottom: 1rpx solid #eee;
+}
+
+.panel-title {
+	font-size: 18rpx;
+	font-weight: bold;
+	color: #333;
+}
+
+/* 关闭项目选择面板按钮 'x' */
+.panel-close {
+	font-size: 24rpx;
+	background: none;
+	border: none;
+	color: #999;
+}
+
+/* 项目卡片 */
+.project-card {
+	margin-bottom: 20rpx;
+	padding: 20rpx;
+	background-color: #fafafa;
+	border-radius: 8rpx;
+}
+
+
+.project-school {
+	position: absolute;
+	top: 20rpx;
+	right: 20rpx;
+	font-size: 12px;
+	color: #999;
+}
+
+.project-title {
+	margin-top: 10rpx;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.project-desc {
+	margin-top: 10rpx;
+	font-size: 14px;
+	color: #666;
+}
+
+.project-info-section {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 40rpx;
+}
+
+.info-item {
+	display: flex;
+	flex-direction: column;
+}
+
+.info-label {
+	font-size: 12px;
+	color: #999;
+}
+
+.info-value {
+	margin-top: 4rpx;
+	font-size: 14px;
+	color: #333;
+}
+
+.select-item-btn {
+	margin-top: 10rpx;
+	padding: 8rpx 16rpx;
+	background-color: #1AAD19;
+	color: #fff;
+	border-radius: 6rpx;
+}
+
+/* 邮件推广细节选择 */
+.latter-label {
+	margin-bottom: 20px;
+	cursor: pointer;
+	border-bottom: 1rpx solid #8a8a8a;
+}
+
+.selected {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: #666;
+}
+
+.button_1
+{
+	font-weight: 400;
+	color: white;
+	background-color: #1AAD19;
+}
+
+.button_hover_1
+{
+	font-weight: bolder;
+	background-color: rgb(228, 64, 64);
+}
+
+.picker-view {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 300px;  /* picker-view的高度 */
+	background-color: #fff;
+	z-index: 1000;
+	border-top: 1px solid #ccc;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.picker-header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10rpx;
+	margin-bottom: 10px;
+	background-color: #f8f8f8;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+  }
+  
+  .picker-btn {
+	font-size: 16px;
+	padding: 5px 20px;
+	background-color: #007aff;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+  }
+
+.picker-view-column {
+	flex: 1;
+	overflow-y: auto;
+}
+
+.picker-item {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.count {
+	color: #888;
+}

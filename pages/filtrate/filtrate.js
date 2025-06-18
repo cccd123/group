@@ -68,7 +68,7 @@ Page({
 
     // 修改请求方式，先不带状态参数，获取所有数据来调试
     wx.request({
-      url: `http://114.55.85.236:8080/project/projectjoin/${projectId}`, // 先移除状态参数
+      url: `https://zhaoxiaokai.xyz/project/projectjoin/${projectId}`, // 先移除状态参数
       method: 'GET',
       header: {
         'content-type': 'application/json',
@@ -164,7 +164,7 @@ Page({
     });
 
     wx.request({
-      url: 'http://114.55.85.236:8080/project/approve',
+      url: 'https://zhaoxiaokai.xyz/project/approve',
       method: 'POST',
       header: {
         'content-type': 'application/json',

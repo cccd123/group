@@ -38,7 +38,7 @@ Page({
     });
 
     const apiEndpoints = [
-      'http://114.55.85.236:8080/project/projectinfo',
+      'https://zhaoxiaokai.xyz/project/projectinfo',
     ];
 
     wx.request({
@@ -52,7 +52,7 @@ Page({
         console.log('API响应完整数据：', res);
         console.log('响应状态码：', res.statusCode);
         console.log('响应数据：', res.data);
-        
+        console.log("================================>",res);
         // 更灵活的成功判断
         if (res.statusCode === 200) {
           let projectData = [];
@@ -139,7 +139,7 @@ Page({
   // 获取申请人数量（投递量）
   getApplicationCount(projectId, projectIndex, token) {
     wx.request({
-      url: `http://114.55.85.236:8080/project/projectjoin/${projectId}`,
+      url: `https://zhaoxiaokai.xyz/project/projectjoin/${projectId}`,
       method: 'GET',
       header: {
         'content-type': 'application/json',
@@ -305,8 +305,8 @@ Page({
     });
 
     wx.request({
-      url: `http://114.55.85.236:8080/project/delectproject/${projectId}`,
-      method: 'DELETE',
+      url: `https://zhaoxiaokai.xyz/project/delectproject/${projectId}`,
+      method: 'POSt',
       header: {
         'content-type': 'application/json',
         'Authorization': token
@@ -401,7 +401,7 @@ Page({
     });
 
     wx.request({
-      url: `http://114.55.85.236:8080/project/status/${projectId}`,
+      url: `https://zhaoxiaokai.xyz/project/status/${projectId}`,
       method: 'PUT',
       header: {
         'content-type': 'application/json',
