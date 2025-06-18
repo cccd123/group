@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx-miniprogram'
+import { observable, action, set } from 'mobx-miniprogram'
 import { getStorage } from '../utils/storage'
 export const userStore = observable({
   // 定义响应式数据
@@ -7,9 +7,8 @@ export const userStore = observable({
 
   userInfo: getStorage('userInfo') || '',
   
-  // 目前没有通过schoolId获取学校信息的api，所以这里先存储schoolInfo
-  schoolInfo: getStorage('schoolInfo') || '',
-
+  schoolName: '',
+  
   isLogin: false,
   
   setIsLogin: action(function(param) {
@@ -23,9 +22,8 @@ export const userStore = observable({
   setUserInfo: action(function(userInfo) {
     this.userInfo = userInfo
   }),
-  
-  // 目前没有通过schoolId获取学校信息的api，所以这里先存储schoolInfo
-  setSchoolInfo: action(function(schoolInfo) {
-    this.schoolInfo = schoolInfo
-  })
+
+  setSchoolName: action(function(schoolName) {
+    this.schoolName = schoolName
+  }),
 })

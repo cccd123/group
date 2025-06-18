@@ -1,18 +1,7 @@
-import {
-  promisifyUploadFile
-} from "../../app";
-import {
-  userBehavior
-} from './behavior'
-import {
-  uploadAvatarService,
-  uploadCoverService,
-  updateUserInfoService,
-  getUserInfoService
-} from '../../api/user'
-import {
-  setStorage
-} from '../../utils/storage'
+import { userBehavior } from './behavior'
+import { uploadAvatarService, uploadCoverService, updateUserInfoService, getUserInfoService } from '../../api/user'
+import { setStorage } from '../../utils/storage'
+import { getSchoolByIdService } from '../../api/school'
 
 // pages/myRedact/myRedact.js
 const app = getApp()
@@ -26,6 +15,7 @@ Page({
    */
   data: {
     grades: ['大一', '大二', '大三', '大四', '研究生', '博士生'],
+    grade: '',
     // 存储MBTI四个维度的选择结果
     traits: ['', '', '', ''],
     directions: ['落地', '获奖', '学习'],
@@ -87,18 +77,6 @@ Page({
 
   // 选择头像
   async chooseAvatar(evt) {
-    // const that = this;
-    // wx.chooseMedia({
-    //   count: 1,
-    //   mediaType: ['image'],
-    //   sourceType: ['album', 'camera'],
-    //   maxDuration: 30,
-    //   camera: 'back',
-    //   success(res) {
-    //     const tempFilePaths = res.tempFiles[0].tempFilePath;
-    //     that.uploadAvatar(tempFilePaths);
-    //   }
-    // })
     console.log(evt)
     const {
       avatarUrl
@@ -128,7 +106,6 @@ Page({
       camera: 'back',
       success: async (res) => {
         const tempFilePaths = res.tempFiles[0].tempFilePath;
-        // that.uploadCover(tempFilePaths);
         const result = await uploadCoverService(tempFilePaths, 'file')
         console.log("背景图片上传", result)
         const {
@@ -145,84 +122,11 @@ Page({
       }
     })
   },
-  // 上传封面到服务器
-  // uploadCover: async function (tempFilePath) {
-  //   const that = this;
-  //   wx.showLoading({
-  //     title: '上传中...',
-  //   });
-  //   try {
-  //     const res = await promisifyUploadFile({
-  //       url: `${app.globalData.baseUrl}/user/uploadbg`,
-  //       filePath: tempFilePath,
-  //       name: 'file',
-  //       header: {
-  //         'Authorization': app.globalData.token
-  //       }
-  //     });
-  //     wx.hideLoading();
-
-  //     if (res.statusCode === 200 && JSON.parse(res.data).code === 200) {
-  //       wx.showToast({
-  //         title: '上传成功',
-  //         icon: 'success'
-  //       });
-  //       // 更新用户信息
-  //       app.refreshUserInfo();
-  //     } else {
-  //       throw new Error(res.data.message || '上传失败');
-  //     }
-  //   } catch (error) {
-  //     wx.hideLoading();
-  //     wx.showToast({
-  //       title: error.message || '上传失败',
-  //       icon: 'none'
-  //     });
-  //     console.error('上传失败:', error);
-  //   }
-  // },
-
-  // 上传头像到服务器
-  // uploadAvatar: async function (tempFilePath) {
-  //   const that = this;
-  //   wx.showLoading({
-  //     title: '上传中...',
-  //   });
-
-  //   try {
-  //     const res = await promisifyUploadFile({
-  //       url: `${app.globalData.baseUrl}/user/uploadavatar`,
-  //       filePath: tempFilePath,
-  //       name: 'file',
-  //       header: {
-  //         'Authorization': app.globalData.token
-  //       }
-  //     });
-  //     wx.hideLoading();
-  //     console.log(res)
-
-  //     if (res.statusCode === 200 && JSON.parse(res.data).code === 200) {
-  //       wx.showToast({
-  //         title: '上传成功',
-  //         icon: 'success'
-  //       });
-  //       app.refreshUserInfo();
-  //     } else {
-  //       throw new Error(res.data.message || '上传失败');
-  //     }
-  //   } catch (error) {
-  //     wx.showToast({
-  //       title: error.message || '上传失败',
-  //       icon: 'none'
-  //     });
-  //     console.error('上传失败:', error);
-  //   }
-  // },
   async updateInfo(e) {
     const formData = e.detail.value;
     console.log('表单', formData)
     const info = {
-      ...app.globalData.userInfo,
+      ...this.data.userInfo,
       ...formData,
       grade: this.data.grade,
       mbti: this.getMBTIResult(this.data.traits),
@@ -243,119 +147,57 @@ Page({
       // 将用户信息存储到store对象
       this.setUserInfo(data);
 
-      app.globalData.userInfo = data
+      const { data: schoolData } = await getSchoolByIdService({ id: data.school })
+      console.log(schoolData)
+      this.setSchoolName(schoolData.schoolname)
 
-      wx.toast({
-        title: '用户信息更新成功'
-      })
+      wx.toast({ title: '用户信息更新成功' })
     }
-    // wx.request({
-    //   url: `${app.globalData.baseUrl}/user/update`,
-    //   method: 'POST',
-    //   header: {
-    //     'Authorization': app.globalData.token
-    //   },
-    //   data: info,
-    //   success(res) {
-    //     console.log(res.data)
-    //     wx.showToast({
-    //       title: '用户信息已更新',
-    //       icon: 'success'
-    //     })
-    //     app.refreshUserInfo()
-    //   },
-    //   fail(err) {
-    //     console.error(err)
-    //   }
-    // })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   async onLoad(options) {
-    let obj = {
-      id: this.data.userInfo.school
-    }
-    let sc 
     //获取学校名称
-    wx.request({
-      url: `${app.globalData.baseUrl}/school/getSchoolById`,
-      method: 'GET',
-      header: {
-        'Authorization': app.globalData.token
+    // wx.request({
+    //   url: `${app.globalData.baseUrl}/school/getSchoolById`,
+    //   method: 'GET',
+    //   header: {
+    //     'Authorization': app.globalData.token
+    //   },
+    //   data: obj,
+    //   success: res => {
+    //     sc = res.data.data.schoolname
+    //     // const userInfo = app.globalData.userInfo
+    //     this.setData({
+    //       traits: this.formatMBTI(this.data.userInfo.mbti),
+    //       formData: {
+    //         nickname: this.data.userInfo.nickname,
+    //         // school: this.data.userInfo.school,
+    //         school: sc,
+    //         major: this.data.userInfo.major,
+    //         persona: this.data.userInfo.persona, // 人设
+    //         introduction: this.data.userInfo.introduction,
+    //       },
+    //       grade: this.data.userInfo.grade,
+    //       projectOrientation: this.data.userInfo.projectOrientation,
+    //     })
+    //     console.log(sc);
+    //   },
+    //   fail(err) {
+    //     console.error(err)
+    //   }
+    // })
+    this.setData({
+      traits: this.formatMBTI(this.data.userInfo.mbti),
+      formData: {
+        nickname: this.data.userInfo.nickname,
+        major: this.data.userInfo.major,
+        persona: this.data.userInfo.persona, // 人设
+        introduction: this.data.userInfo.introduction,
       },
-      data:obj,
-      success: res => {
-        sc=res.data.data.schoolname
-  // const userInfo = app.globalData.userInfo
-  this.setData({
-    traits: this.formatMBTI(this.data.userInfo.mbti),
-    formData: {
-      nickname: this.data.userInfo.nickname,
-      // school: this.data.userInfo.school,
-      school: sc,
-      major: this.data.userInfo.major,
-      persona: this.data.userInfo.persona, // 人设
-      introduction: this.data.userInfo.introduction,
-    },
-    grade: this.data.userInfo.grade,
-    projectOrientation: this.data.userInfo.projectOrientation,
-  })
-        console.log(sc);
-      },
-      fail(err) {
-        console.error(err)
-      }
+      grade: this.data.userInfo.grade,
+      projectOrientation: this.data.userInfo.projectOrientation,
     })
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-    //发送请求获取学校数据
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
 })

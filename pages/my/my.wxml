@@ -12,7 +12,7 @@
     <view class="main1">
       <text class="nickname">{{ userInfo.nickname }}</text>
       <view class="schoolView">
-        <text class="school">{{ schoolInfo.schoolname }}</text>
+        <text class="school">{{ schoolName }}</text>
         <text bind:tap="schoolAccreditation">快速认证→</text>
       </view>
       <text>{{ userInfo.introduction || '简介：擅长吹牛，创新还不错，但是希望可以落地。'}}</text>

@@ -8,14 +8,12 @@
     <text>让大家更好了解你</text>
   </view>
 </view>
-
 <view class="body">
   <view>
-    <button hover-class="none"  bindchooseavatar="chooseAvatar" open-type="chooseAvatar" style="background-color: #fff;">
+    <button hover-class="none" bindchooseavatar="chooseAvatar" open-type="chooseAvatar" style="background-color: #fff;">
       <image src="{{ userInfo.avatarUrl ? 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + userInfo.avatarUrl : 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg'}}" mode="aspectFill" style="width: 100px; height: 100px; border-radius: 50%;"></image>
     </button>
   </view>
-
   <form bindsubmit="updateInfo">
     <!-- 1. 昵称 -->
     <view class="body-item">
@@ -25,28 +23,27 @@
     <!-- 2. 学校 -->
     <view class="body-item">
       <text>学校</text>
-      <input name="school" value="{{formData.school}}" bindinput="onInputChange" />
+      <label name="school">{{ schoolName }}</label>
     </view>
     <!-- 3. 专业 -->
     <view class="body-item">
       <text>专业</text>
       <input name="major" value="{{formData.major}}" bindinput="onInputChange" />
     </view>
-
     <!-- 4 -->
     <view class="label">
       <text>目前年级</text>
       <view class="body-title">
-        <view wx:for="{{ grades }}" wx:key="index" class="body-title-name {{ grade === item ? 'active' : ''}}" data-grade="{{item}}" bind:tap="grade">{{ item }}</view>
+        <view wx:for="{{ grades }}" wx:key="index" class="body-title-name {{ grade === item ? 'active' : ''}}" data-grade="{{item}}" bind:tap="grade">
+          {{ item }}
+        </view>
       </view>
     </view>
-
     <!-- 5 -->
     <view class="body-item">
       <text>人设</text>
       <input name="persona" value="{{formData.persona}}" bindinput="onInputChange" />
     </view>
-
     <!-- 6 -->
     <view class="container">
       <view>性格（MBTI）</view>
@@ -63,28 +60,25 @@
         </view>
       </view>
     </view>
-
-
     <!-- 7 -->
     <view class="label">
       <text>偏向</text>
       <view class="body-direction">
-        <view wx:for="{{directions}}" wx:key="index" class="body-title-name {{ projectOrientation === item ? 'active' : ''}}" data-direction="{{item}}" bindtap="direction">{{item}}</view>
+        <view wx:for="{{directions}}" wx:key="index" class="body-title-name {{ projectOrientation === item ? 'active' : ''}}" data-direction="{{item}}" bindtap="direction">
+          {{item}}
+        </view>
       </view>
     </view>
-
     <!-- 8 -->
     <view class="body-item">
       <text>简介</text>
       <textarea name="introduction" value="{{formData.introduction}}" maxlength="36" bindinput="onInputChange"></textarea>
     </view>
-
     <!-- 9 -->
     <view bind:tap="chooseCover" class="cover">
       <image src="{{ userInfo.coverImage ? 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + userInfo.coverImage : 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/background.jpg' }}"></image>
       <text>编辑封面</text>
     </view>
-
     <button class="button" form-type="submit">更新信息</button>
   </form>
 </view>

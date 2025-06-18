@@ -39,5 +39,16 @@ Component({
     getSelectedSchool: function () {
       return this.data.selectedSchool.id;
     }
+  },
+  pageLifetimes: {
+    hide: function () {
+      // 页面隐藏时可以清理数据或执行其他操作
+      this.setData({
+        schools: [],
+        schoolIndex: 0,
+        selectedSchool: '',
+        searchText: ''
+      });
+    }
   }
 });
