@@ -1,4 +1,4 @@
-import { getSchool } from '../../api/school'; // 假设有一个获取学校列表的API
+import { getSchoolService } from '../../api/school'; // 假设有一个获取学校列表的API
 Component({
   data: {
     schools: [],
@@ -13,7 +13,7 @@ Component({
     onSearchInput: async function (e) {
       const searchText = e.detail.value;
       console.log('搜索输入:', searchText);
-      const schoolList = (await getSchool({ school: searchText })).data;
+      const schoolList = (await getSchoolService({ school: searchText })).data;
       console.log('获取学校列表', schoolList);
       this.setData({
         searchText: searchText,
