@@ -13,7 +13,7 @@ ComponentWithStore({
 
   storeBindings: {
     store: userStore,
-    fields: ['token', 'userInfo', 'schoolInfo'],
+    fields: ['token', 'userInfo', 'schoolName'],
     actions: ['setToken', 'setUserInfo', 'setIsLogin']
   },
 
@@ -84,13 +84,10 @@ ComponentWithStore({
       this.setToken('')
       this.setUserInfo('')
       this.setIsLogin(false)
-      // app.globalData.token = ''
-      // app.globalData.userInfo = ''
-      // ！！！是否需要做一些什么提示或者弹窗 来告知用户已经退出登录！！！
-      // wx.navigateTo({
-      //   url: '../login/login',
-      // })
       // 跳转首页
+      wx.reLaunch({
+        url: '../index/index',
+      })
     }
   }
 })

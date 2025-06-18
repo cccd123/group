@@ -26,12 +26,6 @@ ComponentWithStore({
       })
     },
 
-    cancelLogin() {
-      this.setData({
-        userInfo: false
-      })
-    },
-
     infoLogin() {
       wx.navigateTo({
         url: '../login/login',

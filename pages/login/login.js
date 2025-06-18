@@ -4,13 +4,14 @@ import { ComponentWithStore } from 'mobx-miniprogram-bindings'
 import { userStore } from '../../store/userStore'
 import { loginService, getUserInfoService, registService } from '../../api/user'
 import { setStorage } from '../../utils/storage'
+import { getSchoolByIdService } from '../../api/school'
 ComponentWithStore({
 
   // 让页面和store对象建立联系
   storeBindings: {
     store: userStore,
-    fields: ['token', 'userInfo', 'isLogin', 'schoolInfo'],
-    actions: ['setToken', 'setUserInfo', 'setIsLogin', 'setSchoolInfo']
+    fields: ['token', 'userInfo', 'isLogin'],
+    actions: ['setToken', 'setUserInfo', 'setIsLogin', 'setSchoolName']
   },
 
   /**
@@ -53,13 +54,19 @@ ComponentWithStore({
 
     //获取手机号码
     async login2() {
+      if (!this.data.userName) {
+        wx.showToast({
+          title: '请输入昵称',
+          icon: 'none'
+        });
+        return;
+      }
       // 只是为了获取token，在注册之前要查询学校信息
       const code = (await wx.login()).code
       const res = await loginService(code);
       console.log(res);
 
       setStorage('token', res.data)
-      app.globalData.token = res.data
       this.setToken(res.data)
 
       this.setData({
@@ -155,18 +162,19 @@ ComponentWithStore({
       })
     },
     login4() {
+      const reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!reg.test(this.data.userEmail)) {
+        wx.showToast({
+          title: '请输入有效邮箱',
+          icon: 'none'
+        });
+        return;
+      }
       this.setData({
         login: 5
       })
     },
 
-    // 其它信息
-    inSchool(e) {
-      const inSchool = e.detail.value;
-      this.setData({
-        inSchool: inSchool
-      })
-    },
     onSchoolChange(e) {
       const selectedSchool = e.detail.school;
       console.log('Selected school:', selectedSchool);
@@ -174,10 +182,7 @@ ComponentWithStore({
       this.setData({
         inSchool: selectedSchool.id
       });
-      this.setSchoolInfo(selectedSchool); // 更新store中的学校信息
-      setStorage('schoolInfo', selectedSchool); // 同步到本地存储
       console.log('Updated inSchool:', this.data.inSchool);
-      console.log('Updated schoolInfo in store:', this.store.schoolInfo);
     },
 
     grade(e) {
@@ -196,10 +201,8 @@ ComponentWithStore({
       const code = (await wx.login()).code
       const res = await loginService(code);
       console.log(res);
-      wx.showToast({ title: '登陆成功', icon: 'success' });
 
       setStorage('token', res.data)
-      app.globalData.token = res.data
       this.setToken(res.data)
 
       this.getUserInfo();
@@ -219,8 +222,9 @@ ComponentWithStore({
       // 将用户信息存储到store对象
       this.setUserInfo(data);
 
-      app.globalData.userInfo = data
-
+      const { data: schoolData } = await getSchoolByIdService({ id: data.school });
+      console.log(data, schoolData);
+      this.setSchoolName(schoolData.schoolname);
     },
 
     async handleRegisterAndLogin() {
@@ -238,11 +242,14 @@ ComponentWithStore({
             major: schoolMajor,
           });
           console.log(res)
+          if (res.code === 500) {
+            wx.showToast({ title: '请勿重复注册', icon: 'error' });
+            return;
+          }
           if (res.code !== 200) {
             wx.showToast({ title: '注册失败', icon: 'error' });
             throw new Error(res.message || '注册失败，请稍后再试');
           }
-          wx.showToast({ title: '注册成功', icon: 'success' });
           this.setData({ registed: true }); // 同步更新状态
         }
         // 2. 登录逻辑（注册成功后或已注册时执行）
@@ -256,10 +263,4 @@ ComponentWithStore({
       }
     }
   },
-  onSchoolChange(e) {
-    const selectedSchool = e.detail.school;
-    this.setData({
-      inSchool: selectedSchool
-    });
-  }
 })

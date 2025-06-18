@@ -25,7 +25,7 @@
         <text>请先登录或注册后进行下一步操作。</text>
       </view>
       <view class="button-container">
-        <view class="button" bind:tap="cancelLogin">取消</view>
+        <view class="button">取消</view>
         <view class="divider"></view>
         <view class="button" bind:tap="infoLogin">登录/注册</view>
       </view>

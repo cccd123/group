@@ -1,22 +1,4 @@
 // app.js
-// export const promisifyRequest = (options) => {
-//   return new Promise((resolve, reject) => {
-//     wx.request({
-//       ...options,
-//       success: (res) => resolve(res),
-//       fail: (err) => reject(err)
-//     });
-//   });
-// };
-// export const promisifyUploadFile = (options) => {
-//   return new Promise((resolve, reject) => {
-//     wx.uploadFile({
-//       ...options,
-//       success: (res) => resolve(res),
-//       fail: (err) => reject(err)
-//     });
-//   });
-// }
 App({
   onLaunch: function () {
     if (!wx.cloud) {
@@ -31,39 +13,8 @@ App({
         traceUser: true,
       });
     }
-	this.globalData.userInfo = wx.getStorageSync('userInfo')
-	// console.log(this.globalData.userInfo)							// test
-	this.globalData.token = wx.getStorageSync('token')
-	this.globalData.userOpenid = this.globalData.userInfo.openid
-	// console.log(this.globalData.userOpenid)
   },
   globalData: {
-    baseUrl: 'https://zhaoxiaokai.xyz',
-    userInfo: null,
-	token: null,
-	userOpenid: null
+    userOpenid: null
   },
-  // setToken(token) {
-  //   this.globalData.token = token
-  //   wx.setStorageSync('token', token)
-  // },
-  // setUserInfo(info) {
-  //   this.globalData.userInfo = info
-  //   wx.setStorageSync('userInfo', info)
-  //   console.log('setUserInfo', info)
-  // },
-  // async refreshUserInfo() {
-  //   try {
-  //     const { data } = await promisifyRequest({
-  //       url: `${this.globalData.baseUrl}/user/getuserinfo`,
-  //       method: 'GET',
-  //       header: {
-  //         'Authorization': this.globalData.token
-  //       },
-  //     })
-  //     this.setUserInfo(data.data)
-  //   } catch (e) {
-  //     console.error('refreshUserInfo', e)
-  //   }
-  // },
 });
