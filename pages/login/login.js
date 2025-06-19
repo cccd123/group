@@ -242,14 +242,6 @@ ComponentWithStore({
             major: schoolMajor,
           });
           console.log(res)
-          if (res.code === 500) {
-            wx.showToast({ title: '请勿重复注册', icon: 'error' });
-            return;
-          }
-          if (res.code !== 200) {
-            wx.showToast({ title: '注册失败', icon: 'error' });
-            throw new Error(res.message || '注册失败，请稍后再试');
-          }
           this.setData({ registed: true }); // 同步更新状态
         }
         // 2. 登录逻辑（注册成功后或已注册时执行）
@@ -259,7 +251,7 @@ ComponentWithStore({
         }
       } catch (err) {
         console.error('操作失败:', err);
-        wx.showToast({ title: err.message, icon: 'none' });
+        wx.showToast({ title: err.data.message, icon: 'none' });
       }
     }
   },
