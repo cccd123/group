@@ -1,0 +1,11 @@
+<view  class="maskSchool" wx:if="{{showSchool === true}}"></view>
+<view class="inSchool" wx:if="{{showSchool === true}}">
+  <input class="school-input" placeholder="请输入学校名称" value="{{searchText}}" type="text" bindinput="onSearchInput"/>
+    <scroll-view scroll-y style="height: 70vh;">
+        <view class="school-list">
+            <view class="school-item" wx:for="{{schools}}" wx:key="index" bind:tap="selectSchool" data-school="{{item}}">
+                <text>{{item.schoolname}}</text>
+            </view>
+        </view>
+    </scroll-view>
+</view>

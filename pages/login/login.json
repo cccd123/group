@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "schoolpicker": "/components/schoolpicker/schoolpicker"
+    "inSchool": "/components/inSchool/inSchool",
+    "grade": "/components/grade/grade"
   },
   "navigationBarTitleText": "注册",
   "disableScroll": true

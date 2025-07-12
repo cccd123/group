@@ -1,14 +1,15 @@
-<view class="content">
-  <view>
-    <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/myRedact.png"></image>
-    <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/kuaizu.png"></image>
+<view class="page-container">
+  <view class="content">
+    <view>
+      <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/myRedact.png"></image>
+      <image src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/kuaizu.png"></image>
+    </view>
+    <view>
+      <text>全面的资料</text>
+      <text>让大家更好了解你</text>
+    </view>
   </view>
-  <view>
-    <text>全面的资料</text>
-    <text>让大家更好了解你</text>
-  </view>
-</view>
-<view class="body">
+  <view class="body">
   <view>
     <button hover-class="none" bindchooseavatar="chooseAvatar" open-type="chooseAvatar" style="background-color: #fff;">
       <image src="{{ userInfo.avatarUrl ? 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + userInfo.avatarUrl : 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg'}}" mode="aspectFill" style="width: 100px; height: 100px; border-radius: 50%;"></image>
@@ -70,15 +71,16 @@
       </view>
     </view>
     <!-- 8 -->
-    <view class="body-item">
+    <view class="body-textarea">
       <text>简介</text>
       <textarea name="introduction" value="{{formData.introduction}}" maxlength="36" bindinput="onInputChange"></textarea>
     </view>
     <!-- 9 -->
     <view bind:tap="chooseCover" class="cover">
-      <image src="{{ userInfo.coverImage ? 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + userInfo.coverImage : 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/background.jpg' }}"></image>
       <text>编辑封面</text>
+      <image src="{{ userInfo.coverImage ? 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + userInfo.coverImage : 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/background.jpg' }}"></image>
     </view>
     <button class="button" form-type="submit">更新信息</button>
   </form>
+  </view>
 </view>

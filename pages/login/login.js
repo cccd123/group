@@ -23,7 +23,8 @@ ComponentWithStore({
     userPhone: '',
     userEmail: '',
     inSchool: '',
-    grade: '',
+    schoolName:'就读学校',
+    grade: '目前年级',
     schoolMajor: '',
     openid: '',
     access_token: '',
@@ -175,28 +176,55 @@ ComponentWithStore({
       })
     },
 
+    // 获取学校信息
+    onSchoolPickerClose(e) {
+      this.setData({ ShowSchool: e.detail.show });
+    },
     onSchoolChange(e) {
-      const selectedSchool = e.detail.school;
-      console.log('Selected school:', selectedSchool);
-
+      const selectedSchool = e.detail.school; // 获取传递的学校对象
+      console.log('选中学校:', selectedSchool.schoolname, 'ID:', selectedSchool.id);
       this.setData({
-        inSchool: selectedSchool.id
+        inSchool: selectedSchool.id,        // 存储学校ID
+        schoolName: selectedSchool.schoolname // 更新显示的学校名称
       });
-      console.log('Updated inSchool:', this.data.inSchool);
+    },
+    // 打开选择学校页面
+    showSchoolPicker() {
+      this.setData({ 
+        ShowSchool: true 
+      }, () => {
+        console.log('ShowSchool 状态:', this.data.ShowSchool); 
+      });
     },
 
-    grade(e) {
-      const grade = e.detail.value;
+    // 获取年级信息
+    onGradePickerClose(e) {
+      this.setData({ ShowGrade: e.detail.show });
+    },
+    onGradeChange(e) {
+      const selectedGrade = e.detail.grade;
       this.setData({
-        grade: grade
+        grade: selectedGrade
       })
     },
+    // 打开选择年级页面
+    showGradePicker(){
+      this.setData({ 
+        ShowGrade: true 
+      }, () => {
+        console.log('ShowGrade 状态:', this.data.ShowGrade); 
+      });
+    },
+
+    
     schoolMajor(e) {
       const schoolMajor = e.detail.value;
       this.setData({
         schoolMajor: schoolMajor
       })
     },
+
+    //最终登录
     async fastLogin() {
       const code = (await wx.login()).code
       const res = await loginService(code);
@@ -227,6 +255,7 @@ ComponentWithStore({
       this.setSchoolName(schoolData.schoolname);
     },
 
+    
     async handleRegisterAndLogin() {
       const { userName, userPhone, userEmail, inSchool, grade, schoolMajor } = this.data;
       try {

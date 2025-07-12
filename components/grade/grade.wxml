@@ -1,0 +1,9 @@
+<view class="maskSchool" wx:if="{{showGrade  === true}}" class="maskSchool"></view>
+<view class="inSchool" wx:if="{{showGrade  === true}}">
+    <view class="arr">请选择年级</view>
+    <view class="school-list">
+        <view class="school-item" wx:for="{{grades}}" wx:key="index" bind:tap="selectgrade" data-grade="{{item}}">
+        <text>{{item}}</text>
+        </view>
+    </view>
+</view>

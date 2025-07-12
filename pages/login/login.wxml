@@ -63,9 +63,18 @@
       <view>完善一下个人信息</view>
     </view>
     <view class="input-login5">
-      <schoolpicker bindchange="onSchoolChange" />
-
-      <input placeholder="目前年级" value="{{grade}}" bindinput="grade" />
+      <inSchool 
+        showSchool="{{ShowSchool}}"
+        bind:close="onSchoolPickerClose"
+        bind:change="onSchoolChange" 
+      />
+      <view bind:tap="showSchoolPicker">{{schoolName}}</view>
+      <grade
+        showGrade="{{ShowGrade}}"
+        bind:close="onGradePickerClose"
+        bind:change="onGradeChange" 
+      />
+      <view bind:tap="showGradePicker">{{grade}}</view>
       <input placeholder="所学专业" value="{{schoolMajor}}" bindinput="schoolMajor" />
     </view>
     <view>

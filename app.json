@@ -3,10 +3,10 @@
     "pages/index/index",
     "pages/my/my",
     "pages/lookFor/lookFor",
-	"pages/idea/idea",
-	"pages/emailMarketing/emailMarketing",
-	"pages/myTeam/myTeam",
-	"pages/myOrder/myOrder",
+    "pages/idea/idea",
+    "pages/emailMarketing/emailMarketing",
+    "pages/myTeam/myTeam",
+    "pages/myOrder/myOrder",
     "pages/interested/interested",
     "pages/servicePeople/servicePeople",
     "pages/myRedact/myRedact",
@@ -15,7 +15,9 @@
     "pages/filtrate/filtrate",
     "pages/schoolAccreditation/schoolAccreditation",
     "pages/login/login",
-    "pages/kuaizubook/kuaizubook"
+    "pages/kuaizubook/kuaizubook",
+    "components/inSchool/inSchool",
+    "components/grade/grade"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -27,9 +29,9 @@
   "style": "v2",
   "lazyCodeLoading": "requiredComponents",
   "tabBar": {
-    "color": "#515151",       
-    "selectedColor": "#000", 
-    "backgroundColor": "#fff", 
+    "color": "#515151",
+    "selectedColor": "#000",
+    "backgroundColor": "#fff",
     "list": [
       {
         "pagePath": "pages/index/index",

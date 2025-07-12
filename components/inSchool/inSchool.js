@@ -1,15 +1,19 @@
 import { getSchoolService } from '../../api/school'; // 假设有一个获取学校列表的API
 Component({
+  properties: {
+    showSchool: {
+      type: Boolean,
+      value: false
+    }
+  },
+
   data: {
     schools: [],
-    schoolIndex: 0,       // 当前选中的索引
     selectedSchool: '', // 当前选中的学校
     searchText: '',        // 搜索文本
   },
 
-
   methods: {
-    // 搜索输入处理
     onSearchInput: async function (e) {
       const searchText = e.detail.value;
       console.log('搜索输入:', searchText);
@@ -22,24 +26,31 @@ Component({
         selectedSchool: schoolList[0] || ''
       });
       console.log('搜索输入:', searchText);
+      console.log('111', this.data.schools)
     },
 
-    // 学校选择变化
-    bindSchoolChange: function (e) {
-      const index = e.detail.value;
-      const selectedSchool = this.data.schools[index];
-      this.setData({ schoolIndex: index, selectedSchool });
-
+    selectSchool(e){
+      console.log(e)
+      const id = e.currentTarget.dataset.school.id
+      const shool = e.currentTarget.dataset.school.schoolname
+      console.log(id)
+      console.log(shool)
+      this.setData({
+        selectedSchool: e.currentTarget.dataset.school
+      })
       this.triggerEvent('change', {
-        school: selectedSchool // 改为传递完整对象而非仅 id
+        school: this.data.selectedSchool // 改为传递完整对象而非仅 id
       });
+      this.triggerEvent('close', { show: false });
     },
 
     // 获取当前选中的学校
     getSelectedSchool: function () {
       return this.data.selectedSchool.id;
-    }
+    },
+
   },
+
   pageLifetimes: {
     hide: function () {
       // 页面隐藏时可以清理数据或执行其他操作
