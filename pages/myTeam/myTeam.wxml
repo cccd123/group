@@ -15,53 +15,60 @@
     <!-- 上线中的项目 -->
     <view wx:if="{{item.isActive}}" class="body underway">
       <view class="body-header">{{item.statusText}}</view>
-      <view class="body-main">
-        <view>
+      <view class="body-main" bind:tap="projectDetails" data-project-id="{{item.id}}">
+        
+		<!-- <text>{{item.projectName || item.brief}}</text> -->
+		<!-- 第1个view -->
+		<view>项目简要信息</view>
+		<!-- 第2个view -->
+		<view>{{item.schoolname || '泉州信息工程学院'}}</view>
+         
+        <view> <!-- 第3个view --> 
           <text>{{item.projectName || item.brief}}</text>
-          <text>学校ID: {{item.school || '泉州信息工程学院'}}</text>
+          <!-- <text>{{item.projectInfo || item.inDetail}}</text> -->
         </view>
          
-        <view>
-          <text>{{item.projectInfo || item.inDetail}}</text>
-        </view>
-         
-        <view>
+        <view> <!-- 第4个view -->
           <view>
-            <text>学历要求</text>
+            <text>学校要求</text>
             <text>{{item.educationText}}</text>
           </view>
           <view>
-            <text>技能要求</text>
-            <text>{{item.skillSummary || item.simplenessSkill || '无特殊要求'}}</text>
-          </view>
-          <view>
-            <text>跨校要求</text>
-            <text>{{item.crossSchoolText}}</text>
+            <text>项目偏向</text>
+            <text>{{item.directionText}}</text>
           </view>
         </view>
          
-        <view>
+        <view wx:if="{{item.isEmailPromtion === 1}}" class="chartWithEmailPromotion">
           <view>
             <image class="body-image1" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/read.png"></image>
-            <text>阅读量</text>
+            <text>平台阅读量</text>
             <text>{{item.lookcount || 0}}</text>
           </view>
           <view>
             <image class="body-image2" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/file.png"></image>
-            <text>投递量</text>
+            <text>邮件投递量</text>
             <text>{{item.applicationCount || 0}}</text>
           </view>
         </view>
+
+		<view wx:if="{{item.isEmailPromtion === 0}}" class="chartWithoutEmailPromotion">
+          <view>
+            <image class="body-image1" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/read.png"></image>
+            <text>平台阅读量</text>
+            <text>{{item.lookcount || 0}}</text>
+          </view>
+        </view>
          
-        <view wx:if="{{item.emailPromotion}}">
+        <view wx:if="{{item.emailPromotion === 1}}" class="emailPromotionTips">
           <view>您已选择邮件推广，部分简历可能已发送至预留邮箱，请注意查收。</view>
         </view>
          
-        <view>
+        <view class="opbutton">
           <button bind:tap="performDeleteProject" data-project-id="{{item.id}}" data-index="{{index}}">删除</button>
           <button bind:tap="filtrate" data-project-id="{{item.id}}">筛选</button>
         </view>
-      </view>
+      </view><!-- end body-main -->
     </view>
      
     <!-- 已下架的项目 -->

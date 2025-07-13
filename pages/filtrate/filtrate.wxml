@@ -13,7 +13,7 @@
       <text class="tab-icon">❌</text>
       <text>已拒绝</text>
     </view>
-    <view class="tab-indicator" style="left: {{(state-1) * 33.33}}"></view>
+    <view class="tab-indicator" style="left: {{stateIndicatorPos}}%;"></view>
   </view>
 
   <!-- 内容区域 -->
@@ -47,8 +47,7 @@
           <view class="status-badge status-pending">待审核</view>
         </view>
         <view class="action-buttons">
-          <!-- 暂时注释掉查看详情按钮 -->
-          <!-- <button class="btn btn-view" bindtap="viewApplicantDetail" data-id="{{item.id}}" data-applicant="{{item}}">查看详情</button> -->
+          <button class="btn btn-view" bindtap="viewApplicantDetail" data-pass="false" data-id="{{item.id}}" data-applicant="{{item}}">查看详情</button>
           <button class="btn btn-approve" bindtap="handleApproval" data-id="{{item.id}}" data-action="approve">通过</button>
           <button class="btn btn-reject" bindtap="handleApproval" data-id="{{item.id}}" data-action="reject">拒绝</button>
         </view>
@@ -58,7 +57,7 @@
     <!-- 已通过页面 -->
     <view wx:if="{{state === '2' && !loading}}">
       <view class="tip-card">
-        🎉 筛选通过的同学平台将开放您的预留邮箱，请留意邮箱中的简历信息。
+        🎉 筛选通过的同学平台已开放互相双方预留的联系方式，您可点击下方个人主页查看人才预留联系方式
       </view>
 
       <view class="stats-card">
@@ -82,8 +81,7 @@
           <view class="status-badge status-approved">已通过</view>
         </view>
         <view class="action-buttons">
-          <!-- 暂时注释掉查看详情按钮 -->
-          <!-- <button class="btn btn-view" bindtap="userinfo" data-id="{{item.id}}" data-applicant="{{item}}">查看详情</button> -->
+          <button class="btn btn-view" bindtap="viewApplicantDetail" data-pass="true" data-id="{{item.id}}" data-applicant="{{item}}">查看详情</button>
           <text class="approved-text">已通过审核</text>
         </view>
       </view>
@@ -112,8 +110,7 @@
           <view class="status-badge status-rejected">已拒绝</view>
         </view>
         <view class="action-buttons">
-          <!-- 暂时注释掉查看详情按钮 -->
-          <!-- <button class="btn btn-view" bindtap="viewApplicantDetail" data-id="{{item.id}}" data-applicant="{{item}}">查看详情</button> -->
+          <button class="btn btn-view" bindtap="viewApplicantDetail" data-pass="false" data-id="{{item.id}}" data-applicant="{{item}}">查看详情</button>
           <text class="rejected-text">已拒绝申请</text>
         </view>
       </view>

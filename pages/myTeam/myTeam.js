@@ -72,18 +72,20 @@ Page({
             }
           }
           
-          console.log('处理后的项目数据：', projectData);
+        //   console.log('处理后的项目数据：', projectData);
           
           if (Array.isArray(projectData) && projectData.length > 0) {
             // 处理项目数据，添加状态转换
             const processedProjects = projectData.map(project => {
-              console.log('处理单个项目：', project);
+            //   console.log('处理单个项目：', project);
               return {
-                ...project,
+				...project,
+				id: project.id,
                 statusText: this.getStatusText(project.status),
                 educationText: this.getEducationText(project.educationRequirement),
                 directionText: this.getDirectionText(project.direction),
-                crossSchoolText: this.getCrossSchoolText(project.crossSchool),
+				crossSchoolText: this.getCrossSchoolText(project.crossSchool),
+				isEmailPromtion: project.emailPromotion ? 1 : 0,
                 isActive: project.status === 1 || project.status === undefined // 默认为活跃状态
               };
             });
@@ -121,6 +123,27 @@ Page({
           loading: false
         });
       }
+    });
+  },
+
+  /**
+   * 跳转到项目详情页面
+   */
+  projectDetails(e) {
+    const projectId = e.currentTarget.dataset.projectId;
+    console.log('跳转到项目详情，项目ID:', projectId);
+    
+    if (!projectId) {
+      wx.showToast({
+        title: '项目信息错误',
+        icon: 'error',
+        duration: 2000
+      });
+      return;
+    }
+
+    wx.navigateTo({
+      url: `/pages/projectDetails/projectDetails?projectId=${projectId}`,
     });
   },
 

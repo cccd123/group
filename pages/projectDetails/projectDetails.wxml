@@ -31,7 +31,8 @@
 		<view class="content-main">
 			<view>
 				<text>学校要求</text>
-				<text>{{project.educationRequirement || '未知'}}</text>
+				<!-- <text>{{project.educationRequirement || '未知'}}</text> -->
+				<text>{{educationRequirement}}</text>
 			</view>
 			<view>
 				<text>项目偏向</text>

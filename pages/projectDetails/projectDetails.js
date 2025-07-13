@@ -93,9 +93,12 @@ Page({
    //查看当前的项目id是否存在
    http.get('/project/projectById/'+this.data.projectId).then(res => {
     console.log("==================================>");
-    console.log(res);
+	console.log(res);
+	const educationRequirement = this.formatEducationRequirement(res.data.educationRequirement);
+	console.log('after convertion, education requirement:\n', educationRequirement);
     this.setData({
-      project: res.data,
+	  project: res.data,
+	  educationRequirement,
       direction: this.formatDirection(res.data.direction)
     })
   })

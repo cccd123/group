@@ -1,7 +1,8 @@
 //  filtrate.js 文件
 Page({
   data: {
-    state: '1',
+	state: '1',
+	stateIndicatorPos: 0,
     applicantList: [],
     loading: false,
     projectId: null // 添加项目ID存储
@@ -213,16 +214,49 @@ Page({
 
   // 标签页切换
   state(e) {
-    const state = e.currentTarget.dataset.state;
-    console.log('切换到状态：', state);
+	const state = e.currentTarget.dataset.state;
+	const stateIndicatorPos = (Number(state) - 1) * 33.33;
+	console.log('切换到状态：', state);
+	// console.log('tab indicator位置计算值：', stateIndicatorPos);
     this.setData({
-      state: state,
+	  state: state,
+	  stateIndicatorPos: stateIndicatorPos,
       applicantList: [] // 清空当前列表，显示加载状态
     });
     // 延迟一点时间再加载，让用户看到切换效果
     setTimeout(() => {
       this.loadApplicantList();
     }, 100);
+  },
+
+  /**
+   * 查看详情：通过传递的pass参数判断是否展示联系方式
+   * @param {*} e 
+   */
+  viewApplicantDetail: function(e)
+  {
+	console.log('output e.currentTarget.dataset.applicant:\n', e.currentTarget.dataset.applicant);
+	const item = e.currentTarget.dataset.applicant;
+	console.log('contact display:\n', e.currentTarget.dataset.pass);
+
+	const applicantInfo = {
+		pass: e.currentTarget.dataset.pass === 'true',
+		coverImage: item.coverImage,
+		avatarUrl: item.avatarUrl,
+		nickname: item.nickname,
+		schoolname: item.schoolname,
+		introduction: item.introduction,
+		major: item.major,
+		grade: item.grade,
+		persona: item.persona,
+		mbti: item.mbti,
+		projectOrientation: item.projectOrientation,
+		email: item.email,
+		phone: item.phone,
+	  };
+	wx.navigateTo({
+		url: `../applicantInfo/applicantInfo?applicantInfo=${encodeURIComponent(JSON.stringify(applicantInfo))}`
+	});
   },
 
   // 处理审批操作（通过/拒绝）

@@ -15,7 +15,7 @@
 	background-color: #d33333;
 }
 .underway{
-	background-color: #5da0ec;
+	background-color: rgba(42, 130, 228, 1);
 }
 
 .body-header{
@@ -24,6 +24,7 @@
   justify-content: center;
 	color: #fff;
 	font-size: 40rpx;
+	font-weight: bold;
 }
 
 .body-main{
@@ -34,84 +35,121 @@
 }
 
 /* body-main第一个view */
-.body-main > view:nth-child(1) {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-.body-main > view:nth-child(1) > text:nth-child(1){
+.body-main > view:nth-child(1){
 	font-size: 45rpx;
 	font-weight: bold;
 }
-.body-main > view:nth-child(1) > text:nth-child(2){
-	font-size: 35rpx;
-}
-
 /* body-main第2个view */
 .body-main > view:nth-child(2){
-	margin-top: 35rpx;
+	margin-top: 20rpx;
+	font-size: 35rpx;
+	text-align: end;
 }
 
 /* body-main第3个view */
 .body-main > view:nth-child(3){
-	display: flex;
-	justify-content: space-between;
-	padding: 50rpx 80rpx;
-}
-.body-main > view:nth-child(3) > view {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-.body-main > view:nth-child(3) > view > text:nth-child(2) {
-	margin-top: 5rpx;
-	color: #8a8a8a;
+	margin-top: 35rpx;
+	margin-bottom: 50rpx;
 }
 
 /* body-main第4个view */
 .body-main > view:nth-child(4){
-	margin-top: 35rpx;
+	display: flex;
+	justify-content: space-between;
+	padding: 50rpx 80rpx;
 }
-.body-image1{
-	width: 80rpx;
-	height: 60rpx;
+.body-main > view:nth-child(4) > view {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
 }
-.body-image2{
-	width: 60rpx;
-	height: 60rpx;
+.body-main > view:nth-child(4) > view > text:nth-child(2) {
+	margin-top: 5rpx;
+	color: #8a8a8a;
 }
 
-.body-main > view:nth-child(4){
+/* 平台阅读量 & 邮件投递量 */
+.chartWithEmailPromotion{
+	margin-top: 35rpx;
+	padding: 0 20rpx;
+	display: flex;
+	justify-content: space-between;
+}
+.body-image1{
+	width: 72rpx;
+	height: 60rpx;
+	flex-shrink: 0;
+	object-fit: contain;
+}
+.body-image2{
+	width: 50.5rpx;
+	height: 60rpx;
+	flex-shrink: 0;
+	object-fit: contain;
+	filter: brightness(0.8) contrast(1.3);
+}
+
+.chartWithEmailPromotion > view{
+	display: flex;
+	flex-direction: column;
+	height: 230rpx;
+	width: 250rpx;
+	border: 2rpx solid #8a8a8a;
+	/* border: 2rpx solid #e9e9e9; */
+	border-radius: 30rpx;
+	padding: 20rpx 20rpx;
+	/* box-shadow: 0 4rpx 12rpx #8a8a8a; */
+}
+.chartWithEmailPromotion > view > text:nth-child(2){
+	color: #8a8a8a;
+	font-size: 45rpx;
+	margin-top: 15rpx;
+	font-weight: bold;
+}
+.chartWithEmailPromotion > view > text:nth-child(3){
+	font-weight: bold;
+	font-size: 90rpx;
+	text-align: end;
+	margin-top: 10rpx;
+}
+
+/* 平台阅读量（没有选择邮件推广时）*/
+.chartWithoutEmailPromotion
+{
+	margin-top: 35rpx;
 	padding: 0 20rpx;
 	display: flex;
 	justify-content: space-between;
 }
 
-.body-main > view:nth-child(4) > view{
+.chartWithoutEmailPromotion > view{
 	display: flex;
 	flex-direction: column;
 	height: 230rpx;
-	width: 250rpx;
-	border: 2rpx solid #e9e9e9;
+	width: 610rpx;
+	border: 2rpx solid #8a8a8a;
+	/* border: 2rpx solid #e9e9e9; */
 	border-radius: 30rpx;
 	padding: 20rpx 20rpx;
-	box-shadow: 0 4rpx 12rpx #8a8a8a;
+	/* box-shadow: 0 4rpx 12rpx #8a8a8a; */
 }
-.body-main > view:nth-child(4) > view > text:nth-child(2){
+.chartWithoutEmailPromotion > view > text:nth-child(2){
 	color: #8a8a8a;
 	font-size: 45rpx;
 	margin-top: 15rpx;
-}
-.body-main > view:nth-child(4) > view > text:nth-child(3){
 	font-weight: bold;
-	font-size: 70rpx;
+}
+.chartWithoutEmailPromotion > view > text:nth-child(3){
+	font-weight: bold;
+	font-size: 90rpx;
 	text-align: end;
 	margin-top: 10rpx;
 }
 
-/* body-main第5个view */
-.body-main > view:nth-child(5){
+/* 邮件推广提示 */
+.emailPromotionTips{
 	margin: 50rpx 20rpx 0 20rpx;
 	border: 2rpx solid #8a8a8a;
 	padding: 15rpx 25rpx;
@@ -120,21 +158,21 @@
 	border-radius: 50rpx;
 }
 
-/* body-main第6个view */
-.body-main > view:nth-child(6){
+/* 操作按钮：删除 & 筛选 */
+.opbutton{
 	margin-top: 35rpx;
 	display: flex;
 	padding: 0 0 0 220rpx;
 }
-.body-main > view:nth-child(6) > button{
+.opbutton > button{
 	width: 200rpx;
 	color: #fff;
 	border-radius: 50rpx;
 	font-size: 35rpx;
 }
-.body-main > view:nth-child(6) > button:nth-child(1){
+.opbutton > button:nth-child(1){
 	background-color: #d33333;
 }
-.body-main > view:nth-child(6) > button:nth-child(2){
+.opbutton > button:nth-child(2){
 	background-color: #42d07c;
 }
