@@ -50,6 +50,13 @@
   padding: 40rpx;
   box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.05);
   position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.project-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 1rpx 8rpx rgba(0, 0, 0, 0.1);
 }
 
 /* 项目标题 */
@@ -62,7 +69,8 @@
 }
 
 /* 学校名称 - 右上角 */
-.project-school {
+/* 右上角学校信息 */
+.school-info  {
   position: absolute;
   top: 40rpx;
   right: 40rpx;
@@ -71,13 +79,29 @@
   font-weight: 400;
 }
 
-/* 项目描述 */
-.project-desc {
+/* 项目简要信息 */
+.project-brief {
+  margin-bottom: 40rpx;
+  margin-top: 10rpx;
+}
+
+.brief-label {
+  font-size: 28rpx;
+  color: #333333;
+  margin-bottom: 12rpx;
+  font-weight: 700;
+}
+
+.brief-content {
   font-size: 28rpx;
   color: #333333;
   line-height: 1.6;
-  margin-bottom: 40rpx;
-  margin-top: 10rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  max-height: 96rpx;
 }
 
 /* 底部信息区域 */
@@ -85,7 +109,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 30rpx;
+  margin-bottom: 0;
 }
 
 .info-item {
@@ -110,27 +134,14 @@
 /* 隐藏原有的信息显示方式 */
 .project-skill,
 .project-skill-detail,
-.project-time {
+.project-time,
+.project-desc {
   display: none;
 }
 
-/* 详情按钮 */
+/* 隐藏详情按钮 */
 .detail-btn {
-  width: 100%;
-  background-color: #007AFF;
-  color: #ffffff;
-  border: none;
-  border-radius: 16rpx;
-  padding: 28rpx 0;
-  font-size: 30rpx;
-  font-weight: 600;
-  margin-top: 20rpx;
-  transition: all 0.2s ease;
-}
-
-.detail-btn:active {
-  background-color: #0056CC;
-  transform: scale(0.98);
+  display: none;
 }
 
 /* 空状态提示 */

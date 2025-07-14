@@ -89,6 +89,14 @@ Page({
   },
 
   /**
+   * 截取项目简要信息（最多40个字符）
+   */
+  truncateProjectInfo(projectInfo) {
+    if (!projectInfo) return '';
+    return projectInfo.length > 40 ? projectInfo.substring(0, 40) + '...' : projectInfo;
+  },
+
+  /**
    * 切换标签页
    */
   switchTab(e) {
@@ -207,29 +215,57 @@ Page({
         directionText: this.getDirectionText(project.direction),
         crossSchoolText: this.getCrossSchoolText(project.crossSchool),
         schoolDisplay: this.getSchoolNameById(project.school), // 显示实际学校名称
-        skillRequirement: this.getCrossSchoolText(project.crossSchool) // 改为显示跨校信息
+        skillRequirement: this.getCrossSchoolText(project.crossSchool), // 改为显示跨校信息
+        projectInfo: this.truncateProjectInfo(project.projectInfo) // 截取项目简要信息
       };
     });
   },
 
   /**
-   * 获取学历要求文本
+   * 获取学历要求文本 - 支持多项学历
    */
   getEducationText(educationRequirement) {
-    // 确保数值类型
-    const education = parseInt(educationRequirement);
-    switch(education) {
-      case 1:
-        return '大专';
-      case 2:
-        return '本科';
-      case 3:
-        return '研究生';
-      default:
-        return '不限';
+    if (!educationRequirement) return '不限';
+    
+    // 如果是字符串，尝试解析为数组
+    let educationArray = [];
+    if (typeof educationRequirement === 'string') {
+      try {
+        // 尝试解析JSON数组
+        educationArray = JSON.parse(educationRequirement);
+      } catch (e) {
+        // 如果不是JSON，按逗号分割
+        educationArray = educationRequirement.split(',').map(item => item.trim());
+      }
+    } else if (Array.isArray(educationRequirement)) {
+      educationArray = educationRequirement;
+    } else {
+      // 如果是单个数值
+      educationArray = [educationRequirement];
     }
+    
+    // 转换为文本数组
+    const educationTexts = educationArray.map(education => {
+      const edu = parseInt(education);
+      switch(edu) {
+        case 1:
+          return '大专';
+        case 2:
+          return '本科';
+        case 3:
+          return '研究生';
+        default:
+          return '不限';
+      }
+    }).filter(text => text !== '不限'); // 过滤掉"不限"
+    
+    // 去重并排序
+    const uniqueTexts = [...new Set(educationTexts)];
+    const sortOrder = ['大专', '本科', '研究生'];
+    uniqueTexts.sort((a, b) => sortOrder.indexOf(a) - sortOrder.indexOf(b));
+    
+    return uniqueTexts.length > 0 ? uniqueTexts.join('/') : '不限';
   },
-
   /**
    * 获取方向文本
    */
