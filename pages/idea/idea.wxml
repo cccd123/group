@@ -82,5 +82,5 @@
 
   <view>
     <button bindtap="quickGroup">一键快组</button>
-  </view>
+</view>
 </view>
