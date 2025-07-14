@@ -1,25 +1,22 @@
 <!--pages/applicantInfo/applicantInfo.wxml-->
 <view class="content">
   <view class="coverimg">
-    <!-- <image src="{{ applicantInfo.coverImage ? 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + applicantInfo.coverImage : 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/background.jpg' }}"></image> -->
-	<image wx:if="{{applicantInfo.coverImage == null}}" src="{{'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/background.jpg'}}"></image>
+	<image wx:if="{{applicantInfo.coverImage == null || !applicantInfo.coverImage}}" src="{{'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/background.jpg'}}"></image>
 	<image wx:else src="{{'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + applicantInfo.coverImage}}"></image>
   </view>
 
   <view class="body">
     <view class="header">
-      <!-- <image src="{{ applicantInfo.avatarUrl ? 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + applicantInfo.avatarUrl : 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg'}}"></image> -->
-	  <image wx:if="{{applicantInfo.avatarUrl == null}}" src="{{'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg'}}"></image>
+	  <image wx:if="{{applicantInfo.avatarUrl == null || !applicantInfo.avatarUrl}}" src="{{'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg'}}"></image>
 	  <image wx:else src="{{'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + applicantInfo.avatarUrl}}"></image>
     </view>
 
     <view class="main1">
       <text class="nickname">{{ applicantInfo.nickname }}</text>
       <view class="schoolView">
-        <text class="school">{{ schoolName }}</text>
+        <text class="school">{{ applicantInfo.schoolname }}</text>
       </view>
-      <!-- <text>{{ applicantInfo.introduction || '简介：擅长吹牛，创新还不错，但是希望可以落地。'}}</text> -->
-	  <text wx:if="{{applicantInfo.introduction == null}}">简介：擅长吹牛，创新还不错，但是希望可以落地。</text>
+	  <text wx:if="{{applicantInfo.introduction == null || !applicantInfo.introduction}}">简介：擅长吹牛，创新还不错，但是希望可以落地。</text>
 	  <text wx:else>{{ applicantInfo.introduction}}</text>
     </view>
 
@@ -32,30 +29,29 @@
         </view>
         <view>
           <text>所学专业</text>
-          <text>{{ applicantInfo.major }}</text>
+          <text wx:if="{{applicantInfo.major !== null}}">{{ majorname }}</text>
+		  <text wx:else>未设置</text>
         </view>
         <view>
           <text>目前年级</text>
-          <text>{{ applicantInfo.grade }}</text>
+          <text wx:if="{{applicantInfo.grade !== null}}">{{ gradename }}</text>
+		  <text wx:else>未设置</text>
         </view>
       </view>
       <view class="main2-item">
         <view>
           <text>人设</text>
-          <!-- <text>{{ applicantInfo.persona || '乐观勤劳' }}</text> -->
-		  <text wx:if="{{applicantInfo.persona == null}}">乐观勤劳</text>
+		  <text wx:if="{{applicantInfo.persona == null || !applicantInfo.persona}}">未设置</text>
 	  	  <text wx:else>{{ applicantInfo.persona}}</text>
         </view>
         <view>
           <text>性格</text>
-          <!-- <text>{{applicantInfo.mbti || 'ENFJ'}}</text> -->
-		  <text wx:if="{{applicantInfo.mbti == null}}">ENFJ</text>
+		  <text wx:if="{{applicantInfo.mbti == null || !applicantInfo.mbti}}">未设置</text>
 	  	  <text wx:else>{{ applicantInfo.mbti}}</text>
         </view>
         <view class="direction">
           <text>偏向</text>
-          <!-- <text>{{applicantInfo.projectOrientation || '落地' }}</text> -->
-		  <text wx:if="{{applicantInfo.projectOrientation == null}}">落地</text>
+		  <text wx:if="{{applicantInfo.projectOrientation == null || !applicantInfo.projectOrientation}}">未设置</text>
 	  	  <text wx:else>{{ applicantInfo.projectOrientation}}</text>
         </view>
       </view>

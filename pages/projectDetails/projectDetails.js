@@ -95,7 +95,7 @@ Page({
     console.log("==================================>");
 	console.log(res);
 	const educationRequirement = this.formatEducationRequirement(res.data.educationRequirement);
-	console.log('after convertion, education requirement:\n', educationRequirement);
+	// console.log('after convertion, education requirement:\n', educationRequirement);
     this.setData({
 	  project: res.data,
 	  educationRequirement,

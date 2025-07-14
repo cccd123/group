@@ -49,10 +49,10 @@ Page({
         'Authorization': token
       },
       success: (res) => {
-        console.log('API响应完整数据：', res);
-        console.log('响应状态码：', res.statusCode);
-        console.log('响应数据：', res.data);
-        console.log("================================>",res);
+        // console.log('API响应完整数据：', res);
+        // console.log('响应状态码：', res.statusCode);
+        // console.log('响应数据：', res.data);
+        // console.log("================================>",res);
         // 更灵活的成功判断
         if (res.statusCode === 200) {
           let projectData = [];
@@ -97,7 +97,7 @@ Page({
             // 获取每个项目的统计数据
             this.getProjectStatistics(processedProjects);
             
-            console.log('设置的项目列表：', processedProjects);
+            // console.log('设置的项目列表：', processedProjects);
           } else {
             console.log('没有找到项目数据或数据为空');
             this.setData({
@@ -131,7 +131,7 @@ Page({
    */
   projectDetails(e) {
     const projectId = e.currentTarget.dataset.projectId;
-    console.log('跳转到项目详情，项目ID:', projectId);
+    // console.log('跳转到项目详情，项目ID:', projectId);
     
     if (!projectId) {
       wx.showToast({

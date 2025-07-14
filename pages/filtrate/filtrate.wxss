@@ -262,19 +262,28 @@
   100% { transform: rotate(360deg); }
 }
 
-/* 响应式设计 */
+.applicant-list {
+	height: 80%;
+	width: 100%;
+  }
+  
+.applicant-list {
+	overflow-x: hidden;
+}
+  
 @media (max-width: 750rpx) {
-  .action-buttons {
-    flex-direction: column;
-  }
-  
-  .btn {
-    width: 100%;
-    margin-bottom: 16rpx;
-  }
-  
-  .approved-text, .rejected-text {
-    width: 100%;
-    text-align: center;
-  }
+.action-buttons {
+	flex-direction: column;
+}
+
+.btn {
+	width: 100%;
+	margin-bottom: 16rpx;
+}
+
+.approved-text,
+.rejected-text {
+	width: 100%;
+	text-align: center;
+}
 }

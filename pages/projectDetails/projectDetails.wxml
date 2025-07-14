@@ -24,8 +24,8 @@
 		</view>
 
 		<view class="content-school">
-			<text>项目发起校</text>
-			<text>{{project.schoolname || '未知学校'}}</text>
+			<view>项目发起校</view>
+			<view>{{project.schoolname || '未知学校'}}</view>
 		</view>
 
 		<view class="content-main">

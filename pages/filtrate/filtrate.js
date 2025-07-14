@@ -2,18 +2,17 @@
 Page({
   data: {
 	state: '1',
-	stateIndicatorPos: 0,
+	stateIndicatorPos: 0,	// 储存已选tab的指示器的位置
     applicantList: [],
     loading: false,
-    projectId: null // 添加项目ID存储
+    projectId: null, // 添加项目ID存储
   },
 
-  // 修改 onLoad 方法，获取传递的项目ID
   onLoad(options) {
-    console.log('filtrate页面接收到的参数：', options);
+    // console.log('filtrate页面接收到的参数：', options);
     if (options.projectId) {
       this.setData({
-        projectId: options.projectId
+        projectId: parseInt(options.projectId)
       });
       this.loadApplicantList();
     } else {
@@ -24,7 +23,11 @@ Page({
     }
   },
 
-  // 修改 loadApplicantList 方法
+  /**
+   * 
+   * 根据projectId使用接口/project/projectjoin/${projectId}，获取项目的所有申请人，
+   * 再根据当前tab的state值，筛选出当前页面要显示的申请人
+   */
   loadApplicantList() {
     const token = wx.getStorageSync('token');
     const projectId = this.data.projectId;
@@ -49,35 +52,19 @@ Page({
       loading: true
     });
 
-    // 根据状态映射到对应的接口参数
-    let status;
-    switch (this.data.state) {
-      case '1': // 未筛选
-        status = 0; // 待审核状态 - 改为数字类型
-        break;
-      case '2': // 通过
-        status = 1; // 通过状态 - 改为数字类型
-        break;
-      case '3': // 拒绝
-        status = 2; // 拒绝状态 - 改为数字类型
-        break;
-      default:
-        status = 0;
-    }
-
-    console.log('请求申请人列表，项目ID：', projectId, '状态：', status);
-
-    // 修改请求方式，先不带状态参数，获取所有数据来调试
+	let state = this.data.state - 1;
+	// console.log('local variable state is:\n', state);
+    // console.log('请求申请人列表，项目ID：', projectId, '状态：', state);
     wx.request({
-      url: `https://zhaoxiaokai.xyz/project/projectjoin/${projectId}`, // 先移除状态参数
+      url: `https://zhaoxiaokai.xyz/project/projectjoin/${projectId}`,
       method: 'GET',
       header: {
         'content-type': 'application/json',
         'Authorization': token
       },
       success: (res) => {
-        console.log('申请人列表API响应：', res);
-        console.log('API返回的完整数据结构：', JSON.stringify(res.data, null, 2));
+        // console.log('申请人列表API响应：', res);
+        // console.log('API返回的完整数据结构：', JSON.stringify(res.data, null, 2));
         
         if (res.statusCode === 200) {
           let applicantData = [];
@@ -86,37 +73,24 @@ Page({
           if (res.data) {
             if (res.data.data && Array.isArray(res.data.data)) {
               applicantData = res.data.data;
-              console.log('使用 res.data.data 路径，原始数据：', applicantData);
+            //   console.log('使用 res.data.data 路径，原始数据：', applicantData);
             } else if (Array.isArray(res.data)) {
               applicantData = res.data;
-              console.log('使用 res.data 路径，原始数据：', applicantData);
+            //   console.log('使用 res.data 路径，原始数据：', applicantData);
             } else if (res.data.list && Array.isArray(res.data.list)) {
               applicantData = res.data.list;
-              console.log('使用 res.data.list 路径，原始数据：', applicantData);
+            //   console.log('使用 res.data.list 路径，原始数据：', applicantData);
             } else {
-              console.log('未找到数组数据，完整响应：', res.data);
+            //   console.log('未找到数组数据，完整响应：', res.data);
             }
           }
-          
-          // 如果有数据，先显示原始数据的状态字段信息
-          if (applicantData.length > 0) {
-            console.log('第一条数据的状态信息：', {
-              status: applicantData[0].status,
-              state: applicantData[0].state,
-              所有字段: Object.keys(applicantData[0])
-            });
-          }
-          
-          // 临时移除状态过滤，先显示所有数据
-          // applicantData = applicantData.filter(item => {
-          //   // 根据实际后端返回的状态字段名进行过滤
-          //   // 假设后端返回的状态字段是 status 或 state
-          //   const itemStatus = item.status !== undefined ? item.status : item.state;
-          //   return itemStatus === status;
-          // });
-          
-          console.log('处理后的申请人数据：', applicantData);
-          
+
+		  // 前端根据isApprover（申请状态），筛选申请人列表
+          applicantData = applicantData.filter(item => {
+            const itemStatus = item.isApprover;
+            return itemStatus === state;
+		  });
+		//   console.log('applicant list after filtrate:\n', applicantData);
           this.setData({
             applicantList: applicantData,
             loading: false
@@ -153,70 +127,11 @@ Page({
     });
   },
 
-  // 修改 processApproval 方法，确保状态更新后正确刷新
-  processApproval(applicantId, status) {
-    const token = wx.getStorageSync('token');
-    const projectId = this.data.projectId;
-      
-    // 显示加载状态
-    wx.showLoading({
-      title: '处理中...',
-      mask: true
-    });
-
-    wx.request({
-      url: 'https://zhaoxiaokai.xyz/project/approve',
-      method: 'POST',
-      header: {
-        'content-type': 'application/json',
-        'Authorization': token
-      },
-      data: {
-        projectid: projectId, // 使用实际项目ID
-        id: applicantId,
-        status: parseInt(status) // 确保是数字类型
-      },
-      success: (res) => {
-        wx.hideLoading(); // 隐藏加载状态
-        console.log('审批操作响应：', res);
-        if (res.statusCode === 200) {
-          const actionText = status === '1' ? '通过' : '拒绝';
-          wx.showToast({
-            title: `已${actionText}`,
-            icon: 'success'
-          });
-          
-          // 添加震动反馈
-          wx.vibrateShort();
-          
-          // 延迟刷新，确保后端状态已更新
-          setTimeout(() => {
-            this.loadApplicantList();
-          }, 500);
-          
-        } else {
-          wx.showToast({
-            title: '操作失败',
-            icon: 'none'
-          });
-        }
-      },
-      fail: (err) => {
-        wx.hideLoading(); // 隐藏加载状态
-        console.error('操作失败:', err);
-        wx.showToast({
-          title: '网络错误',
-          icon: 'none'
-        });
-      }
-    });
-  },
-
   // 标签页切换
   state(e) {
 	const state = e.currentTarget.dataset.state;
 	const stateIndicatorPos = (Number(state) - 1) * 33.33;
-	console.log('切换到状态：', state);
+	// console.log('切换到状态：', state);
 	// console.log('tab indicator位置计算值：', stateIndicatorPos);
     this.setData({
 	  state: state,
@@ -235,9 +150,9 @@ Page({
    */
   viewApplicantDetail: function(e)
   {
-	console.log('output e.currentTarget.dataset.applicant:\n', e.currentTarget.dataset.applicant);
+	// console.log('output e.currentTarget.dataset.applicant, in function viewApplicantDetail:\n', e.currentTarget.dataset.applicant);
 	const item = e.currentTarget.dataset.applicant;
-	console.log('contact display:\n', e.currentTarget.dataset.pass);
+	// console.log('contact display:\n', e.currentTarget.dataset.pass);
 
 	const applicantInfo = {
 		pass: e.currentTarget.dataset.pass === 'true',
@@ -265,19 +180,20 @@ Page({
     if (e.stopPropagation) {
       e.stopPropagation();
     }
-    
-    const applicantId = e.currentTarget.dataset.id;
+	
+	// console.log('e.currentTarget.dataset in function handleApproval:\n', e.currentTarget.dataset);
+    const applicantOpenid = e.currentTarget.dataset.userOpenid;
     const action = e.currentTarget.dataset.action;
-    const status = action === 'approve' ? '1' : '2';
+    const status = action === 'approve' ? 1 : 2;
     const actionText = action === 'approve' ? '通过' : '拒绝';
     const actionIcon = action === 'approve' ? '✅' : '❌';
 
-    console.log('处理审批操作：', {
-      applicantId,
-      action,
-      status,
-      projectId: this.data.projectId
-    });
+    // console.log('处理审批操作：', {
+	//   action,
+	//   projectId: this.data.projectId,
+	//   applicantOpenid,
+    //   status,
+    // });
 
     wx.showModal({
       title: `${actionIcon} 确认${actionText}`,
@@ -286,8 +202,62 @@ Page({
       confirmColor: action === 'approve' ? '#667eea' : '#ff6b6b',
       success: (res) => {
         if (res.confirm) {
-          this.processApproval(applicantId, status);
+          this.processApproval(applicantOpenid, status);
         }
+      }
+    });
+  },
+
+  processApproval(applicantOpenid, status) {
+    wx.showLoading({
+      title: '处理中...',
+      mask: true
+    });
+	const token = wx.getStorageSync('token');
+	// console.log('construct request data to plug /project/approve:\n',
+	// 			'projectid:\t', this.data.projectId, '\ttype:\t', typeof this.data.projectId, '(projectid要求是数字类型)',
+	// 			'\nopenid:\t', applicantOpenid, '\ttype:\t', typeof applicantOpenid, '(openid要求是字符串类型)',
+	// 			'\nstatus:\t', status, '\ttype:\t', typeof status, '(status要求是数字类型)');
+	wx.request({
+	  url: 'https://zhaoxiaokai.xyz/project/approve',
+	  method: 'POST',
+	  header: {
+	  	'content-type': 'application/x-www-form-urlencoded',
+	  	'Authorization': token
+	  },
+	  data: `projectid=${encodeURIComponent(this.data.projectId)}&id=${encodeURIComponent(applicantOpenid)}&status=${encodeURIComponent(status)}`,  
+      success: (res) => {
+        wx.hideLoading();
+        // console.log('审批操作响应：', res);
+        if (res.statusCode === 200) {
+          const actionText = status === 1 ? '通过' : '拒绝';
+          wx.showToast({
+            title: `已${actionText}`,
+            icon: 'success'
+          });
+          
+          wx.vibrateShort();
+          
+          // 延迟刷新，确保后端状态已更新
+          setTimeout(() => {
+			this.loadApplicantList();
+			// console.log('after judgement operation, applicantList:\n', this.data.applicantList);
+          }, 500);
+          
+        } else {
+          wx.showToast({
+            title: '操作失败',
+            icon: 'none'
+          });
+        }
+      },
+      fail: (err) => {
+        wx.hideLoading();
+        console.error('操作失败:', err);
+        wx.showToast({
+          title: '网络错误',
+          icon: 'none'
+        });
       }
     });
   },

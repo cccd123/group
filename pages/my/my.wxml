@@ -27,11 +27,13 @@
         </view>
         <view>
           <text>所学专业</text>
-          <text>{{ userInfo.major }}</text>
+          <text wx:if="{{userInfo.major !== null}}">{{ majorname }}</text>
+		  <text wx:else>未设置</text>
         </view>
         <view>
           <text>目前年级</text>
-          <text>{{ userInfo.grade }}</text>
+          <text wx:if="{{userInfo.grade !== null}}">{{ gradename }}</text>
+		  <text wx:else>未设置</text>
         </view>
       </view>
       <view class="main2-item">
@@ -61,8 +63,7 @@
 
       <view class="main3-item" bind:tap="myOrder">
         <view>
-          <image class="main3-image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/myOrder.png"></image>
-           <!-- ！！！需要更换图片素材！！！ -->
+          <image class="main3-image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/file.png"></image>
           <text>我的订单</text>
         </view>
         <text>></text>
@@ -70,7 +71,7 @@
 
       <view class="main3-item" bind:tap="interested">
         <view>
-          <image class="main3-image" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/interested.png"></image>
+          <image class="main3-image" style="object-fit: contain; filter: brightness(0.1) contrast(3);" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/interested.png"></image>
           <text>感兴趣的项目小组</text>
         </view>
         <text>></text>

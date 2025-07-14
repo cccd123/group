@@ -31,7 +31,8 @@
         <view class="stats-label">待审核申请</view>
       </view>
 
-      <view wx:if="{{applicantList.length === 0}}" class="empty-state">
+	  <scroll-view class="applicant-list" scroll-y="true">
+	  <view wx:if="{{applicantList.length === 0}}" class="empty-state">
         <view class="empty-icon">📋</view>
         <view class="empty-text">暂无待审核申请</view>
         <view class="empty-subtext">新的申请会在这里显示</view>
@@ -39,19 +40,22 @@
 
       <view wx:for="{{applicantList}}" wx:key="id" class="applicant-card">
         <view class="applicant-header">
-          <image src="{{item.avatar || 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg'}}" class="avatar"></image>
+		  <image wx:if="{{!item.avatarUrl}}" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg" class="avatar"></image>
+		  <image wx:else src="{{'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + item.avatarUrl}}" class="avatar"></image>
           <view class="applicant-info">
-            <view class="applicant-name">{{item.name || item.username}}</view>
-            <view class="applicant-school">{{item.school || item.university}}</view>
+            <view class="applicant-name">{{item.nickname}}</view>
+            <view class="applicant-school">{{item.schoolname}}</view>
           </view>
           <view class="status-badge status-pending">待审核</view>
         </view>
         <view class="action-buttons">
           <button class="btn btn-view" bindtap="viewApplicantDetail" data-pass="false" data-id="{{item.id}}" data-applicant="{{item}}">查看详情</button>
-          <button class="btn btn-approve" bindtap="handleApproval" data-id="{{item.id}}" data-action="approve">通过</button>
-          <button class="btn btn-reject" bindtap="handleApproval" data-id="{{item.id}}" data-action="reject">拒绝</button>
+          <button class="btn btn-approve" bindtap="handleApproval" data-user-openid="{{item.openid}}" data-action="approve">通过</button>
+          <button class="btn btn-reject" bindtap="handleApproval" data-user-openid="{{item.openid}}" data-action="reject">拒绝</button>
         </view>
       </view>
+	  </scroll-view>
+      
     </view>
 
     <!-- 已通过页面 -->
@@ -65,6 +69,7 @@
         <view class="stats-label">已通过申请</view>
       </view>
 
+	  <scroll-view class="applicant-list" scroll-y="true">
       <view wx:if="{{applicantList.length === 0}}" class="empty-state">
         <view class="empty-icon">✅</view>
         <view class="empty-text">暂无通过的申请</view>
@@ -73,10 +78,11 @@
 
       <view wx:for="{{applicantList}}" wx:key="id" class="applicant-card">
         <view class="applicant-header">
-          <image src="{{item.avatar || 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg'}}" class="avatar"></image>
+		  <image wx:if="{{!item.avatarUrl}}" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg" class="avatar"></image>
+		  <image wx:else src="{{'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + item.avatarUrl}}" class="avatar"></image>
           <view class="applicant-info">
-            <view class="applicant-name">{{item.name || item.username}}</view>
-            <view class="applicant-school">{{item.school || item.university}}</view>
+            <view class="applicant-name">{{item.nickname}}</view>
+            <view class="applicant-school">{{item.schoolname}}</view>
           </view>
           <view class="status-badge status-approved">已通过</view>
         </view>
@@ -85,6 +91,7 @@
           <text class="approved-text">已通过审核</text>
         </view>
       </view>
+	  </scroll-view>
     </view>
 
     <!-- 已拒绝页面 -->
@@ -94,6 +101,7 @@
         <view class="stats-label">已拒绝申请</view>
       </view>
 
+	  <scroll-view class="applicant-list" scroll-y="true">
       <view wx:if="{{applicantList.length === 0}}" class="empty-state">
         <view class="empty-icon">❌</view>
         <view class="empty-text">暂无被拒绝的申请</view>
@@ -102,10 +110,11 @@
 
       <view wx:for="{{applicantList}}" wx:key="id" class="applicant-card">
         <view class="applicant-header">
-          <image src="{{item.avatar || 'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg'}}" class="avatar"></image>
+		  <image wx:if="{{!item.avatarUrl}}" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/头像.jpg" class="avatar"></image>
+		  <image wx:else src="{{'https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu_text_img/' + item.avatarUrl}}" class="avatar"></image>
           <view class="applicant-info">
-            <view class="applicant-name">{{item.name || item.username}}</view>
-            <view class="applicant-school">{{item.school || item.university}}</view>
+            <view class="applicant-name">{{item.nickname}}</view>
+            <view class="applicant-school">{{item.schoolname}}</view>
           </view>
           <view class="status-badge status-rejected">已拒绝</view>
         </view>
@@ -114,6 +123,7 @@
           <text class="rejected-text">已拒绝申请</text>
         </view>
       </view>
+	  </scroll-view>
     </view>
   </view>
 </view>

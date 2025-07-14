@@ -58,14 +58,14 @@
 }
 
 .content-main > view{
-	display: flex;
+  display: flex;
   flex-direction: column;
   width: 300rpx;
   height: 150rpx;
   background-color: #fff;
-	border-radius: 30rpx;
+  border-radius: 30rpx;
   padding: 15rpx 20rpx;
-	box-shadow: 0 8rpx 12rpx rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8rpx 12rpx rgba(0, 0, 0, 0.1);
 }
 
 .content-main > view:nth-child(1){
@@ -80,7 +80,6 @@
 	font-weight: bold;
 	color: rgb(117, 117, 117);
 	margin-top: 15rpx;
-	
 }
 
 /* content-school */
@@ -89,14 +88,17 @@
 	padding: 35rpx 20rpx;
 	border-radius: 30rpx;
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
 }
-.content-school > text{
+.content-school > view:nth-child(1){
 	font-size: 45rpx;
 	font-weight: bold;
 }
-.content-school > text:nth-child(2){
+.content-school > view:nth-child(2){
+	font-size: 60rpx;
+	font-weight: bold;
 	color: rgb(117, 117, 117);
+	margin-top: 15rpx;
 }
 
 /* 项目偏向 */
