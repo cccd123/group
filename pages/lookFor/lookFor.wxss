@@ -62,7 +62,7 @@
 }
 
 /* 学校名称 - 右上角 */
-.project-school {
+.school-info {
   position: absolute;
   top: 40rpx;
   right: 40rpx;

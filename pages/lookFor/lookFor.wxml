@@ -1,89 +1,88 @@
 <!-- lookFor.wxml -->
-
 <view class="container">
-
-<!-- 顶部标签栏 -->
-<view class="tab-header">
-  <view class="tab-item {{currentTab == 'all' ? 'active' : ''}}" data-tab="all" bindtap="switchTab">所有学校</view>
-  <view class="tab-item {{currentTab == 'mySchool' ? 'active' : ''}}" data-tab="mySchool" bindtap="switchTab">仅看我校</view>
-</view>
-
-<!-- 所有学校项目列表 -->
-<view wx:if="{{currentTab == 'all'}}" class="tab-content">
-  <view wx:for="{{allProjectList}}" wx:key="id" class="project-card">
-    <!-- 学校名称 - 右上角 -->
-    <view class="project-school">{{item.schoolDisplay}}</view>
-    
-    <!-- 项目标题 -->
-    <view class="project-title">{{item.projectName}}</view>
-    
-    <!-- 项目描述 -->
-    <view class="project-desc">{{item.projectInfo}}</view>
-    
-    <!-- 底部信息区域 -->
-    <view class="project-info-section">
-      <view class="info-item">
-        <view class="info-label">学历要求</view>
-        <view class="info-value">{{item.educationText}}</view>
-      </view>
-      <view class="info-item">
-        <view class="info-label">跨校信息</view>
-        <view class="info-value">{{item.crossSchoolText}}</view>
-      </view>
-    </view>
-
-    <!-- 查看详情按钮 -->
-    <button class="detail-btn" bindtap="projectDetails" data-project-id="{{item.id}}">查看详情</button>
+  <!-- 顶部标签栏 -->
+  <view class="tab-header">
+    <view class="tab-item {{currentTab == 'all' ? 'active' : ''}}" data-tab="all" bindtap="switchTab">所有学校</view>
+    <view class="tab-item {{currentTab == 'mySchool' ? 'active' : ''}}" data-tab="mySchool" bindtap="switchTab">仅看我校</view>
   </view>
 
-  <!-- 加载提示 -->
-  <view wx:if="{{allPageInfo.loading}}" class="loading-tip">
-    正在加载...
-  </view>
-
-  <!-- 无数据提示 -->
-  <view wx:if="{{allProjectList.length === 0 && !allPageInfo.loading}}" class="empty-tip">
-    暂无项目信息
-  </view>
-</view>
-
-<!-- 本校项目列表 -->
-<view wx:if="{{currentTab == 'mySchool'}}" class="tab-content">
-  <view wx:for="{{mySchoolProjectList}}" wx:key="id" class="project-card">
-    <!-- 学校名称 - 右上角 -->
-    <view class="project-school">{{item.schoolDisplay}}</view>
-    
-    <!-- 项目标题 -->
-    <view class="project-title">{{item.projectName}}</view>
-    
-    <!-- 项目描述 -->
-    <view class="project-desc">{{item.projectInfo}}</view>
-    
-    <!-- 底部信息区域 -->
-    <view class="project-info-section">
-      <view class="info-item">
-        <view class="info-label">学历要求</view>
-        <view class="info-value">{{item.educationText}}</view>
+  <!-- 所有学校项目列表 -->
+  <view wx:if="{{currentTab == 'all'}}" class="tab-content">
+    <view wx:for="{{allProjectList}}" wx:key="id" class="project-card" bindtap="projectDetails" data-project-id="{{item.id}}">
+      <!-- 顶部区域 -->
+      <view class="card-header">
+        <!-- 左上角固定文字 -->
+        <view class="fixed-title">项目简要内容</view>
+        <!-- 右上角学校名称 -->
+        <view class="school-info">{{item.schoolDisplay}}</view>
       </view>
-      <view class="info-item">
-        <view class="info-label">跨校信息</view>
-        <view class="info-value">{{item.crossSchoolText}}</view>
+      
+      <!-- 项目标题 - 原第一行移到第二行 -->
+      <view class="project-title-secondary">{{item.projectName}}</view>
+      
+      <!-- 删除原第三行项目简要信息 -->
+      
+      <!-- 底部信息区域 -->
+      <view class="project-info-section">
+        <view class="info-item">
+          <view class="info-label">学校要求</view>
+          <view class="info-value">{{item.educationText}}</view>
+        </view>
+        <view class="info-item">
+          <view class="info-label">跨校信息</view>
+          <view class="info-value">{{item.crossSchoolText}}</view>
+        </view>
       </view>
     </view>
-
-    <!-- 查看详情按钮 -->
-    <button class="detail-btn" bindtap="projectDetails" data-project-id="{{item.id}}">查看详情</button>
+    
+    <!-- 加载提示 -->
+    <view wx:if="{{allPageInfo.loading}}" class="loading-tip">
+      正在加载...
+    </view>
+    
+    <!-- 无数据提示 -->
+    <view wx:if="{{allProjectList.length === 0 && !allPageInfo.loading}}" class="empty-tip">
+      暂无项目信息
+    </view>
   </view>
 
-  <!-- 加载提示 -->
-  <view wx:if="{{mySchoolPageInfo.loading}}" class="loading-tip">
-    正在加载...
+  <!-- 本校项目列表 -->
+  <view wx:if="{{currentTab == 'mySchool'}}" class="tab-content">
+    <view wx:for="{{mySchoolProjectList}}" wx:key="id" class="project-card" bindtap="projectDetails" data-project-id="{{item.id}}">
+      <!-- 顶部区域 -->
+      <view class="card-header">
+        <!-- 左上角固定文字 -->
+        <view class="fixed-title">项目简要内容</view>
+        <!-- 右上角学校名称 -->
+        <view class="school-info">{{item.schoolDisplay}}</view>
+      </view>
+      
+      <!-- 项目标题 - 原第一行移到第二行 -->
+      <view class="project-title-secondary">{{item.projectName}}</view>
+      
+      <!-- 删除原第三行项目简要信息 -->
+      
+      <!-- 底部信息区域 -->
+      <view class="project-info-section">
+        <view class="info-item">
+          <view class="info-label">学校要求</view>
+          <view class="info-value">{{item.educationText}}</view>
+        </view>
+        <view class="info-item">
+          <view class="info-label">跨校信息</view>
+          <view class="info-value">{{item.crossSchoolText}}</view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 加载提示 -->
+    <view wx:if="{{mySchoolPageInfo.loading}}" class="loading-tip">
+      正在加载...
+    </view>
+    
+    <!-- 无数据提示 -->
+    <view wx:if="{{mySchoolProjectList.length === 0 && !mySchoolPageInfo.loading}}" class="empty-tip">
+      暂无项目信息
+    </view>
   </view>
-
-  <!-- 无数据提示 -->
-  <view wx:if="{{mySchoolProjectList.length === 0 && !mySchoolPageInfo.loading}}" class="empty-tip">
-    暂无项目信息
-  </view>
-</view>
-
 </view>

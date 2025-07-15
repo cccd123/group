@@ -22,8 +22,11 @@ Page({
     userSchool: '', // 用户学校名称
     userSchoolId: null, // 用户学校ID，改为数字类型
     
-    // 学校ID到名称的映射
-    schoolNames: {
+    // 学校信息缓存
+    schoolInfoCache: {}, // 缓存学校ID到学校信息的映射
+    
+    // 默认学校映射（作为备用）
+    defaultSchoolNames: {
       1: '泉州信息工程学院',
       2: '华侨大学',
       3: '福州大学',
@@ -79,13 +82,121 @@ Page({
   },
 
   /**
-   * 根据学校ID获取学校名称
+   * 根据学校ID获取学校信息（异步）
+   */
+  async getSchoolInfoById(schoolId) {
+    if (!schoolId && schoolId !== 0) return { schoolname: '未知学校' };
+    
+    // 确保 schoolId 是数字类型
+    const id = parseInt(schoolId);
+    
+    // 检查缓存
+    if (this.data.schoolInfoCache[id]) {
+      return this.data.schoolInfoCache[id];
+    }
+    
+    // 如果缓存中没有，从API获取
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: `https://zhaoxiaokai.xyz/school/getSchoolById/${id}`,
+        method: 'GET',
+        header: this.getAuthHeader(),
+        success: (res) => {
+          console.log(`获取学校${id}信息响应:`, res);
+          
+          if (res.statusCode === 200 && res.data && res.data.code === 200) {
+            const schoolInfo = res.data.data;
+            
+            // 缓存学校信息
+            const updatedCache = {
+              ...this.data.schoolInfoCache,
+              [id]: schoolInfo
+            };
+            
+            this.setData({
+              schoolInfoCache: updatedCache
+            });
+            
+            resolve(schoolInfo);
+          } else {
+            console.warn(`获取学校${id}信息失败，使用默认名称`);
+            // 使用默认名称
+            const defaultName = this.data.defaultSchoolNames[id] || `学校ID: ${id}`;
+            const fallbackInfo = {
+              id: id,
+              schoolname: defaultName,
+              home: '未知',
+              code: ''
+            };
+            
+            // 缓存默认信息
+            const updatedCache = {
+              ...this.data.schoolInfoCache,
+              [id]: fallbackInfo
+            };
+            
+            this.setData({
+              schoolInfoCache: updatedCache
+            });
+            
+            resolve(fallbackInfo);
+          }
+        },
+        fail: (err) => {
+          console.error(`获取学校${id}信息失败:`, err);
+          // 使用默认名称
+          const defaultName = this.data.defaultSchoolNames[id] || `学校ID: ${id}`;
+          const fallbackInfo = {
+            id: id,
+            schoolname: defaultName,
+            home: '未知',
+            code: ''
+          };
+          
+          resolve(fallbackInfo);
+        }
+      });
+    });
+  },
+
+  /**
+   * 根据学校ID获取学校名称（同步，优先使用缓存）
    */
   getSchoolNameById(schoolId) {
     if (!schoolId && schoolId !== 0) return '未知学校';
-    // 确保 schoolId 是数字类型
-    let id = parseInt(schoolId);
-    return this.data.schoolNames[id] || `学校ID: ${id}`;
+    
+    const id = parseInt(schoolId);
+    
+    // 优先使用缓存
+    if (this.data.schoolInfoCache[id]) {
+      return this.data.schoolInfoCache[id].schoolname;
+    }
+    
+    // 如果缓存中没有，使用默认名称
+    return this.data.defaultSchoolNames[id] || `学校ID: ${id}`;
+  },
+
+  /**
+   * 批量获取学校信息
+   */
+  async batchGetSchoolInfo(schoolIds) {
+    const uniqueIds = [...new Set(schoolIds)].filter(id => id !== null && id !== undefined);
+    const promises = uniqueIds.map(id => this.getSchoolInfoById(id));
+    
+    try {
+      await Promise.all(promises);
+      console.log('批量获取学校信息完成');
+    } catch (err) {
+      console.error('批量获取学校信息失败:', err);
+    }
+  },
+
+  /**
+   * 截取项目简要信息（最多40个字符）
+   */
+  truncateProjectInfo(projectInfo) {
+    if (!projectInfo) return '';
+    return projectInfo.length > 40 ? projectInfo.substring(0, 40) + '...' : projectInfo;
   },
 
   /**
@@ -199,7 +310,14 @@ Page({
   /**
    * 处理项目数据，添加格式化信息
    */
-  processProjectData(projects) {
+  async processProjectData(projects) {
+    // 收集所有唯一的学校ID
+    const schoolIds = projects.map(project => project.school).filter(id => id !== null && id !== undefined);
+    
+    // 批量获取学校信息
+    await this.batchGetSchoolInfo(schoolIds);
+    
+    // 处理项目数据
     return projects.map(project => {
       return {
         ...project,
@@ -207,27 +325,56 @@ Page({
         directionText: this.getDirectionText(project.direction),
         crossSchoolText: this.getCrossSchoolText(project.crossSchool),
         schoolDisplay: this.getSchoolNameById(project.school), // 显示实际学校名称
-        skillRequirement: this.getCrossSchoolText(project.crossSchool) // 改为显示跨校信息
+        skillRequirement: this.getCrossSchoolText(project.crossSchool), // 改为显示跨校信息
+        projectInfo: this.truncateProjectInfo(project.projectInfo) // 截取项目简要信息
       };
     });
   },
 
   /**
-   * 获取学历要求文本
+   * 获取学历要求文本 - 支持多项学历
    */
   getEducationText(educationRequirement) {
-    // 确保数值类型
-    const education = parseInt(educationRequirement);
-    switch(education) {
-      case 1:
-        return '大专';
-      case 2:
-        return '本科';
-      case 3:
-        return '研究生';
-      default:
-        return '不限';
+    if (!educationRequirement) return '不限';
+    
+    // 如果是字符串，尝试解析为数组
+    let educationArray = [];
+    if (typeof educationRequirement === 'string') {
+      try {
+        // 尝试解析JSON数组
+        educationArray = JSON.parse(educationRequirement);
+      } catch (e) {
+        // 如果不是JSON，按逗号分割
+        educationArray = educationRequirement.split(',').map(item => item.trim());
+      }
+    } else if (Array.isArray(educationRequirement)) {
+      educationArray = educationRequirement;
+    } else {
+      // 如果是单个数值
+      educationArray = [educationRequirement];
     }
+    
+    // 转换为文本数组
+    const educationTexts = educationArray.map(education => {
+      const edu = parseInt(education);
+      switch(edu) {
+        case 1:
+          return '大专';
+        case 2:
+          return '本科';
+        case 3:
+          return '研究生';
+        default:
+          return '不限';
+      }
+    }).filter(text => text !== '不限'); // 过滤掉"不限"
+    
+    // 去重并排序
+    const uniqueTexts = [...new Set(educationTexts)];
+    const sortOrder = ['大专', '本科', '研究生'];
+    uniqueTexts.sort((a, b) => sortOrder.indexOf(a) - sortOrder.indexOf(b));
+    
+    return uniqueTexts.length > 0 ? uniqueTexts.join('/') : '不限';
   },
 
   /**
@@ -266,7 +413,7 @@ Page({
    * 加载所有学校的项目（分页）
    * @param {boolean} refresh - 是否刷新（重置页码）
    */
-  loadAllProjects(refresh = false) {
+  async loadAllProjects(refresh = false) {
     const pageInfo = this.data.allPageInfo;
   
     if (!this.checkLoginStatus()) return;
@@ -291,15 +438,15 @@ Page({
       method: 'GET',
       data: requestData,
       header: this.getAuthHeader(),
-      success: (res) => {
+      success: async (res) => {
         console.log('加载所有项目响应:', res);
         if (res.statusCode === 200 && res.data) {
           const responseData = res.data.data || res.data;
           const rawProjects = responseData.items || [];
           console.log('返回的第一条项目:', rawProjects[0]);
           
-          // 处理项目数据
-          const newProjects = this.processProjectData(rawProjects);
+          // 处理项目数据（异步获取学校信息）
+          const newProjects = await this.processProjectData(rawProjects);
           const total = responseData.total || 0;
           const currentPage = pageInfo.pageNum;
           const totalPages = Math.ceil(total / pageInfo.pageSize);
@@ -331,7 +478,7 @@ Page({
    * 加载本校项目（分页）
    * @param {boolean} refresh - 是否刷新（重置页码）
    */
-  loadMySchoolProjects(refresh = false) {
+  async loadMySchoolProjects(refresh = false) {
     const pageInfo = this.data.mySchoolPageInfo;
     
     if (!this.checkLoginStatus()) {
@@ -345,10 +492,14 @@ Page({
     // 确保有用户学校ID
     if (!this.data.userSchoolId && this.data.userSchoolId !== 0) {
       console.log('用户学校ID未获取，先获取用户信息');
-      this.getUserSchool().then(() => {
+      try {
+        await this.getUserSchool();
         // 获取学校信息后再加载项目
         this.loadMySchoolProjects(refresh);
-      });
+      } catch (err) {
+        console.error('获取用户学校信息失败:', err);
+        this.handleLoadError('获取用户学校信息失败');
+      }
       return;
     }
 
@@ -370,15 +521,15 @@ Page({
         school: this.data.userSchoolId // 直接传数字，不转换为字符串
       },
       header: this.getAuthHeader(),
-      success: (res) => {
+      success: async (res) => {
         console.log('加载本校项目响应:', res);
         
         if (res.statusCode === 200 && res.data) {
           const responseData = res.data.data || res.data;
           const rawProjects = responseData.items || [];
           
-          // 处理项目数据
-          const newProjects = this.processProjectData(rawProjects);
+          // 处理项目数据（异步获取学校信息）
+          const newProjects = await this.processProjectData(rawProjects);
           const total = responseData.total || 0;
           const currentPage = res.data.pageNum || pageInfo.pageNum;
           const totalPages = Math.ceil(total / pageInfo.pageSize);
@@ -473,7 +624,7 @@ Page({
         url: 'https://zhaoxiaokai.xyz/user/school',
         method: 'GET',
         header: this.getAuthHeader(),
-        success: (res) => {
+        success: async (res) => {
           console.log('获取用户学校信息响应:', res);
           
           if (res.statusCode === 200 && res.data) {
@@ -497,19 +648,35 @@ Page({
             // 确保 schoolId 是数字类型
             if (schoolId !== null && schoolId !== undefined) {
               schoolId = parseInt(schoolId);
-              schoolName = this.getSchoolNameById(schoolId);
               
-              this.setData({
-                userSchoolId: schoolId,
-                userSchool: schoolName
-              });
-              
-              // 缓存用户学校信息
-              wx.setStorageSync('userSchoolId', schoolId);
-              wx.setStorageSync('userSchool', schoolName);
-              
-              console.log('用户学校信息设置成功:', { schoolId, schoolName });
-              resolve({ schoolId, schoolName });
+              // 通过API获取学校详细信息
+              try {
+                const schoolInfo = await this.getSchoolInfoById(schoolId);
+                schoolName = schoolInfo.schoolname;
+                
+                this.setData({
+                  userSchoolId: schoolId,
+                  userSchool: schoolName
+                });
+                
+                // 缓存用户学校信息
+                wx.setStorageSync('userSchoolId', schoolId);
+                wx.setStorageSync('userSchool', schoolName);
+                
+                console.log('用户学校信息设置成功:', { schoolId, schoolName });
+                resolve({ schoolId, schoolName });
+              } catch (err) {
+                console.error('获取学校详细信息失败:', err);
+                // 使用默认学校名称
+                schoolName = this.getSchoolNameById(schoolId);
+                
+                this.setData({
+                  userSchoolId: schoolId,
+                  userSchool: schoolName
+                });
+                
+                resolve({ schoolId, schoolName });
+              }
             } else {
               // 如果无法获取学校ID，使用默认值
               console.warn('无法从接口获取学校ID，使用默认值。接口返回:', res.data);
