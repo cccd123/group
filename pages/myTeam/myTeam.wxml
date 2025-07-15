@@ -13,8 +13,10 @@
   <!-- 项目列表 -->
   <block wx:for="{{projectList}}" wx:key="id" wx:for-index="index">
     <!-- 上线中的项目 -->
+	<!-- !!!目前后端并没有提供 isActive 数据项，其他地方也没有做上下架的处理!!! -->
     <view wx:if="{{item.isActive}}" class="body underway">
       <view class="body-header">{{item.statusText}}</view>
+	  <view class="body-frame">
       <view class="body-main" bind:tap="projectDetails" data-project-id="{{item.id}}">
         
 		<!-- <text>{{item.projectName || item.brief}}</text> -->
@@ -39,39 +41,46 @@
           </view>
         </view>
          
-        <view wx:if="{{item.isEmailPromtion === 1}}" class="chartWithEmailPromotion">
+        <view wx:if="{{item.isEmailPromotion === 1}}" class="chartWithEmailPromotion">
           <view>
             <image class="body-image1" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/read.png"></image>
             <text>平台阅读量</text>
-            <text>{{item.lookcount || 0}}</text>
+            <text>{{item.readCount || 0}}</text>
           </view>
           <view>
             <image class="body-image2" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/file.png"></image>
-            <text>邮件投递量</text>
+            <text>申请投递量</text>
             <text>{{item.applicationCount || 0}}</text>
           </view>
         </view>
 
-		<view wx:if="{{item.isEmailPromtion === 0}}" class="chartWithoutEmailPromotion">
+		<view wx:if="{{item.isEmailPromotion === 0}}" class="chartWithoutEmailPromotion">
           <view>
             <image class="body-image1" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/read.png"></image>
             <text>平台阅读量</text>
-            <text>{{item.lookcount || 0}}</text>
+            <text>{{item.readCount || 0}}</text>
+          </view>
+		  <view>
+            <image class="body-image2" src="https://kuaizu-img-file.oss-cn-hangzhou.aliyuncs.com/kuaizu-img/imges/images/file.png"></image>
+            <text>申请投递量</text>
+            <text>{{item.applicationCount || 0}}</text>
           </view>
         </view>
          
-        <view wx:if="{{item.emailPromotion === 1}}" class="emailPromotionTips">
+        <view wx:if="{{item.isEmailPromotion === 1}}" class="emailPromotionTips">
           <view>您已选择邮件推广，部分简历可能已发送至预留邮箱，请注意查收。</view>
         </view>
-         
-        <view class="opbutton">
+      </view><!-- end body-main -->
+	  <view class="opbutton">
           <button bind:tap="performDeleteProject" data-project-id="{{item.id}}" data-index="{{index}}">删除</button>
           <button bind:tap="filtrate" data-project-id="{{item.id}}">筛选</button>
-        </view>
-      </view><!-- end body-main -->
+      </view>
+	  </view><!-- end body-frame -->
     </view>
      
     <!-- 已下架的项目 -->
+	<!-- !!!很多对 上线中的项目 部分作的修改（比如根据项目有没有进行邮件推广，显示不同内容），
+			并没有对 已下架的项目 部分进行!!! -->
     <view wx:else class="body finish">
       <view class="body-header">{{item.statusText}}</view>
       <view class="body-main">
@@ -112,7 +121,7 @@
           </view>
         </view>
          
-        <view wx:if="{{item.emailPromotion}}">
+        <view wx:if="{{item.isEmailPromotion === 1}}">
           <view>您已选择邮件推广，部分简历可能已发送至预留邮箱，请注意查收。</view>
         </view>
          

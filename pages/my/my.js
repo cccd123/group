@@ -1,6 +1,8 @@
 import { ComponentWithStore } from 'mobx-miniprogram-bindings'
 import { userStore } from '../../store/userStore'
 import { clearStorage } from '../../utils/storage'
+import http from '../../utils/http';
+
 ComponentWithStore({
   /**
    * 页面的初始数据
@@ -43,41 +45,26 @@ ComponentWithStore({
 	 */
 	setMajorname:function()
 	{
-		const token = wx.getStorageSync('token');
-		let majorname = '';
-		wx.request({
-			url: `https://zhaoxiaokai.xyz/school/getMajorNameById/${this.data.userInfo.major}`,
-			method: 'GET',
-			header: {
-				'content-type': 'application/json',
-				'Authorization': token
-			},
-			success: (res) => {		  
-				if (res.statusCode === 200)
-				{
-					majorname = res.data.data.majorName;
-					// console.log(`result from plugin /school/getMajorNameById/${applicantInfo.major}:\n`, res);
-					// console.log('get major name:\n', majorname, `\nwith plugin /school/getMajorNameById/${applicantInfo.major}`);
-					this.setData({
-						majorname,
-					});
-				}
-				else
-				{
-					console.log('API响应状态码不是200：', res.statusCode);
-					wx.showToast({
-						title: `获取专业名称失败: ${res.statusCode}`,
-						icon: 'none'
-					});
-				}
-			},
-			fail: (err) => {
-				console.error('获取专业名称请求失败:', err);
+		http.get(`/school/getMajorNameById/${this.data.userInfo.major}`)
+		.then(res => {
+			if (res && res.data && res.data.majorName) {
+			this.setData({
+				majorname: res.data.majorName,
+			});
+			} else {
 				wx.showToast({
-					title: '网络错误',
+					title: '获取专业名称失败',
 					icon: 'none'
 				});
+				console.log('API响应数据异常:', res);
 			}
+		})
+		.catch(err => {
+			console.error('获取专业名称请求失败:', err);
+			wx.showToast({
+				title: '网络错误',
+				icon: 'none'
+			});
 		});
 	},
 

@@ -52,11 +52,12 @@ class WxRequest {
     // 如果有新的请求，就清除上一次的定时器
     this.timeId && clearTimeout(this.timeId)
 
-    // 注意：首先需要先合并完整的请求地址 (baseURL + url)
+	// 注意：首先需要先合并完整的请求地址 (baseURL + url)
+	const pluginUrl = options.url;
     options.url = this.defaults.baseURL + options.url;
 
     // 合并请求参数   后面的参数覆盖前面的参数
-    options = { ...this.defaults, ...options }
+    options = { ...this.defaults, ...options, pluginUrl:pluginUrl }
 
     // 在请求发送之前，添加loading效果
     // wx.showLoading()
@@ -71,8 +72,13 @@ class WxRequest {
     }
 
     // 在请求发送之前调用请求拦截器，新增和修改请求参数
-    options = this.interceptors.request(options)
-    console.log(options);
+	options = this.interceptors.request(options)
+	// 在最终发送请求前，在控制台输出提示信息
+	console.log(
+		`-->前端请求:\n\t向后端接口 ${options.baseURL == 'https://zhaoxiaokai.xyz' ? options.pluginUrl : options.url} 发送 ${options.method} 请求`,
+		// 省略默认前缀 https://zhaoxiaokai.xyz
+		'\n\n\t发送的完整的后端请求内容：', options
+	);
     // 需要使用Promise封装 wx.request，处理异步请求
     return new Promise((resolve, reject) => {
       if (options.method === 'UPLOAD') {
@@ -190,8 +196,6 @@ class WxRequest {
     // 那么展开运算符会将传入的参数转成数组
     return Promise.all(promise)
   }
-
-
 
   /**
    * @description upload 实例方法，用来对 wx.uploadFile 进行封装

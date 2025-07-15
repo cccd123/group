@@ -16,27 +16,6 @@ Page({
   },
 
   /**
-   * 获取认证头 - 修复版本
-   */
-  getAuthHeader() {
-    const token = wx.getStorageSync('token');
-    console.log('获取到的token:', token ? '存在' : '不存在');
-
-    if (token) {
-      return {
-        'Content-Type': 'application/json',
-        'Authorization': token
-      };
-    } else {
-      // 如果没有token，提示用户登录
-      this.showLoginPrompt();
-      return {
-        'Content-Type': 'application/json'
-      };
-    }
-  },
-
-  /**
    * 显示登录提示
    */
   showLoginPrompt() {
@@ -89,11 +68,11 @@ Page({
       loading: true
     });
 
-    console.log('开始获取项目详情，项目ID:', this.data.projectId);
-   //查看当前的项目id是否存在
-   http.get('/project/projectById/'+this.data.projectId).then(res => {
-    console.log("==================================>");
-	console.log(res);
+    // console.log('开始获取项目详情，项目ID:', this.data.projectId);
+    //查看当前的项目id是否存在
+    http.get('/project/projectById/'+this.data.projectId).then(res => {
+    // console.log("==================================>");
+	// console.log(res);
 	const educationRequirement = this.formatEducationRequirement(res.data.educationRequirement);
 	// console.log('after convertion, education requirement:\n', educationRequirement);
     this.setData({
@@ -102,160 +81,7 @@ Page({
       direction: this.formatDirection(res.data.direction)
     })
   })
-    // // 方法1: 尝试直接调用项目列表API，不传school参数
-    // wx.request({
-    //   url: 'https://zhaoxiaokai.xyz/project/allproject',
-    //   method: 'GET',
-    //   header: this.getAuthHeader(),
-    //   data: {
-    //     pageNum: 1,
-    //     pageSize: 100
-    //     // 不传school参数，避免类型转换错误
-    //   },
-    //   success: (res) => {
-    //     console.log('获取项目列表响应:', res);
-
-    //     if (res.statusCode === 200) {
-    //       // 检查响应数据结构
-    //       if (res.data && res.data.code === 200) {
-    //         // 成功响应
-    //         this.parseProjectData(res.data);
-    //       } else if (res.data && res.data.code === 500) {
-    //         // 服务器错误，尝试备用方案
-    //         console.log('方法1失败，尝试备用方案');
-    //         this.getProjectDetailsBackup();
-    //       } else {
-    //         // 其他错误
-    //         console.log('API返回错误:', res.data);
-    //         this.handleError(res.data?.message || '获取项目详情失败');
-    //       }
-    //     } else if (res.statusCode === 401) {
-    //       this.handleAuthError();
-    //     } else {
-    //       console.log('请求失败，状态码:', res.statusCode);
-    //       this.handleError('获取项目详情失败');
-    //     }
-    //   },
-    //   fail: (err) => {
-    //     console.error('获取项目详情失败:', err);
-    //     this.getProjectDetailsBackup();
-    //   }
-    // });
   },
-
-  /**
-   * 备用方案：尝试不同的参数组合
-   */
-  // getProjectDetailsBackup() {
-  //   console.log('使用备用方案获取项目详情');
-
-  //   // 尝试完全不传参数的请求
-  //   wx.request({
-  //     url: 'https://zhaoxiaokai.xyz/project/allproject',
-  //     method: 'GET',
-  //     header: this.getAuthHeader(),
-  //     // 不传任何参数
-  //     success: (res) => {
-  //       console.log('备用方案响应:', res);
-
-  //       if (res.statusCode === 200 && res.data) {
-  //         if (res.data.code === 200) {
-  //           this.parseProjectData(res.data);
-  //         } else {
-  //           this.handleError(res.data?.message || '获取项目详情失败');
-  //         }
-  //       } else {
-  //         this.handleError('获取项目详情失败');
-  //       }
-  //     },
-  //     fail: (err) => {
-  //       console.error('备用方案也失败:', err);
-  //       this.handleError('网络错误，请重试');
-  //     }
-  //   });
-  // },
-
-  /**
-   * 解析项目数据
-   */
-  // parseProjectData(responseData) {
-  //   console.log('开始解析项目数据:', responseData);
-
-  //   let projectList = [];
-
-  //   // 根据lookFor.js的成功经验，检查data.items字段
-  //   if (responseData.data && responseData.data.items) {
-  //     projectList = responseData.data.items;
-  //     console.log('使用 data.items 作为项目列表');
-  //   } else if (responseData.data && Array.isArray(responseData.data)) {
-  //     projectList = responseData.data;
-  //     console.log('使用 data 作为项目列表');
-  //   } else if (responseData.items) {
-  //     projectList = responseData.items;
-  //     console.log('使用 items 作为项目列表');
-  //   } else if (Array.isArray(responseData)) {
-  //     projectList = responseData;
-  //     console.log('直接使用响应数据作为项目列表');
-  //   }
-
-  //   console.log('解析得到的项目列表:', projectList);
-  //   console.log('项目列表长度:', projectList.length);
-
-  //   if (projectList.length === 0) {
-  //     this.handleError('暂无项目数据');
-  //     return;
-  //   }
-
-  //   // 查找目标项目
-  //   const targetProject = projectList.find(project => {
-  //     console.log('检查项目:', project);
-  //     // 多种ID匹配方式
-  //     const projectId = project.id || project.projectId;
-  //     const targetId = this.data.projectId;
-
-  //     return projectId == targetId ||
-  //       parseInt(projectId) === parseInt(targetId) ||
-  //       String(projectId) === String(targetId);
-  //   });
-
-  //   console.log('找到的目标项目:', targetProject);
-
-  //   if (targetProject) {
-  //     // 处理项目数据
-  //     const processedProject = this.processProjectData(targetProject);
-
-  //     this.setData({
-  //       projectDetails: processedProject,
-  //       loading: false
-  //     });
-
-  //     console.log('项目详情设置完成:', processedProject);
-  //   } else {
-  //     console.log('未找到对应ID的项目, 目标ID:', this.data.projectId);
-  //     this.handleError('未找到对应的项目信息');
-  //   }
-  // },
-
-  /**
-   * 处理项目数据映射
-   */
-  // processProjectData(project) {
-  //   return {
-  //     id: project.id || project.projectId,
-  //     projectName: project.projectName || project.name || '未知项目',
-  //     projectDescription: project.projectInfo || project.projectDescription || project.description || '暂无描述',
-  //     projectDetail: project.skillDetails || project.projectDetail || project.detail || '暂无详细信息',
-  //     teamSize: project.teamSize || project.expectedSize || project.maxMembers || '未知',
-  //     crossSchool: this.formatCrossSchool(project.crossSchool),
-  //     school: project.school || project.schoolName || '未知学校',
-  //     requirement: this.formatEducationRequirement(project.educationRequirement),
-  //     detailRequirement: project.skillSummary || project.detailRequirement || project.requirements || '暂无详细要求',
-  //     flexible: project.emailPromotion || false,
-  //     direction: this.formatDirection(project.direction),
-  //     // 保留原始数据
-  //     ...project
-  //   };
-  // },
 
   /**
    * 格式化跨校字段
@@ -388,22 +214,17 @@ Page({
 
     console.log('开始投递项目，项目ID:', this.data.projectId);
 
-    // 根据API文档，使用Query参数传递id
-    wx.request({
-      url: `https://zhaoxiaokai.xyz/project/join?id=${this.data.projectId}`,
-      method: 'POST',
-      header: this.getAuthHeader(),
-      // 根据API文档，可能需要form-data格式的body参数
-      data: {
-        direction: this.data.direction // 如果API需要方向参数
-      },
-      success: (res) => {
-        wx.hideLoading();
+	// 根据API文档，使用Query参数传递id
+	http.post(
+		`/project/join/${this.data.projectId}`, 
+		`id=${this.data.projectId}`,
+	)
+	.then(res =>{
+		wx.hideLoading();
         console.log('投递项目响应:', res);
 
-        if (res.statusCode === 200) {
-          // 检查响应数据
-          if (res.data && res.data.code === 200) {
+		if (res.code === 200)
+		{
             // 投递成功
             wx.showToast({
               title: '投递成功',
@@ -420,37 +241,33 @@ Page({
             setTimeout(() => {
               this.checkJoinStatus();
             }, 1000);
-          } else {
-            // API返回错误
-            const errorMessage = res.data?.message || res.data?.msg || '投递失败';
-            wx.showToast({
-              title: errorMessage,
-              icon: 'error',
-              duration: 2000
-            });
-          }
-        } else if (res.statusCode === 401) {
+		}
+		else if (res.code === 401)
+		{
           this.handleAuthError();
-        } else {
-          // 服务器返回错误状态码
-          const errorMessage = res.data?.message || res.data?.msg || '投递失败';
-          wx.showToast({
-            title: errorMessage,
-            icon: 'error',
-            duration: 2000
-          });
+		}
+		else	// 服务器返回错误状态码
+		{
+		  const errorMessage = res.message || '投递失败';
+		  wx.showModal({
+			title: '',
+			content: `${errorMessage}`,
+			showCancel: false,
+			confirmText: '确定',
+		  });
         }
-      },
-      fail: (err) => {
-        wx.hideLoading();
-        console.error('投递项目失败:', err);
-        wx.showToast({
-          title: '网络错误，请重试',
-          icon: 'error',
-          duration: 2000
-        });
-      }
-    });
+	})
+	.catch(err =>{
+		wx.hideLoading();
+		console.error('投递项目失败:', err);
+		const errorMessage = err.data.message || '网络错误，请重试';
+		wx.showModal({
+		  title: '',
+		  content: `${errorMessage}`,
+		  showCancel: false,
+		  confirmText: '确定',
+		});
+	});
   },
 
   /**
@@ -459,25 +276,21 @@ Page({
   checkJoinStatus() {
     if (!this.data.projectId || !this.checkLoginStatus()) {
       return;
-    }
-    wx.request({
-      url: `https://zhaoxiaokai.xyz/project/checkJoin/${this.data.projectId}`,
-      method: 'GET',
-      header: this.getAuthHeader(),
-      success: (res) => {
-        console.log('检查参与状态响应:', res);
-        if (res.statusCode === 200 && res.data) {
+	}
+	http.get(`/project/isjoin/${this.data.projectId}`)
+	.then(res =>{
+		// console.log('检查参与状态响应:', res);
+        if (res.code === 200 && res.data) {
           if (res.data.code === 200) {
             this.setData({
-              hasJoined: res.data.data || res.data.hasJoined || false
+              hasJoined: res.data.isJoin || false
             });
           }
         }
-      },
-      fail: (err) => {
-        console.error('检查参与状态失败:', err);
-      }
-    });
+	})
+	.catch(err =>{
+		console.error('检查参与状态失败:', err);
+	});
   },
 
   /**

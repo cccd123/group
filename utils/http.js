@@ -21,18 +21,13 @@ instance.interceptors.request = (config) => {
   if (token) {
     config.header['Authorization'] = token
   }
-
-
   return config
 }
 
 // 配置响应拦截器
 instance.interceptors.response = async (response) => {
-
-
-
   // 从response中解构isSuccess
-  const { isSuccess ,data } = response
+  const { isSuccess, data } = response
 
   // 如果isSuccess为false，说明执行了fail回调函数
   // 这时候就说明网络异常，需要给用户提示网络异常
@@ -40,10 +35,34 @@ instance.interceptors.response = async (response) => {
     wx.toast({
       title: '网络异常请重试',
       icon: 'error'
-    })
+	})
+	// 在控制台输出报错信息
+	console.error(
+		`<--后端响应错误:\n\t向后端接口 ${response.config.baseURL == 'https://zhaoxiaokai.xyz' ? response.config.pluginUrl : response.config.url} 发送 ${response.config.method} 请求时发生错误`,
+		// 省略默认前缀 https://zhaoxiaokai.xyz
+		`\n\t后端响应状态码： ${response.statusCode}`,
+		`\n\t响应信息： ${data.message ? data.message : '无法读取响应信息'}`,
+		'\n\n\t收到的完整的后端响应内容：', response
+	);
     return response
   }
-  console.log('123',data.code);
+  // 在开始处理响应前，在控制台输出提示信息
+  if (response.statusCode === 200)	// 正常响应
+	console.log(
+		`<--后端响应:\n\t向后端接口 ${response.config.baseURL == 'https://zhaoxiaokai.xyz' ? response.config.pluginUrl : response.config.url} 发送 ${response.config.method} 请求`,
+		// 省略默认前缀 https://zhaoxiaokai.xyz
+		`\n\t后端响应状态码： ${response.statusCode}`,
+		`\n\t响应信息： ${data.message ? data.message : '无法读取响应信息'}`,
+		'\n\n\t收到的完整的后端响应内容：', response
+	);
+  else	// 非正常响应
+	console.warn(
+		`<--后端响应:\n\t向后端接口 ${response.config.baseURL == 'https://zhaoxiaokai.xyz' ? response.config.pluginUrl : response.config.url} 发送 ${response.config.method} 请求`,
+		// 省略默认前缀 https://zhaoxiaokai.xyz
+		`\n\t后端响应状态码： ${response.statusCode}`,
+		`\n\t响应信息： ${data.message ? data.message : '无法读取响应信息'}`,
+		'\n\n\t收到的完整的后端响应内容：', response
+	);
   // 判断服务器响应的业务状态码
   switch (data.code) {
     
@@ -70,14 +89,11 @@ instance.interceptors.response = async (response) => {
       return Promise.reject(response)
   
     default:
-      toast({
-        title: '程序出现异常，请联系客服或稍后重试'
-      })
+    //   toast({
+    //     title: '程序出现异常，请联系客服或稍后重试'
+    //   })
       return Promise.reject(response)
-
   }
-
-  
 }
 
 // 将 WxRequest 实例进行暴露出去，方便在其他文件中使用

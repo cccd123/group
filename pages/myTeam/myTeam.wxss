@@ -22,12 +22,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-	color: #fff;
-	font-size: 40rpx;
-	font-weight: bold;
+  color: #fff;
+  font-size: 40rpx;
+  font-weight: bold;
 }
 
-.body-main{
+.body-frame{
 	background-color: #fff;
 	margin-top: 15rpx;
 	padding: 30rpx 20rpx;
@@ -70,7 +70,7 @@
 	color: #8a8a8a;
 }
 
-/* 平台阅读量 & 邮件投递量 */
+/* 平台阅读量 & 申请投递量 */
 .chartWithEmailPromotion{
 	margin-top: 35rpx;
 	padding: 0 20rpx;
@@ -91,11 +91,26 @@
 	filter: brightness(0.8) contrast(1.3);
 }
 
-.chartWithEmailPromotion > view{
+.chartWithEmailPromotion > view:nth-child(1),
+.chartWithEmailPromotion > view:nth-child(2)
+{
 	display: flex;
 	flex-direction: column;
 	height: 230rpx;
 	width: 250rpx;
+	border: 2rpx solid #8a8a8a;
+	/* border: 2rpx solid #e9e9e9; */
+	border-radius: 30rpx;
+	padding: 20rpx 20rpx;
+	/* box-shadow: 0 4rpx 12rpx #8a8a8a; */
+}
+/* 预留给邮件推广投递量的view */
+.chartWithEmailPromotion > view:nth-child(3)
+{
+	display: flex;
+	flex-direction: column;
+	height: 230rpx;
+	width: 610rpx;
 	border: 2rpx solid #8a8a8a;
 	/* border: 2rpx solid #e9e9e9; */
 	border-radius: 30rpx;
@@ -115,7 +130,7 @@
 	margin-top: 10rpx;
 }
 
-/* 平台阅读量（没有选择邮件推广时）*/
+/* 平台阅读量 & 申请投递量（没有选择邮件推广时）*/
 .chartWithoutEmailPromotion
 {
 	margin-top: 35rpx;
@@ -124,17 +139,20 @@
 	justify-content: space-between;
 }
 
-.chartWithoutEmailPromotion > view{
+.chartWithoutEmailPromotion > view:nth-child(1),
+.chartWithoutEmailPromotion > view:nth-child(2)
+{
 	display: flex;
 	flex-direction: column;
 	height: 230rpx;
-	width: 610rpx;
+	width: 250rpx;
 	border: 2rpx solid #8a8a8a;
 	/* border: 2rpx solid #e9e9e9; */
 	border-radius: 30rpx;
 	padding: 20rpx 20rpx;
 	/* box-shadow: 0 4rpx 12rpx #8a8a8a; */
 }
+
 .chartWithoutEmailPromotion > view > text:nth-child(2){
 	color: #8a8a8a;
 	font-size: 45rpx;

@@ -1,4 +1,7 @@
 // pages/myTeam/myTeam.js
+
+import http from '../../utils/http';
+
 Page({
 
   /**
@@ -36,94 +39,65 @@ Page({
       title: '加载中...',
       mask: true
     });
-
-    const apiEndpoints = [
-      'https://zhaoxiaokai.xyz/project/projectinfo',
-    ];
-
-    wx.request({
-      url: apiEndpoints[0], 
-      method: 'GET',
-      header: {
-        'content-type': 'application/json',
-        'Authorization': token
-      },
-      success: (res) => {
-        // console.log('API响应完整数据：', res);
-        // console.log('响应状态码：', res.statusCode);
+	
+	http.get(`/project/projectinfo`)
+	.then(res => {
+	    // console.log('API响应完整数据：', res);
+        // console.log('响应状态码：', res.code);
         // console.log('响应数据：', res.data);
         // console.log("================================>",res);
         // 更灵活的成功判断
-        if (res.statusCode === 200) {
-          let projectData = [];
-          
-          // 处理不同的响应格式
-          if (res.data) {
-            if (res.data.success && res.data.data) {
-              projectData = res.data.data;
-            } else if (res.data.code === 200 && res.data.data) {
-              projectData = res.data.data;
-            } else if (Array.isArray(res.data)) {
-              projectData = res.data;
-            } else if (res.data.list) {
-              projectData = res.data.list;
-            } else if (res.data.projects) {
-              projectData = res.data.projects;
-            }
-          }
-          
-        //   console.log('处理后的项目数据：', projectData);
-          
-          if (Array.isArray(projectData) && projectData.length > 0) {
-            // 处理项目数据，添加状态转换
-            const processedProjects = projectData.map(project => {
-            //   console.log('处理单个项目：', project);
-              return {
-				...project,
-				id: project.id,
-                statusText: this.getStatusText(project.status),
-                educationText: this.getEducationText(project.educationRequirement),
-                directionText: this.getDirectionText(project.direction),
-				crossSchoolText: this.getCrossSchoolText(project.crossSchool),
-				isEmailPromtion: project.emailPromotion ? 1 : 0,
-                isActive: project.status === 1 || project.status === undefined // 默认为活跃状态
-              };
-            });
-            
-            this.setData({
-              projectList: processedProjects
-            });
-            
-            // 获取每个项目的统计数据
-            this.getProjectStatistics(processedProjects);
-            
-            // console.log('设置的项目列表：', processedProjects);
-          } else {
-            console.log('没有找到项目数据或数据为空');
-            this.setData({
-              projectList: []
-            });
-          }
-        } else {
-          console.log('API响应状态码不是200：', res.statusCode);
-          wx.showToast({
-            title: `请求失败: ${res.statusCode}`,
-            icon: 'none'
-          });
-        }
-      },
-      fail: (err) => {
-        console.error('获取项目列表失败：', err);
-        // 如果第一个API失败，尝试其他端点
-        this.tryAlternativeEndpoints(apiEndpoints.slice(1), token);
-      },
-      complete: () => {
-        wx.hideLoading();
+        if (res.code === 200) {
+			let projectData = [];
+			projectData = res.data;
+			if (Array.isArray(projectData) && projectData.length > 0) {
+			  // 处理项目数据，添加状态转换
+			  const processedProjects = projectData.map(project => {
+			  //   console.log('处理单个项目：', project);
+				return {
+				  ...project,
+				  id: project.id,
+				  statusText: this.getStatusText(project.status),
+				  educationText: this.getEducationText(project.educationRequirement),
+				  directionText: this.getDirectionText(project.direction),
+				  crossSchoolText: this.getCrossSchoolText(project.crossSchool),
+				  isEmailPromotion: project.emailPromotion ? 1 : 0,
+				  isActive: project.status === 1 || project.status === undefined // 默认为活跃状态
+				  // ！！！其实目前后端 /project/projectinfo接口 返回的结果中并没有status字段！！！
+				};
+			  });
+			  
+			  this.setData({
+				projectList: processedProjects
+			  });
+			  
+			  // 获取每个项目的统计数据
+			  this.getProjectStatistics(processedProjects);
+			  
+			  // console.log('设置的项目列表：', processedProjects);
+			} else {
+			  console.log('没有找到项目数据或数据为空');
+			  this.setData({
+				projectList: []
+			  });
+			}
+		  } else {
+			console.log('API响应状态码不是200：', res.code);
+			wx.showToast({
+			  title: `请求失败: ${res.code}`,
+			  icon: 'none'
+			});
+		  }
+	})
+	.catch(err => {
+		console.error('获取项目列表失败：', err);
+	})
+	.finally(() => {
+		wx.hideLoading();
         this.setData({
           loading: false
         });
-      }
-    });
+	});
   },
 
   /**
@@ -148,106 +122,70 @@ Page({
   },
 
   // 获取项目统计数据（阅读量和投递量）
-  getProjectStatistics(projects) {
-    const token = wx.getStorageSync('token');
-    
+  getProjectStatistics(projects) {    
     projects.forEach((project, index) => {
       // 获取项目的投递量（申请人数量）
-      this.getApplicationCount(project.id, index, token);
+      this.getApplicationCount(project.id, index);
       // 获取项目的阅读量（点击量）
-      this.getReadCount(project.id, index, token);
+      this.getReadCount(project.id, index);
     });
   },
 
   // 获取申请人数量（投递量）
-  getApplicationCount(projectId, projectIndex, token) {
-    wx.request({
-      url: `https://zhaoxiaokai.xyz/project/projectjoin/${projectId}`,
-      method: 'GET',
-      header: {
-        'content-type': 'application/json',
-        'Authorization': token
-      },
-      data: {
-        projectid: projectId,
-        id: projectId,
-        status: 'all' // 获取所有状态的申请人
-      },
-      success: (res) => {
-        if (res.statusCode === 200 && res.data) {
-          const applicationCount = res.data.data ? res.data.data.length : 0;
-          
-          // 更新项目列表中的投递量
-          const updatedProjects = [...this.data.projectList];
-          if (updatedProjects[projectIndex]) {
-            updatedProjects[projectIndex].applicationCount = applicationCount;
-            this.setData({
-              projectList: updatedProjects
-            });
-          }
-        }
-      },
-      fail: (err) => {
-        console.error('获取申请人数量失败：', err);
-      }
+  getApplicationCount(projectId, projectIndex)
+  {
+	http.get(`/project/projectjoin/${projectId}`,)
+    .then(res => {
+		if (res.code === 200 && res.data.length)
+		{
+			const applicationCount = res.data.length;
+			// 更新项目列表中的投递量
+			const updatedProjects = [...this.data.projectList];
+			if (updatedProjects[projectIndex])
+			{
+			  updatedProjects[projectIndex].applicationCount = applicationCount;
+			  this.setData({
+				projectList: updatedProjects
+			  });
+			}
+		}
+    })
+    .catch(err => {
+		console.error('获取申请人数量失败：', err);
     });
   },
 
   // 获取阅读量（浏览量）
-  getReadCount(projectId, projectIndex, token) {
-
-    // wx.request({
-    //   url: `https://zhaoxiaokai.xyz/project/lookproject/${projectId}`,
-    //   method: 'GET',
-    //   header: {
-    //     'content-type': 'application/json',
-    //     'Authorization': token
-    //   },
-    //   success: (res) => {
-    //     console.log(`项目${projectId}阅读量API响应：`, res);
-        
-    //     if (res.statusCode === 200 && res.data) {
-    //       // 处理不同的响应格式，查找浏览量字段
-    //       let readCount = 0;
-          
-    //       if (res.data.lookcount !== undefined) {
-    //         readCount = res.data.lookcount;
-    //       } else if (res.data.data && res.data.data.lookcount !== undefined) {
-    //         readCount = res.data.data.lookcount;
-    //       } else if (res.data.readCount !== undefined) {
-    //         readCount = res.data.readCount;
-    //       } else if (res.data.clickCount !== undefined) {
-    //         readCount = res.data.clickCount;
-    //       } else if (res.data.viewCount !== undefined) {
-    //         readCount = res.data.viewCount;
-    //       }
-          
-    //       console.log(`项目${projectId}的浏览量：`, readCount);
-          
-    //       // 更新项目列表中的阅读量
-    //       const updatedProjects = [...this.data.projectList];
-    //       if (updatedProjects[projectIndex]) {
-    //         updatedProjects[projectIndex].readCount = readCount;
-    //         updatedProjects[projectIndex].lookcount = readCount;
-    //         this.setData({
-    //           projectList: updatedProjects
-    //         });
-    //       }
-    //     }
-    //   },
-    //   fail: (err) => {
-    //     console.error(`获取项目${projectId}阅读量失败：`, err);
-    //     // 如果API失败，设置默认值
-    //     const updatedProjects = [...this.data.projectList];
-    //     if (updatedProjects[projectIndex]) {
-    //       updatedProjects[projectIndex].readCount = 0;
-    //       updatedProjects[projectIndex].lookcount = 0;
-    //       this.setData({
-    //         projectList: updatedProjects
-    //       });
-    //     }
-    //   }
-    // });
+  getReadCount(projectId, projectIndex)
+  {
+	http.get(`/project/projectById/${projectId}`,)
+	.then(res => {
+	  if (res.code === 200 && res.data)
+	  {
+		let readCount = 0;
+		readCount = res.data.lookcount;
+		// console.log(`项目${projectId}的浏览量：`, readCount);
+		// 更新项目列表中的阅读量
+        const updatedProjects = [...this.data.projectList];
+        if (updatedProjects[projectIndex]) {
+          updatedProjects[projectIndex].readCount = readCount;
+          this.setData({
+            projectList: updatedProjects
+          });
+        }
+	  }
+	})
+	.catch(err => {
+	  console.error(`获取项目${projectId}阅读量失败：`, err);
+	  // 如果API失败，设置默认值
+	  const updatedProjects = [...this.data.projectList];
+	  if (updatedProjects[projectIndex]) {
+	    updatedProjects[projectIndex].readCount = 0;
+	    this.setData({
+	      projectList: updatedProjects
+	    });
+	  }
+	});
   },
 
   // 获取状态文本
@@ -320,47 +258,26 @@ Page({
   },
 
   // 执行删除项目操作
-  executeDeleteProject(projectId, projectIndex) {
-    const token = wx.getStorageSync('token');
-    
+  executeDeleteProject(projectId, projectIndex) {    
     wx.showLoading({
       title: '删除中...',
       mask: true
     });
 
-    wx.request({
-      url: `https://zhaoxiaokai.xyz/project/delectproject/${projectId}`,
-      method: 'POSt',
-      header: {
-        'content-type': 'application/json',
-        'Authorization': token
-      },
-      data: {
+	http.post(
+	  `/project/delectproject/${projectId}`,
+	  {
         projectId: projectId
       },
-      success: (res) => {
-        console.log('删除项目响应：', res);
+	)
+	.then(res => {
+		console.log('删除项目响应：', res);
         
-        if (res.statusCode === 200) {
+        if (res.code === 200) {
           // 检查不同的成功响应格式
-          let isSuccess = false;
-          
-          if (res.data) {
-            if (res.data.success === true) {
-              isSuccess = true;
-            } else if (res.data.code === 200) {
-              isSuccess = true;
-            } else if (res.data.status === 'success') {
-              isSuccess = true;
-            } else if (res.data.message && res.data.message.includes('成功')) {
-              isSuccess = true;
-            }
-          } else {
-            // 如果只返回状态码200，没有data，也认为成功
-            isSuccess = true;
-          }
-          
-          if (isSuccess) {
+          let isSuccess = (res.data === '删除成功') ? true : false;
+		  if (isSuccess)
+		  {
             // 从本地列表中移除已删除的项目
             const updatedProjects = [...this.data.projectList];
             updatedProjects.splice(projectIndex, 1);
@@ -371,32 +288,40 @@ Page({
             
             wx.showToast({
               title: '删除成功',
-              icon: 'success'
+			  icon: 'success',
+			  duration: 1500,
             });
-          } else {
-            wx.showToast({
-              title: res.data?.message || '删除失败',
+		  }
+		  else
+		  {
+        	wx.showToast({
+              title: res.data || '删除失败',
               icon: 'none'
             });
           }
-        } else {
-          wx.showToast({
-            title: `删除失败: ${res.statusCode}`,
-            icon: 'none'
-          });
+		}
+		else
+		{
+		  wx.showModal({
+			title: '',
+			content: res.data ? `删除失败: ${res.data}` : `删除失败: ${res.code}`,
+			showCancel: false,
+			confirmText: '确定',
+		  });
         }
-      },
-      fail: (err) => {
-        console.error('删除项目失败：', err);
-        wx.showToast({
-          title: '网络异常，请重试',
-          icon: 'none'
-        });
-      },
-      complete: () => {
-        wx.hideLoading();
-      }
-    });
+	})
+	.catch(err => {
+	  	console.error('删除项目失败：', err);
+		wx.showModal({
+			title: '',
+			content: res.data ? `删除失败: ${res.data}` : `网络异常，请重试`,
+			showCancel: false,
+			confirmText: '确定',
+		});
+	})
+	.finally(() => {
+		wx.hideLoading();
+	});
   },
 
   // 重新上架项目
